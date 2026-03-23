@@ -1,0 +1,30 @@
+# Dependências do Composer
+/vendor/
+
+# Autoload gerado
+composer.lock
+
+# Arquivos de ambiente
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+logs/
+
+# Cache
+cache/
+tmp/
+temp/
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+
+# PHPUnit
+.phpunit.result.cache
