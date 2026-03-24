@@ -1,8 +1,8 @@
 <?php
 namespace Src\Domain\Account;
 
-use Src\Domain\Account\VO\Money;
-use Src\Domain\Util\UUID;
+use Src\Domain\Shared\Money;
+use Src\Domain\Shared\UUID;
 class Account
 {
     private readonly UUID $id = UUID::generate();

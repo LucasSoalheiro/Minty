@@ -1,5 +1,5 @@
 <?php
-namespace Src\Domain\Account\VO;
+namespace Src\Domain\Shared;
 
 final class Money
 {

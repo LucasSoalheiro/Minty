@@ -1,6 +1,8 @@
 <?php
 namespace Src\Domain\Account\Repository;
 
+use Src\Domain\Account\Account;
+
 interface AccountRepository
 {
     public function save(Account $account): void;

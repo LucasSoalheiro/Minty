@@ -3,11 +3,11 @@ namespace Src\Domain\User;
 
 use Src\Domain\User\VO\Email;
 use Src\Domain\User\VO\Password;
-use Src\Domain\Util\UUID;
+use Src\Domain\Shared\UUID;
 
 class User
 {
-    private readonly UUID $uuid = UUID::generate();
+    private readonly UUID $id = UUID::generate();
 
     private function __construct(
         private string $name,
@@ -25,9 +25,9 @@ class User
     {
         return new User($name, $email, $password);
     }
-    public function getUuid(): string
+    public function getId(): string
     {
-        return $this->uuid->__toString();
+        return $this->id->__toString();
     }
     public function getName(): string
     {
