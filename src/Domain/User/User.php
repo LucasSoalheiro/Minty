@@ -43,4 +43,22 @@ class User
         return $this->password->__toString();
     }
 
+    public function changeName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    public function changeEmail(Email $email): void
+    {
+        if ($this->email->__toString() === $email->__toString()) {
+            throw new \ErrorException("Email is already in use.");
+        }
+        $this->email = $email;
+    }
+
+    public function changePassword(Password $newPassword): void
+    {   
+        $this->password = $newPassword;
+    }
+
 }

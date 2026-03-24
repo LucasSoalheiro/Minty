@@ -2,7 +2,6 @@
 
 namespace Src\Domain\User\VO;
 
-use ErrorException;
 
 class Email
 {
@@ -14,7 +13,7 @@ class Email
     public static function create(string $email): Email
     {
         if (!self::validate($email)) {
-            throw new ErrorException("Invalid email format: $email");
+            throw new \ErrorException("Invalid email format: $email");
         }
         return new Email($email);
     }
