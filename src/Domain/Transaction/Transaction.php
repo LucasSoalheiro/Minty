@@ -17,7 +17,7 @@ enum TransactionStatusEnum
 
 class Transaction
 {
-    private readonly UUID $id = UUID::generate();
+    private readonly UUID $id;
     private function __construct(
         private readonly string $accountId,
         private readonly Money $amount,
@@ -27,6 +27,7 @@ class Transaction
         private readonly string $description,
         private readonly string $categoryId,
     ) {
+        $this->id = UUID::generate();
     }
 
     public static function create(string $accountId, Money $amount, TransactionEnum $type, string $description, string $categoryId): Transaction

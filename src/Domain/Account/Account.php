@@ -5,13 +5,15 @@ use Src\Domain\Shared\Money;
 use Src\Domain\Shared\UUID;
 class Account
 {
-    private readonly UUID $id = UUID::generate();
-    private readonly bool $isActive = true;
+    private readonly UUID $id;
+    private readonly bool $isActive;
     private function __construct(
         private readonly string $name,
         private Money $balance,
         private readonly string $userId,
     ) {
+        $this->id = UUID::generate();
+        $this->isActive = true;
     }
 
     public static function create(string $name, Money $balance, string $userId): Account

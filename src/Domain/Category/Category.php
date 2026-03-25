@@ -5,12 +5,13 @@ use Src\Domain\Shared\UUID;
 
 class Category
 {
-    private readonly UUID $id = UUID::generate();
+    private readonly UUID $id;
     private function __construct(
         private readonly string $name,
         private readonly ?string $description,
         private readonly string $userId
     ) {
+        $this->id = UUID::generate();
     }
 
     public static function create(string $name, ?string $description, string $userId): Category
