@@ -2,6 +2,8 @@
 
 namespace Src\Domain\User\VO;
 
+use Src\Domain\User\Error\InvalidEmail;
+
 
 class Email
 {
@@ -10,24 +12,33 @@ class Email
     {
     }
 
-    public static function create(string $email): Email
+    public static function create(string $email): self
     {
         if (!self::validate($email)) {
-            throw new \ErrorException("Invalid email format: $email");
+            throw new InvalidEmail($email);
         }
-        return new Email($email);
+        return new self($email);
     }
 
-    public static function restore(string $email): Email
+    public static function restore(string $email): self
     {
-        return new Email($email);
+        if (!self::validate($email)) {
+            throw new InvalidEmail($email);
+        }
+        return new self($email);
     }
+
+    public function equals(Email $other): bool
+    {
+        return $this->email === $other->email;
+    }
+    
     public function __toString(): string
     {
         return $this->email;
     }
     private static function validate(string $email): bool
     {
-        return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
+        return filter_var(filter_var($email, FILTER_SANITIZE_EMAIL), FILTER_VALIDATE_EMAIL) !== false;
     }
 }
