@@ -1,10 +1,10 @@
 <?php
-namespace Src\Domain\User\VO;
+namespace Src\Domain\User\vo;
 
 
-use Src\Domain\User\Error\InvalidPassword;
-use Src\Domain\User\Error\WeakPassword;
-use Src\Domain\User\Repository\PasswordHasher;
+use Src\Domain\User\error\InvalidPassword;
+use Src\Domain\User\error\WeakPassword;
+use Src\Domain\User\repository\PasswordHasher;
 
 final class Password
 {

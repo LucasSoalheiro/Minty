@@ -1,5 +1,5 @@
 <?php
-namespace Src\Domain\Account\Repository;
+namespace Src\Domain\Account\repository;
 
 use Src\Domain\Account\Account;
 

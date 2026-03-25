@@ -1,5 +1,5 @@
 <?php
-namespace Src\Domain\User\Repository;
+namespace Src\Domain\User\repository;
 
 interface PasswordHasher{
     public function hash(string $password): string;

@@ -1,5 +1,5 @@
 <?php
-namespace Src\Domain\Shared;
+namespace Src\Domain\shared;
 
 final class UUID
 {

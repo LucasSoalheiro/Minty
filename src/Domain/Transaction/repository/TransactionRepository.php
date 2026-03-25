@@ -1,7 +1,6 @@
 <?php
-namespace Src\Domain\Transaction\Repository;
+namespace Src\Domain\Transaction\repository;
 
-use Src\Domain\Shared\UUID;
 use Src\Domain\Transaction\Transaction;
 use Src\Domain\Transaction\TransactionStatusEnum;
 
@@ -9,6 +8,6 @@ interface TransactionRepository
 {
     public function save(Transaction $transaction): void;
     public function list(?TransactionStatusEnum $status): array;
-    public function findById(UUID $id): ?Transaction;
+    public function findById(string $id): ?Transaction;
     public function findByAccountId(string $accountId): array;
 }

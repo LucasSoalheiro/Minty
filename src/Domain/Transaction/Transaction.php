@@ -1,8 +1,8 @@
 <?php
 namespace Src\Domain\Transaction;
 
-use Src\Domain\Shared\Money;
-use Src\Domain\Shared\UUID;
+use Src\Domain\shared\Money;
+use Src\Domain\shared\UUID;
 enum TransactionEnum
 {
     case INDRAW;

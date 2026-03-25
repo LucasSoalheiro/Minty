@@ -1,6 +1,6 @@
 <?php
 
-namespace Src\Domain\User\Error;
+namespace Src\Domain\User\error;
 
 class EmailShouldBeDifferent extends \Exception
 {

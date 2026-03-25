@@ -1,8 +1,8 @@
 <?php
 
-namespace Src\Domain\User\VO;
+namespace Src\Domain\User\vo;
 
-use Src\Domain\User\Error\InvalidEmail;
+use Src\Domain\User\error\InvalidEmail;
 
 
 class Email

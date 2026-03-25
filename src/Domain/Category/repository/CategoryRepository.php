@@ -1,5 +1,5 @@
 <?php
-namespace Src\Domain\Category\Repository;
+namespace Src\Domain\Category\repository;
 
 interface CategoryRepository
 {

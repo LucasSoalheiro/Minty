@@ -1,14 +1,14 @@
 <?php
 namespace Src\Domain\User;
 
-use Src\Domain\User\Error\EmailShouldBeDifferent;
-use Src\Domain\User\Error\InvalidPassword;
-use Src\Domain\User\Error\NameCannotBeNull;
-use Src\Domain\User\Error\NameShouldBeDifferent;
+use Src\Domain\User\error\EmailShouldBeDifferent;
+use Src\Domain\User\error\InvalidPassword;
+use Src\Domain\User\error\NameCannotBeNull;
+use Src\Domain\User\error\NameShouldBeDifferent;
 use Src\Domain\User\Repository\PasswordHasher;
-use Src\Domain\User\VO\Email;
-use Src\Domain\User\VO\Password;
-use Src\Domain\Shared\UUID;
+use Src\Domain\User\vo\Email;
+use Src\Domain\User\vo\Password;
+use Src\Domain\shared\UUID;
 
 class User
 {

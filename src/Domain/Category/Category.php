@@ -1,7 +1,7 @@
 <?php
 namespace Src\Domain\Category;
 
-use Src\Domain\Shared\UUID;
+use Src\Domain\shared\UUID;
 
 class Category
 {
