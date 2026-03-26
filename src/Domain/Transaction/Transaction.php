@@ -4,6 +4,7 @@ namespace Src\Domain\Transaction;
 use Src\Domain\shared\Money;
 use Src\Domain\shared\UUID;
 use Src\Domain\Transaction\error\InvalidAmount;
+use Src\Domain\Transaction\error\InvalidCreatedAt;
 enum TransactionEnum
 {
     case INFLOW;
@@ -36,7 +37,6 @@ class Transaction
         $date = new \DateTime();
         UUID::fromString($accountId); // Validate accountId is a valid UUID
         UUID::fromString($categoryId); // Validate categoryId is a valid UUID
-
         if ($amount->value() <= 0) {
             throw new InvalidAmount();
         }
@@ -45,12 +45,20 @@ class Transaction
 
     public static function restore(string $accountId, Money $amount, TransactionEnum $type, TransactionStatusEnum $status, string $description, string $categoryId, \DateTime $createdAt): Transaction
     {
+        UUID::fromString($accountId); 
+        UUID::fromString($categoryId);
+        if ($amount->value() <= 0) {
+            throw new InvalidAmount();
+        }
+        if ($createdAt > new \DateTime()) {
+            throw new InvalidCreatedAt();
+        }
         return new Transaction($accountId, $amount, $createdAt, $type, $status, $description, $categoryId);
     }
 
-    public function getId(): string
+    public function getId(): UUID
     {
-        return $this->id->__toString();
+        return $this->id;
     }
     public function getAccountId(): string
     {
