@@ -35,9 +35,9 @@ class User
     {
         return new self($name, $email, $password);
     }
-    public function getId(): string
+    public function getId(): UUID
     {
-        return $this->id->__toString();
+        return $this->id;
     }
     public function getName(): string
     {
