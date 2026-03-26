@@ -12,14 +12,14 @@ use Src\Domain\shared\UUID;
 
 class User
 {
-    private readonly UUID $id;
 
     private function __construct(
+        private readonly UUID $id,
         private string $name,
         private Email $email,
         private Password $password
     ) {
-        $this->id = UUID::generate();
+
     }
 
     public static function create(string $name, Email $email, Password $password): self
@@ -28,12 +28,12 @@ class User
         if (empty($name)) {
             throw new NameCannotBeNull();
         }
-        return new self($name, $email, $password);
+        return new self(UUID::generate(), $name, $email, $password);
     }
 
-    public static function restore(string $name, Email $email, Password $password): self
+    public static function restore(UUID $id, string $name, Email $email, Password $password): self
     {
-        return new self($name, $email, $password);
+        return new self($id, $name, $email, $password);
     }
     public function getId(): UUID
     {

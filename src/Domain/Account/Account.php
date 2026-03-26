@@ -5,30 +5,28 @@ use Src\Domain\shared\Money;
 use Src\Domain\shared\UUID;
 class Account
 {
-    private readonly UUID $id;
-    private readonly bool $isActive;
     private function __construct(
+        private readonly UUID $id,
         private readonly string $name,
         private Money $balance,
-        private readonly string $userId,
+        private readonly UUID $userId,
+        private  bool $isActive,
     ) {
-        $this->id = UUID::generate();
-        $this->isActive = true;
     }
 
-    public static function create(string $name, Money $balance, string $userId): Account
+    public static function create(string $name, Money $balance, UUID $userId): Account
     {
-        return new Account($name, $balance, $userId);
+        return new Account(UUID::generate(), $name, $balance, $userId, true);
     }
 
-    public static function restore(string $name, Money $balance, string $userId): Account
+    public static function restore(UUID $id, string $name, Money $balance, UUID $userId, bool $isActive): Account
     {
-        return new Account($name, $balance, $userId);
+        return new Account($id, $name, $balance, $userId, $isActive);
     }
 
-    public function getId(): string
+    public function getId(): UUID
     {
-        return $this->id->__toString();
+        return $this->id;
     }
 
     public function getName(): string
@@ -41,7 +39,7 @@ class Account
         return $this->balance;
     }
 
-    public function getUserId(): string
+    public function getUserId(): UUID
     {
         return $this->userId;
     }

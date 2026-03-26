@@ -7,13 +7,12 @@ use Src\Domain\shared\UUID;
 
 class Category
 {
-    private readonly UUID $id;
     private function __construct(
+        private readonly UUID $id,
         private string $name,
         private ?string $description,
         private readonly UUID $userId
     ) {
-        $this->id = UUID::generate();
     }
 
     public static function create(string $name, ?string $description, UUID  $userId): Category
@@ -21,15 +20,15 @@ class Category
         if (empty($name)) {
             throw new NameCannotBeNull();
         }
-        return new Category($name, $description, $userId);
+        return new Category(UUID::generate(), $name, $description, $userId);
     }
 
-    public static function restore(string $name, ?string $description, UUID $userId): Category
+    public static function restore(UUID $id, string $name, ?string $description, UUID $userId): Category
     {
         if (empty($name)) {
             throw new NameCannotBeNull();
         }
-        return new Category($name, $description, $userId);
+        return new Category($id, $name, $description, $userId);
     }
 
 

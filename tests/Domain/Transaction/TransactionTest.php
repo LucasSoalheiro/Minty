@@ -42,7 +42,7 @@ class TransactionTest extends TestCase
         $futureDate = new \DateTime();
         $futureDate->modify('+1 day');
 
-        Transaction::restore(UUID::generate(), Money::create(1000), TransactionEnum::INFLOW, TransactionStatusEnum::DONE, "Test transaction", UUID::generate(), $futureDate);
+        Transaction::restore(UUID::generate(), UUID::generate(), Money::create(1000), TransactionEnum::INFLOW, TransactionStatusEnum::DONE, "Test transaction", UUID::generate(), $futureDate);
     }
 
     public function testShouldCancelTransaction(): void

@@ -19,8 +19,8 @@ enum TransactionStatusEnum
 
 class Transaction
 {
-    private readonly UUID $id;
     private function __construct(
+        private readonly UUID $id,
         private readonly UUID $accountId,
         private readonly Money $amount,
         private readonly \DateTime $createdAt,
@@ -29,22 +29,21 @@ class Transaction
         private readonly ?string $description,
         private readonly UUID $categoryId,
     ) {
-        $this->id = UUID::generate();
     }
 
     public static function create(UUID $accountId, Money $amount, TransactionEnum $type, ?string $description, UUID $categoryId): Transaction
     {
         $date = new \DateTime();
-    
-        return new Transaction($accountId, $amount, $date, $type, TransactionStatusEnum::DONE, $description, $categoryId);
+
+        return new Transaction(UUID::generate(), $accountId, $amount, $date, $type, TransactionStatusEnum::DONE, $description, $categoryId);
     }
 
-    public static function restore(UUID $accountId, Money $amount, TransactionEnum $type, TransactionStatusEnum $status, ?string $description, UUID $categoryId, \DateTime $createdAt): Transaction
+    public static function restore(UUID $id, UUID $accountId, Money $amount, TransactionEnum $type, TransactionStatusEnum $status, ?string $description, UUID $categoryId, \DateTime $createdAt): Transaction
     {
         if ($createdAt > new \DateTime()) {
             throw new InvalidCreatedAt();
         }
-        return new Transaction($accountId, $amount, $createdAt, $type, $status, $description, $categoryId);
+        return new Transaction($id, $accountId, $amount, $createdAt, $type, $status, $description, $categoryId);
     }
 
     public function getId(): UUID
