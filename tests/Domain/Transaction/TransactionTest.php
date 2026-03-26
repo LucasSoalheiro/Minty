@@ -4,7 +4,9 @@ namespace Tests\Domain\Transaction;
 
 use PHPUnit\Framework\TestCase;
 use Src\Domain\shared\Money;
+use Src\Domain\shared\UUID;
 use Src\Domain\Transaction\error\InvalidAmount;
+use Src\Domain\Transaction\error\TransactionAlreadyCancelled;
 use Src\Domain\Transaction\Transaction;
 use Src\Domain\Transaction\TransactionEnum;
 use Src\Domain\Transaction\TransactionStatusEnum;
@@ -13,35 +15,24 @@ class TransactionTest extends TestCase
 {
     public function testShouldCreateTransaction(): void
     {
-        $transaction = Transaction::create("account123", Money::create(1000), TransactionEnum::INFLOW, "Test transaction", "category123");
+        $accountId = UUID::generate();
+        $categoryId = UUID::generate();
+        $transaction = Transaction::create($accountId, Money::create(1000), TransactionEnum::INFLOW, "Test transaction", $categoryId);
 
         $this->assertInstanceOf(Transaction::class, $transaction);
-        $this->assertEquals("account123", $transaction->getAccountId());
+        $this->assertTrue($transaction->getAccountId()->equals($accountId));
         $this->assertEquals(1000, $transaction->getAmount());
         $this->assertEquals(TransactionEnum::INFLOW, $transaction->getType());
         $this->assertEquals("Test transaction", $transaction->getDescription());
-        $this->assertEquals("category123", $transaction->getCategoryId());
+        $this->assertTrue($transaction->getCategoryId()->equals($categoryId));
     }
 
     public function testShouldNotCreateTransactionWithNegativeAmount(): void
     {
         $this->expectException(InvalidAmount::class);
+        
 
-        Transaction::create("account123", Money::create(-100), TransactionEnum::INFLOW, "Test transaction", "category123");
-    }
-
-    public function testShouldNotCreateTransactionWIthInvalidAccountId(): void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-
-        Transaction::create("invalid-account-id", Money::create(1000), TransactionEnum::INFLOW, "Test transaction", "category123");
-    }
-
-    public function testShouldNotCreateTransactionWithInvalidCategoryId(): void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-
-        Transaction::create("account123", Money::create(1000), TransactionEnum::INFLOW, "Test transaction", "invalid-category-id");
+        Transaction::create(UUID::generate(), Money::create(-100), TransactionEnum::INFLOW, "Test transaction", UUID::generate());
     }
 
     public function testShouldNotCreateTransactionWithInvalidCreatedAt(): void
@@ -51,6 +42,23 @@ class TransactionTest extends TestCase
         $futureDate = new \DateTime();
         $futureDate->modify('+1 day');
 
-        Transaction::restore("account123", Money::create(1000), TransactionEnum::INFLOW, TransactionStatusEnum::DONE, "Test transaction", "category123", $futureDate);
+        Transaction::restore(UUID::generate(), Money::create(1000), TransactionEnum::INFLOW, TransactionStatusEnum::DONE, "Test transaction", UUID::generate(), $futureDate);
+    }
+
+    public function testShouldCancelTransaction(): void
+    {
+        $transaction = Transaction::create(UUID::generate(), Money::create(1000), TransactionEnum::INFLOW, "Test transaction", UUID::generate());
+        $transaction->cancel();
+
+        $this->assertEquals(TransactionStatusEnum::CANCELLED, $transaction->getStatus());
+    }
+
+    public function testShouldNotCancelAlreadyCancelledTransaction(): void
+    {
+        $this->expectException(TransactionAlreadyCancelled::class);
+
+        $transaction = Transaction::create(UUID::generate(), Money::create(1000), TransactionEnum::INFLOW, "Test transaction", UUID::generate());
+        $transaction->cancel();
+        $transaction->cancel();
     }
 }

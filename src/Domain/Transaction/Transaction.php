@@ -5,6 +5,7 @@ use Src\Domain\shared\Money;
 use Src\Domain\shared\UUID;
 use Src\Domain\Transaction\error\InvalidAmount;
 use Src\Domain\Transaction\error\InvalidCreatedAt;
+use Src\Domain\Transaction\error\TransactionAlreadyCancelled;
 enum TransactionEnum
 {
     case INFLOW;
@@ -21,18 +22,18 @@ class Transaction
 {
     private readonly UUID $id;
     private function __construct(
-        private readonly string $accountId,
+        private readonly UUID $accountId,
         private readonly Money $amount,
         private readonly \DateTime $createdAt,
         private readonly TransactionEnum $type,
-        private readonly TransactionStatusEnum $status,
+        private TransactionStatusEnum $status,
         private readonly ?string $description,
-        private readonly string $categoryId,
+        private readonly UUID $categoryId,
     ) {
         $this->id = UUID::generate();
     }
 
-    public static function create(string $accountId, Money $amount, TransactionEnum $type, ?string $description, string $categoryId): Transaction
+    public static function create(UUID $accountId, Money $amount, TransactionEnum $type, ?string $description, UUID $categoryId): Transaction
     {
         $date = new \DateTime();
         UUID::fromString($accountId); // Validate accountId is a valid UUID
@@ -43,7 +44,7 @@ class Transaction
         return new Transaction($accountId, $amount, $date, $type, TransactionStatusEnum::DONE, $description, $categoryId);
     }
 
-    public static function restore(string $accountId, Money $amount, TransactionEnum $type, TransactionStatusEnum $status, string $description, string $categoryId, \DateTime $createdAt): Transaction
+    public static function restore(UUID $accountId, Money $amount, TransactionEnum $type, TransactionStatusEnum $status, ?string $description, UUID $categoryId, \DateTime $createdAt): Transaction
     {
         UUID::fromString($accountId); 
         UUID::fromString($categoryId);
@@ -60,7 +61,7 @@ class Transaction
     {
         return $this->id;
     }
-    public function getAccountId(): string
+    public function getAccountId(): UUID
     {
         return $this->accountId;
     }
@@ -85,7 +86,7 @@ class Transaction
     {
         return $this->status;
     }
-    public function getCategoryId(): string
+    public function getCategoryId(): UUID
     {
         return $this->categoryId;
     }
@@ -93,7 +94,7 @@ class Transaction
     public function cancel(): void
     {
         if ($this->status === TransactionStatusEnum::CANCELLED) {
-            throw new \ErrorException("Transaction is already cancelled.");
+            throw new TransactionAlreadyCancelled();
         }
         $this->status = TransactionStatusEnum::CANCELLED;
     }
