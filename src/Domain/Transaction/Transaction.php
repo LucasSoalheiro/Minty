@@ -3,7 +3,6 @@ namespace Src\Domain\Transaction;
 
 use Src\Domain\shared\Money;
 use Src\Domain\shared\UUID;
-use Src\Domain\Transaction\error\InvalidAmount;
 use Src\Domain\Transaction\error\InvalidCreatedAt;
 use Src\Domain\Transaction\error\TransactionAlreadyCancelled;
 enum TransactionEnum
@@ -38,9 +37,7 @@ class Transaction
         $date = new \DateTime();
         UUID::fromString($accountId); // Validate accountId is a valid UUID
         UUID::fromString($categoryId); // Validate categoryId is a valid UUID
-        if ($amount->value() <= 0) {
-            throw new InvalidAmount();
-        }
+    
         return new Transaction($accountId, $amount, $date, $type, TransactionStatusEnum::DONE, $description, $categoryId);
     }
 
