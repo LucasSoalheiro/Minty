@@ -33,4 +33,9 @@ final class Money
     {
         return $this->amount;
     }
+
+    public function greaterOrEqual(Money $amount): bool
+    {
+        return $this->amount >= $amount->amount;
+    }
 }
