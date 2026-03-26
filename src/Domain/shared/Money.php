@@ -4,6 +4,7 @@ namespace Src\Domain\shared;
 final class Money
 {
     private  function __construct(
+        // The amount is stored as an integer representing the smallest currency unit (e.g., cents)
         private int $amount
     ) {
     }

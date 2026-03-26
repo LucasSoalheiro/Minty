@@ -3,10 +3,11 @@ namespace Src\Domain\Transaction;
 
 use Src\Domain\shared\Money;
 use Src\Domain\shared\UUID;
+use Src\Domain\Transaction\error\InvalidAmount;
 enum TransactionEnum
 {
-    case INDRAW;
-    case WITHDRAW;
+    case INFLOW;
+    case OUTFLOW;
 }
 
 enum TransactionStatusEnum
@@ -24,15 +25,21 @@ class Transaction
         private readonly \DateTime $createdAt,
         private readonly TransactionEnum $type,
         private readonly TransactionStatusEnum $status,
-        private readonly string $description,
+        private readonly ?string $description,
         private readonly string $categoryId,
     ) {
         $this->id = UUID::generate();
     }
 
-    public static function create(string $accountId, Money $amount, TransactionEnum $type, string $description, string $categoryId): Transaction
+    public static function create(string $accountId, Money $amount, TransactionEnum $type, ?string $description, string $categoryId): Transaction
     {
         $date = new \DateTime();
+        UUID::fromString($accountId); // Validate accountId is a valid UUID
+        UUID::fromString($categoryId); // Validate categoryId is a valid UUID
+
+        if ($amount->value() <= 0) {
+            throw new InvalidAmount();
+        }
         return new Transaction($accountId, $amount, $date, $type, TransactionStatusEnum::DONE, $description, $categoryId);
     }
 
