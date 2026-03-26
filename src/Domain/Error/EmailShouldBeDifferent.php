@@ -1,8 +1,8 @@
 <?php
 
-namespace Src\Domain\User\error;
+namespace Src\Domain\Error;
 
-class EmailShouldBeDifferent extends \Exception
+class EmailShouldBeDifferent extends \DomainException
 {
     public function __construct(string $email)
     {

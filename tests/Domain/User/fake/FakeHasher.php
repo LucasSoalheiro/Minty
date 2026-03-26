@@ -1,7 +1,7 @@
 <?php
 namespace Tests\Domain\User\Fake;
 
-use Src\Domain\User\repository\PasswordHasher;
+use Src\Domain\User\PasswordHasher;
 
 class FakeHasher implements PasswordHasher
 {

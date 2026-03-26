@@ -1,8 +1,8 @@
 <?php
 
-namespace Src\Domain\Category\error;
+namespace Src\Domain\Error;
 
-class InvalidDescription extends \InvalidArgumentException
+class InvalidDescription extends \DomainException
 {
     public function __construct()
     {

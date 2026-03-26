@@ -1,7 +1,6 @@
 <?php
-namespace Src\Domain\User\error;
-
-class UnformattedPassword extends \Exception
+namespace Src\Domain\Error;
+class UnformattedPassword extends \DomainException
 {
     public function __construct(string $password)
     {

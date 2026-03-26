@@ -1,7 +1,7 @@
 <?php
-namespace Src\Domain\User\error;
+namespace Src\Domain\Error;
 
-class NameShouldBeDifferent extends \Exception
+class NameShouldBeDifferent extends \DomainException
 {
     public function __construct(string $name)
     {

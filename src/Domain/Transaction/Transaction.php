@@ -1,10 +1,11 @@
 <?php
 namespace Src\Domain\Transaction;
 
-use Src\Domain\shared\Money;
-use Src\Domain\shared\UUID;
-use Src\Domain\Transaction\error\InvalidCreatedAt;
-use Src\Domain\Transaction\error\TransactionAlreadyCancelled;
+use Src\Domain\Error\InvalidCreatedAt;
+use Src\Domain\Error\TransactionAlreadyCancelled;
+use Src\Domain\ValueObject\Money;
+use Src\Domain\ValueObject\UUID;
+
 enum TransactionEnum
 {
     case INFLOW;

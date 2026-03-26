@@ -1,5 +1,5 @@
 <?php
-namespace Src\Domain\Transaction\repository;
+namespace Src\Domain\Transaction;
 
 use Src\Domain\Transaction\Transaction;
 use Src\Domain\Transaction\TransactionStatusEnum;

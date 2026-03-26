@@ -1,8 +1,8 @@
 <?php
 
-namespace Src\Domain\Transaction\error;
+namespace Src\Domain\Error;
 
-class InvalidAmount extends \InvalidArgumentException
+class InvalidAmount extends \DomainException
 {
     public function __construct()
     {

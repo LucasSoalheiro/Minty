@@ -1,9 +1,10 @@
 <?php
 namespace Src\Domain\Category;
 
-use Src\Domain\Category\error\InvalidDescription;
-use Src\Domain\Category\error\NameCannotBeNull;
-use Src\Domain\shared\UUID;
+use Src\Domain\Error\InvalidDescription;
+use Src\Domain\Error\NameCannotBeNull;
+use Src\Domain\ValueObject\UUID;
+
 
 class Category
 {

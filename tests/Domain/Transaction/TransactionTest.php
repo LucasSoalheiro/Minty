@@ -3,13 +3,14 @@
 namespace Tests\Domain\Transaction;
 
 use PHPUnit\Framework\TestCase;
-use Src\Domain\shared\Money;
-use Src\Domain\shared\UUID;
-use Src\Domain\Transaction\error\InvalidAmount;
-use Src\Domain\Transaction\error\TransactionAlreadyCancelled;
+use Src\Domain\Error\InvalidAmount;
+use Src\Domain\Error\InvalidCreatedAt;
+use Src\Domain\Error\TransactionAlreadyCancelled;
 use Src\Domain\Transaction\Transaction;
 use Src\Domain\Transaction\TransactionEnum;
 use Src\Domain\Transaction\TransactionStatusEnum;
+use Src\Domain\ValueObject\Money;
+use Src\Domain\ValueObject\UUID;
 
 class TransactionTest extends TestCase
 {
@@ -35,9 +36,9 @@ class TransactionTest extends TestCase
         Transaction::create(UUID::generate(), Money::create(-100), TransactionEnum::INFLOW, "Test transaction", UUID::generate());
     }
 
-    public function testShouldNotCreateTransactionWithInvalidCreatedAt(): void
+    public function testShouldNotRestoreTransactionWithInvalidCreatedAt(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidCreatedAt::class);
 
         $futureDate = new \DateTime();
         $futureDate->modify('+1 day');

@@ -1,7 +1,8 @@
 <?php
-namespace Src\Domain\shared;
+namespace Src\Domain\ValueObject;
 
-use Src\Domain\Transaction\error\InvalidAmount;
+use Src\Domain\Error\InvalidAmount;
+
 
 final class Money
 {

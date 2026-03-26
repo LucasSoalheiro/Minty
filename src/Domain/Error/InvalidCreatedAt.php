@@ -1,8 +1,8 @@
 <?php
 
-namespace Src\Domain\Transaction\error;
+namespace Src\Domain\Error;
 
-class InvalidCreatedAt extends \InvalidArgumentException
+class InvalidCreatedAt extends \DomainException
 {
     public function __construct()
     {

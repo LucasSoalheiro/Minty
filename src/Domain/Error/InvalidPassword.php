@@ -1,7 +1,6 @@
 <?php
-namespace Src\Domain\User\error;
-
-class InvalidPassword extends \Exception
+namespace Src\Domain\Error;
+class InvalidPassword extends \DomainException
 {
     public function __construct()
     {

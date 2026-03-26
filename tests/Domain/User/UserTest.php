@@ -3,15 +3,15 @@
 namespace Tests\Domain\User;
 
 use PHPUnit\Framework\TestCase;
+use Src\Domain\Error\EmailShouldBeDifferent;
+use Src\Domain\Error\InvalidEmail;
+use Src\Domain\Error\InvalidPassword;
+use Src\Domain\Error\NameCannotBeNull;
+use Src\Domain\Error\NameShouldBeDifferent;
+use Src\Domain\Error\WeakPassword;
 use Src\Domain\User\User;
-use Src\Domain\User\vo\Email;
-use Src\Domain\User\vo\Password;
-use Src\Domain\User\error\InvalidEmail;
-use Src\Domain\User\error\WeakPassword;
-use Src\Domain\User\error\InvalidPassword;
-use Src\Domain\User\error\EmailShouldBeDifferent;
-use Src\Domain\User\error\NameCannotBeNull;
-use Src\Domain\User\error\NameShouldBeDifferent;
+use Src\Domain\ValueObject\Email;
+use Src\Domain\ValueObject\Password;
 use Tests\Domain\User\fake\FakeHasher;
 
 class UserTest extends TestCase

@@ -1,8 +1,8 @@
 <?php
 
-namespace Src\Domain\Category\error;
+namespace Src\Domain\Error;
 
-class NameCannotBeNull extends \InvalidArgumentException
+class NameCannotBeNull extends \DomainException
 {
     public function __construct()
     {

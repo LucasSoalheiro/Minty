@@ -1,8 +1,8 @@
 <?php
 
-namespace Src\Domain\Transaction\error;
+namespace Src\Domain\Error;
 
-class TransactionAlreadyCancelled extends \InvalidArgumentException
+class TransactionAlreadyCancelled extends \DomainException
 {
     public function __construct()
     {

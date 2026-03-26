@@ -1,7 +1,8 @@
 <?php
 
-namespace Src\Domain\User\error;
-class WeakPassword extends \Exception
+namespace Src\Domain\Error;
+
+class WeakPassword extends \DomainException
 {
     public function __construct(string $password)
     {

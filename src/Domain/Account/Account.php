@@ -1,8 +1,9 @@
 <?php
 namespace Src\Domain\Account;
 
-use Src\Domain\shared\Money;
-use Src\Domain\shared\UUID;
+use Src\Domain\ValueObject\Money;
+use Src\Domain\ValueObject\UUID;
+
 class Account
 {
     private function __construct(
