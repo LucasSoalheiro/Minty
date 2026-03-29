@@ -12,34 +12,17 @@ final class Password
     ) {
     }
 
-    public static function create(string $plainPassword, PasswordHasher $hasher): self
-    {
-        
-        self::validate($plainPassword);
-
-        return new self($hasher->hash($plainPassword));
-    }
-
     public static function restore(string $hashedPassword): self
     {
         return new self($hashedPassword);
     }
-
-    public function verify(string $plainPassword, PasswordHasher $hasher): bool
-    {
-        return $hasher->compare($plainPassword, $this->hashedPassword);
-    }
-
-    public function equals(Password $other): bool
-    {
-        return $this->hashedPassword === $other->hashedPassword;
-    }
-    public function __tostring(): string
+    
+    public function value(): string
     {
         return $this->hashedPassword;
     }
 
-    private static function validate(string $password): void
+    public static function validate(string $password): void
     {
         if (empty($password)) {
             throw new InvalidPassword();

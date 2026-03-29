@@ -72,15 +72,10 @@ class User
     }
 
     public function changePassword(
-        string $currentPassword,
         string $newPassword,
-        PasswordHasher $hasher
     ): void {
-        if (!$this->password->verify($currentPassword, $hasher)) {
-            throw new InvalidPassword();
-        }
-
-        $this->password = Password::create($newPassword, $hasher);
+        Password::validate($newPassword);
+        $this->password = Password::restore($newPassword);
     }
 
 }

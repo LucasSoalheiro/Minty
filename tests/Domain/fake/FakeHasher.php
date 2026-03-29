@@ -1,5 +1,6 @@
 <?php
-namespace Tests\Domain\User\Fake;
+
+namespace Tests\Domain\fake;
 
 use Src\Domain\User\PasswordHasher;
 
@@ -7,12 +8,11 @@ class FakeHasher implements PasswordHasher
 {
     public function hash(string $password): string
     {
-        return $password;
+        return "hashed_" . $password;
     }
 
     public function compare(string $password, string $hash): bool
     {
-        return $password === $hash;
+        return $hash === "hashed_" . $password;
     }
-    
 }

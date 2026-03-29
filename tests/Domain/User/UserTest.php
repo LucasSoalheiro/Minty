@@ -5,14 +5,13 @@ namespace Tests\Domain\User;
 use PHPUnit\Framework\TestCase;
 use Src\Domain\Error\EmailShouldBeDifferent;
 use Src\Domain\Error\InvalidEmail;
-use Src\Domain\Error\InvalidPassword;
 use Src\Domain\Error\NameCannotBeNull;
 use Src\Domain\Error\NameShouldBeDifferent;
 use Src\Domain\Error\WeakPassword;
 use Src\Domain\User\User;
 use Src\Domain\ValueObject\Email;
 use Src\Domain\ValueObject\Password;
-use Tests\Domain\User\fake\FakeHasher;
+use Tests\Domain\fake\FakeHasher;
 
 class UserTest extends TestCase
 {
@@ -26,14 +25,14 @@ class UserTest extends TestCase
     public function testShouldCreateUser(): void
     {
         $email = Email::create("test@example.com");
-        $password = Password::create("P@ssw0rd", $this->hasher);
+        $password = Password::restore("P@ssw0rd");
 
         $user = User::create("John Doe", $email, $password);
 
         $this->assertInstanceOf(User::class, $user);
         $this->assertEquals("John Doe", $user->getName());
         $this->assertTrue($user->getEmail()->equals($email));
-        $this->assertTrue($user->getPassword()->equals($password));
+        $this->assertInstanceOf(Password::class, $user->getPassword());
     }
 
     public function testShouldNotCreateUserWithInvalidEmail(): void
@@ -41,7 +40,7 @@ class UserTest extends TestCase
         $this->expectException(InvalidEmail::class);
 
         $email = Email::create("invalid-email");
-        $password = Password::create("P@ssw0rd", $this->hasher);
+        $password = Password::restore("P@ssw0rd");
 
         User::create("John Doe", $email, $password);
     }
@@ -51,7 +50,7 @@ class UserTest extends TestCase
         $this->expectException(WeakPassword::class);
 
         $email = Email::create("test@example.com");
-        $password = Password::create("weak", $this->hasher);
+        $password = Password::restore(Password::validate("weak"));
 
         User::create("John Doe", $email, $password);
     }
@@ -61,7 +60,7 @@ class UserTest extends TestCase
         $this->expectException(NameCannotBeNull::class);
 
         $email = Email::create("test@example.com");
-        $password = Password::create("P@ssw0rd", $this->hasher);
+        $password = Password::restore("P@ssw0rd");
 
         User::create("", $email, $password);
     }
@@ -108,20 +107,9 @@ class UserTest extends TestCase
     {
         $user = $this->makeUser();
 
-        $user->changePassword("P@ssw0rd", "NewP@ssw0rd", $this->hasher);
-
-        $this->assertTrue(
-            $user->getPassword()->verify("NewP@ssw0rd", $this->hasher)
-        );
-    }
-
-    public function testShouldNotChangePasswordWithWrongCurrentPassword(): void
-    {
-        $this->expectException(InvalidPassword::class);
-
-        $user = $this->makeUser();
-
-        $user->changePassword("wrong", "NewP@ssw0rd", $this->hasher);
+        $user->changePassword("NewP@ssw0rd");
+        
+        $this->assertEquals("NewP@ssw0rd", $user->getPassword()->value());
     }
 
     public function testShouldNotChangePasswordToWeakOne(): void
@@ -130,13 +118,13 @@ class UserTest extends TestCase
 
         $user = $this->makeUser();
 
-        $user->changePassword("P@ssw0rd", "weak", $this->hasher);
+        $user->changePassword("weak");
     }
 
     private function makeUser(): User
     {
         $email = Email::create("test@example.com");
-        $password = Password::create("P@ssw0rd", $this->hasher);
+        $password = Password::restore("P@ssw0rd");
 
         return User::create("John Doe", $email, $password);
     }
