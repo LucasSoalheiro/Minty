@@ -14,7 +14,7 @@ final class Money
 
     public static function create(int $amount): Money
     {
-        if ($amount <= 0) {
+        if ($amount < 0) {
             throw new InvalidAmount();
         }
         return new Money($amount);

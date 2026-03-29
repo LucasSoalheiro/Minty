@@ -1,0 +1,65 @@
+<?php
+
+namespace Tests\App;
+
+use Src\App\DTO\CreateAccountDto;
+use PHPUnit\Framework\TestCase;
+use Src\App\Error\UserNotFound;
+use Src\App\Usecases\CreateAccountUsecase;
+use Src\Domain\Account\Account;
+use Src\Domain\Account\AccountRepository;
+use Src\Domain\User\User;
+use Src\Domain\User\UserRepository;
+use Src\Domain\ValueObject\Email;
+use Src\Domain\ValueObject\Money;
+use Src\Domain\ValueObject\Password;
+use Src\Domain\ValueObject\UUID;
+use Tests\fake\FakeAccountRepository;
+use Tests\fake\FakeUserRepository;
+class CreateAccountTest extends TestCase
+{
+    private UserRepository $userRepository;
+    private AccountRepository $accountRepository;
+
+    public function setUp(): void
+    {
+        $this->userRepository = new FakeUserRepository();
+        $this->accountRepository = new FakeAccountRepository();
+    }
+
+    private function makeUser(): User
+    {
+        $this->userRepository->save(User::create('John Doe', Email::create('john.doe@example.com'), Password::restore('password123')));
+        return $this->userRepository->findByEmail('john.doe@example.com');
+    }
+
+    private function makeAccount()
+    {
+        $user = $this->makeUser();
+        $account = new CreateAccountDto('John\'s Account', 100, $user->getId()->__toString());
+        return $account;
+    }
+
+
+    public function testCreateAccount(): void
+    {
+        $account = new CreateAccountUsecase($this->userRepository, $this->accountRepository);
+        $dto = $this->makeAccount();
+        $account->execute($dto);
+        $savedAccount = $this->accountRepository->findByUserId($dto->getUserId());
+        $this->assertCount(1, $savedAccount);
+        $this->assertEquals($dto->getName(), $savedAccount[0]->getName());
+        $this->assertEquals($dto->getBalance(), $savedAccount[0]->getBalance()->value());
+
+        }
+
+    public function testCreateAccountWithNonExistentUser(): void
+    {
+        $this->expectException(UserNotFound::class);
+        $account = new CreateAccountUsecase($this->userRepository, $this->accountRepository);
+        $dto = new CreateAccountDto('John\'s Account', 100, UUID::generate()->__toString());
+        $account->execute($dto);
+    }
+
+
+}

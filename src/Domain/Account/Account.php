@@ -26,9 +26,6 @@ class Account
         if (empty($name)) {
             throw new NameCannotBeNull();
         }
-        if ($balance->value() < 0) {
-            throw new InvalidInitialBalance();
-        }
         return new Account(UUID::generate(), $name, $balance, $userId, true);
     }
 
