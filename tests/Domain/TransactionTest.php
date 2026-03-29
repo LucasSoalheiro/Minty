@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Domain\Transaction;
+namespace Tests\Domain;
 
 use PHPUnit\Framework\TestCase;
 use Src\Domain\Error\InvalidAmount;

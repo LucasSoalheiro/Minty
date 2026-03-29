@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Domain\User;
+namespace Tests\Domain;
 
 use PHPUnit\Framework\TestCase;
 use Src\Domain\Error\EmailShouldBeDifferent;
@@ -8,14 +8,15 @@ use Src\Domain\Error\InvalidEmail;
 use Src\Domain\Error\NameCannotBeNull;
 use Src\Domain\Error\NameShouldBeDifferent;
 use Src\Domain\Error\WeakPassword;
+use Src\Domain\User\PasswordHasher;
 use Src\Domain\User\User;
 use Src\Domain\ValueObject\Email;
 use Src\Domain\ValueObject\Password;
-use Tests\Domain\fake\FakeHasher;
+use Tests\fake\FakeHasher;
 
 class UserTest extends TestCase
 {
-    private FakeHasher $hasher;
+    private PasswordHasher $hasher;
 
     protected function setUp(): void
     {

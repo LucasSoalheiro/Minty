@@ -1,6 +1,6 @@
 <?php 
 
-namespace Tests\Domain\Category;
+namespace Tests\Domain;
 
 use PHPUnit\Framework\TestCase;
 use Src\Domain\Category\Category;

@@ -1,5 +1,5 @@
 <?php
-namespace Tests\Domain\Account;
+namespace Tests\Domain;
 
 use PHPUnit\Framework\TestCase;
 use Src\Domain\Account\Account;
