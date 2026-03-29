@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Domain\fake;
+namespace Tests\fake;
 
 use Src\Domain\User\PasswordHasher;
 

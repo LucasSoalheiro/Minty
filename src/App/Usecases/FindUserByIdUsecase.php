@@ -10,18 +10,15 @@ use Src\Domain\User\UserRepository;
 
 class FindUserByIdUsecase
 {
-    public function __construct(private UserRepository $userRepository) {
+    public function __construct(private UserRepository $userRepository)
+    {
     }
-    public function execute(FindByIdDto $dto): User
-    {   
-        try{
-            $user = $this->userRepository->findById($dto->getId());
-            if ($user === null) {
-                throw new UserNotFound("User not found with id: " . $dto->getId());
-            }
-            return $user;
-        } catch (ApplicationError $e){
-            throw new ApplicationError("Error finding user: " . $e->getMessage());
+    public function execute(string $id): User
+    {
+        $user = $this->userRepository->findById($id);
+        if ($user === null) {
+            throw new UserNotFound($id);
         }
+        return $user;
     }
 }
