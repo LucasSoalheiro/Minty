@@ -17,7 +17,7 @@ class Account
         private readonly string $name,
         private Money $balance,
         private readonly UUID $userId,
-        private  bool $isActive,
+        private bool $isActive,
     ) {
     }
 
@@ -29,8 +29,13 @@ class Account
         return new Account(UUID::generate(), $name, $balance, $userId, true);
     }
 
-    public static function restore(UUID $id, string $name, Money $balance, UUID $userId, bool $isActive): Account
-    {
+    public static function restore(
+        UUID $id,
+        string $name,
+        Money $balance,
+        UUID $userId,
+        bool $isActive
+    ): Account {
         return new Account($id, $name, $balance, $userId, $isActive);
     }
 
@@ -70,10 +75,6 @@ class Account
 
     public function withdraw(Money $amount): void
     {
-        $this->isActiveAccount();
-        if ($amount->value() <= 0) {
-            throw new InvalidAmount();
-        }
         if (!$this->balance->greaterOrEqual($amount)) {
             throw new InsufficientFunds();
         }

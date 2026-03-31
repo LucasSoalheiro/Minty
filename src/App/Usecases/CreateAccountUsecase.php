@@ -11,8 +11,10 @@ use Src\Domain\ValueObject\Money;
 
 class CreateAccountUsecase
 {
-    public function __construct(private UserRepository $userRepository, private AccountRepository $accountRepository)
-    {
+    public function __construct(
+        private UserRepository $userRepository,
+        private AccountRepository $accountRepository
+    ) {
     }
 
     public function execute(CreateAccountDto $dto): void
@@ -22,7 +24,11 @@ class CreateAccountUsecase
             throw new UserNotFound($dto->getUserId());
         }
 
-        $account = Account::create($dto->getName(), Money::create($dto->getBalance()), $user->getId());
+        $account = Account::create(
+            $dto->getName(),
+            Money::create($dto->getBalance()),
+            $user->getId()
+        );
         $this->accountRepository->save($account);
     }
 }

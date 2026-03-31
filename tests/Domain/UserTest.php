@@ -8,20 +8,12 @@ use Src\Domain\Error\InvalidEmail;
 use Src\Domain\Error\NameCannotBeNull;
 use Src\Domain\Error\NameShouldBeDifferent;
 use Src\Domain\Error\WeakPassword;
-use Src\Domain\User\PasswordHasher;
 use Src\Domain\User\User;
 use Src\Domain\ValueObject\Email;
 use Src\Domain\ValueObject\Password;
-use Tests\fake\FakeHasher;
 
 class UserTest extends TestCase
 {
-    private PasswordHasher $hasher;
-
-    protected function setUp(): void
-    {
-        $this->hasher = new FakeHasher();
-    }
 
     public function testShouldCreateUser(): void
     {
@@ -51,9 +43,11 @@ class UserTest extends TestCase
         $this->expectException(WeakPassword::class);
 
         $email = Email::create("test@example.com");
-        $password = Password::restore(Password::validate("weak"));
+        $password = "weak";
+        Password::validate($password);
+        $passwordRestored = Password::restore($password);
 
-        User::create("John Doe", $email, $password);
+        User::create("John Doe", $email, $passwordRestored);
     }
 
     public function testShouldNotCreateUserWithEmptyName(): void
@@ -109,7 +103,7 @@ class UserTest extends TestCase
         $user = $this->makeUser();
 
         $user->changePassword("NewP@ssw0rd");
-        
+
         $this->assertEquals("NewP@ssw0rd", $user->getPassword()->value());
     }
 

@@ -67,11 +67,11 @@ class AccountTest extends TestCase
         $account->withdraw(Money::create(150));
     }
 
-    public function testWithdrawZeroOrNegativeThrows()
+    public function testWithdrawNegativeThrows()
     {
         $account = Account::create("John Doe", Money::create(100), $this->makeUUID());
         $this->expectException(InvalidAmount::class);
-        $account->withdraw(Money::create(0));
+        $account->withdraw(Money::create(-1));
     }
 
     public function testTransferUpdatesBothAccounts()

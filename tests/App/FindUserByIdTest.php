@@ -12,7 +12,7 @@ use Src\Domain\ValueObject\Email;
 use Src\Domain\ValueObject\Password;
 use Tests\fake\FakeUserRepository;
 
-class FindByUserByIdTest extends TestCase
+class FindUserByIdTest extends TestCase
 {
     private UserRepository $userRepository;
 

@@ -13,8 +13,10 @@ use Src\Domain\ValueObject\Email;
 
 class CreateUserUsecase
 {
-    public function __construct(private UserRepository $userRepository, private PasswordHasher $passwordHasher)
-    {
+    public function __construct(
+        private UserRepository $userRepository,
+        private PasswordHasher $passwordHasher
+    ) {
     }
     public function execute(CreateUserDto $dto): void
     {
@@ -24,7 +26,11 @@ class CreateUserUsecase
         Password::validate($dto->getPassword());
         $hashedPassword = $this->passwordHasher->hash($dto->getPassword());
 
-        $user = User::create($dto->getName(), Email::create($dto->getEmail()), Password::restore($hashedPassword));
+        $user = User::create(
+            $dto->getName(),
+            Email::create($dto->getEmail()),
+            Password::restore($hashedPassword)
+        );
 
         $this->userRepository->save($user);
     }

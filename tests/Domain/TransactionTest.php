@@ -31,9 +31,15 @@ class TransactionTest extends TestCase
     public function testShouldNotCreateTransactionWithNegativeAmount(): void
     {
         $this->expectException(InvalidAmount::class);
-        
 
-        Transaction::create(UUID::generate(), Money::create(-100), TransactionEnum::INFLOW, "Test transaction", UUID::generate());
+
+        Transaction::create(
+            UUID::generate(),
+            Money::create(-100),
+            TransactionEnum::INFLOW,
+            "Test transaction",
+            UUID::generate()
+        );
     }
 
     public function testShouldNotRestoreTransactionWithInvalidCreatedAt(): void
@@ -43,12 +49,27 @@ class TransactionTest extends TestCase
         $futureDate = new \DateTime();
         $futureDate->modify('+1 day');
 
-        Transaction::restore(UUID::generate(), UUID::generate(), Money::create(1000), TransactionEnum::INFLOW, TransactionStatusEnum::DONE, "Test transaction", UUID::generate(), $futureDate);
+        Transaction::restore(
+            UUID::generate(),
+            UUID::generate(),
+            Money::create(1000),
+            TransactionEnum::INFLOW,
+            TransactionStatusEnum::DONE,
+            "Test transaction",
+            UUID::generate(),
+            $futureDate
+        );
     }
 
     public function testShouldCancelTransaction(): void
     {
-        $transaction = Transaction::create(UUID::generate(), Money::create(1000), TransactionEnum::INFLOW, "Test transaction", UUID::generate());
+        $transaction = Transaction::create(
+            UUID::generate(),
+            Money::create(1000),
+            TransactionEnum::INFLOW,
+            "Test transaction",
+            UUID::generate()
+        );
         $transaction->cancel();
 
         $this->assertEquals(TransactionStatusEnum::CANCELLED, $transaction->getStatus());
@@ -58,7 +79,13 @@ class TransactionTest extends TestCase
     {
         $this->expectException(TransactionAlreadyCancelled::class);
 
-        $transaction = Transaction::create(UUID::generate(), Money::create(1000), TransactionEnum::INFLOW, "Test transaction", UUID::generate());
+        $transaction = Transaction::create(
+            UUID::generate(),
+            Money::create(1000),
+            TransactionEnum::INFLOW,
+            "Test transaction",
+            UUID::generate()
+        );
         $transaction->cancel();
         $transaction->cancel();
     }

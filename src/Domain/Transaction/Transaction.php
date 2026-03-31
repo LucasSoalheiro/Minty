@@ -15,6 +15,7 @@ enum TransactionEnum
 enum TransactionStatusEnum
 {
     case CANCELLED;
+    case PENDING;
     case DONE;
 }
 
@@ -32,19 +33,50 @@ class Transaction
     ) {
     }
 
-    public static function create(UUID $accountId, Money $amount, TransactionEnum $type, ?string $description, UUID $categoryId): Transaction
-    {
+    public static function create(
+        UUID $accountId,
+        Money $amount,
+        TransactionEnum $type,
+        ?string $description,
+        UUID $categoryId
+    ): Transaction {
         $date = new \DateTime();
 
-        return new Transaction(UUID::generate(), $accountId, $amount, $date, $type, TransactionStatusEnum::DONE, $description, $categoryId);
+        return new Transaction(
+            UUID::generate(),
+            $accountId,
+            $amount,
+            $date,
+            $type,
+            TransactionStatusEnum::PENDING,
+            $description,
+            $categoryId
+        );
     }
 
-    public static function restore(UUID $id, UUID $accountId, Money $amount, TransactionEnum $type, TransactionStatusEnum $status, ?string $description, UUID $categoryId, \DateTime $createdAt): Transaction
-    {
+    public static function restore(
+        UUID $id,
+        UUID $accountId,
+        Money $amount,
+        TransactionEnum $type,
+        TransactionStatusEnum $status,
+        ?string $description,
+        UUID $categoryId,
+        \DateTime $createdAt
+    ): Transaction {
         if ($createdAt > new \DateTime()) {
             throw new InvalidCreatedAt();
         }
-        return new Transaction($id, $accountId, $amount, $createdAt, $type, $status, $description, $categoryId);
+        return new Transaction(
+            $id,
+            $accountId,
+            $amount,
+            $createdAt,
+            $type,
+            $status,
+            $description,
+            $categoryId
+        );
     }
 
     public function getId(): UUID

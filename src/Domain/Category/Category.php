@@ -16,7 +16,7 @@ class Category
     ) {
     }
 
-    public static function create(string $name, ?string $description, UUID  $userId): Category
+    public static function create(string $name, ?string $description, UUID $userId): Category
     {
         if (empty($name)) {
             throw new NameCannotBeNull();
@@ -24,8 +24,12 @@ class Category
         return new Category(UUID::generate(), $name, $description, $userId);
     }
 
-    public static function restore(UUID $id, string $name, ?string $description, UUID $userId): Category
-    {
+    public static function restore(
+        UUID $id,
+        string $name,
+        ?string $description,
+        UUID $userId
+    ): Category {
         if (empty($name)) {
             throw new NameCannotBeNull();
         }
