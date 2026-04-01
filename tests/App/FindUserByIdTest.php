@@ -3,6 +3,7 @@
 namespace Tests\App;
 
 use PHPUnit\Framework\TestCase;
+use Src\App\DTO\UserResponseDto;
 use Src\App\Error\UserNotFound;
 use Src\App\Usecases\FindByIdUsecase;
 use Src\App\Usecases\FindUserByIdUsecase;
@@ -35,7 +36,7 @@ class FindUserByIdTest extends TestCase
         $userCreated = $this->makeUser();
         $user = $usecase->execute($userCreated->getId());
 
-        $this->assertInstanceOf(User::class, $user);
+        $this->assertInstanceOf(UserResponseDto::class, $user);
     }
 
     public function testFindByIdUsecaseWithNonExistingId(): void

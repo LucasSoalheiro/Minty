@@ -14,8 +14,8 @@ use Src\Domain\ValueObject\Email;
 class CreateUserUsecase
 {
     public function __construct(
-        private UserRepository $userRepository,
-        private PasswordHasher $passwordHasher
+        private readonly UserRepository $userRepository,
+        private readonly PasswordHasher $passwordHasher
     ) {
     }
     public function execute(CreateUserDto $dto): void

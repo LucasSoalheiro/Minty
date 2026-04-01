@@ -4,6 +4,7 @@ namespace Src\App\Usecases;
 
 use Src\App\DTO\DepositDto;
 use Src\App\Error\AccountNotFound;
+use Src\App\Error\CategoryInactive;
 use Src\App\Error\CategoryNotFound;
 use Src\Domain\Account\AccountRepository;
 use Src\Domain\Category\CategoryRepository;
@@ -15,9 +16,9 @@ use Src\Domain\ValueObject\Money;
 class DepositUsecase
 {
     public function __construct(
-        private AccountRepository $accountRepository,
-        private TransactionRepository $transactionRepository,
-        private CategoryRepository $categoryRepository
+        private readonly AccountRepository $accountRepository,
+        private readonly TransactionRepository $transactionRepository,
+        private readonly CategoryRepository $categoryRepository
     ) {
     }
 
@@ -31,6 +32,9 @@ class DepositUsecase
         $category = $this->categoryRepository->findById($dto->categoryId);
         if ($category === null) {
             throw new CategoryNotFound($dto->categoryId);
+        }
+        if (!$category->getIsActive()) {
+            throw new CategoryInactive($dto->categoryId);
         }
 
         $account->deposit(Money::create($dto->amount));

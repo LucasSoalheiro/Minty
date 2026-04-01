@@ -12,8 +12,8 @@ use Src\Domain\ValueObject\Money;
 class CreateAccountUsecase
 {
     public function __construct(
-        private UserRepository $userRepository,
-        private AccountRepository $accountRepository
+        private readonly UserRepository $userRepository,
+        private readonly AccountRepository $accountRepository
     ) {
     }
 

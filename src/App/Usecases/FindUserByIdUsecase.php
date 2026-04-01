@@ -11,7 +11,7 @@ use Src\Domain\User\UserRepository;
 
 class FindUserByIdUsecase
 {
-    public function __construct(private UserRepository $userRepository)
+    public function __construct(private readonly UserRepository $userRepository)
     {
     }
     public function execute(string $id): UserResponseDto

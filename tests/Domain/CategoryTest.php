@@ -4,6 +4,7 @@ namespace Tests\Domain;
 
 use PHPUnit\Framework\TestCase;
 use Src\Domain\Category\Category;
+use Src\Domain\Error\CategoryInactive;
 use Src\Domain\Error\InvalidDescription;
 use Src\Domain\Error\NameCannotBeNull;
 use Src\Domain\ValueObject\UUID;
@@ -50,6 +51,22 @@ class CategoryTest extends TestCase
         $this->assertEquals("All food-related expenses", $category->getDescription());
     }
 
+    public function testInactivateCategory(): void
+    {
+        $userId = UUID::generate();
+        $category = Category::create("Food", "Expenses on food", $userId);
+        $category->deactivate();
+        $this->assertFalse($category->getIsActive());
+    }
+
+    public function testUpdateCategoryNameWhenInactive(): void
+    {
+        $this->expectException(CategoryInactive::class);
+        $userId = UUID::generate();
+        $category = Category::create("Food", "Expenses on food", $userId);
+        $category->deactivate();
+        $category->updateName("Groceries");
+    }
     public function testUpdateCategoryDescriptionWithEmptyValue(): void
     {
         $this->expectException(InvalidDescription::class);

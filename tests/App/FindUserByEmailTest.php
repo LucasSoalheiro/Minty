@@ -3,6 +3,7 @@
 namespace Tests\App;
 
 use PHPUnit\Framework\TestCase;
+use Src\App\DTO\UserResponseDto;
 use Src\App\Error\EmailNotFound;
 use Src\App\Usecases\FindByEmailUsecase;
 use Src\Domain\User\User;
@@ -33,7 +34,7 @@ class FindUserByEmailTest extends TestCase
         $this->makeUser();
         $user = $usecase->execute("john.doe@example.com");
 
-        $this->assertInstanceOf(User::class, $user);
+        $this->assertInstanceOf(UserResponseDto::class, $user);
     }
 
     public function testFindByEmailUsecaseWithNonExistingEmail(): void

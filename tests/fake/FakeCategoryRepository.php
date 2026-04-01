@@ -34,14 +34,17 @@ class FakeCategoryRepository implements CategoryRepository
         }
         return $result;
     }
-
-    public function delete(string $id): void
+    public function findAllByUserIdAndIsActive(string $userId, bool $isActive): array
     {
-        foreach ($this->categories as $index => $category) {
-            if ($category->getId()->equals(UUID::fromString($id))) {
-                unset($this->categories[$index]);
-                return;
+        $result = [];
+        foreach ($this->categories as $category) {
+            if (
+                $category->getUserId()->equals(UUID::fromString($userId)) &&
+                $category->getIsActive() === $isActive
+            ) {
+                $result[] = $category;
             }
         }
+        return $result;
     }
 }

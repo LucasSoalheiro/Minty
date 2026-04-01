@@ -9,7 +9,7 @@ use Src\Domain\User\UserRepository;
 
 class FindByEmailUsecase
 {
-    public function __construct(private UserRepository $userRepository)
+    public function __construct(private readonly UserRepository $userRepository)
     {
     }
     public function execute(string $email): UserResponseDto

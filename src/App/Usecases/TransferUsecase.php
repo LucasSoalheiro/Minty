@@ -4,6 +4,8 @@ namespace Src\App\Usecases;
 
 use Src\App\DTO\TransferDto;
 use Src\App\Error\AccountNotFound;
+use Src\App\Error\CategoryInactive;
+use Src\App\Error\CategoryNotFound;
 use Src\Domain\Account\AccountRepository;
 use Src\Domain\Category\CategoryRepository;
 use Src\Domain\Transaction\Transaction;
@@ -14,9 +16,9 @@ use Src\Domain\ValueObject\Money;
 class TransferUsecase
 {
     public function __construct(
-        private AccountRepository $accountRepository,
-        private TransactionRepository $transactionRepository,
-        private CategoryRepository $categoryRepository
+        private readonly AccountRepository $accountRepository,
+        private readonly TransactionRepository $transactionRepository,
+        private readonly CategoryRepository $categoryRepository
     ) {
     }
 
@@ -34,6 +36,12 @@ class TransferUsecase
         }
 
         $category = $this->categoryRepository->findById($dto->categoryId);
+        if ($category === null) {
+            throw new CategoryNotFound($dto->categoryId);
+        }
+        if (!$category->getIsActive()) {
+            throw new CategoryInactive($dto->categoryId);
+        }
 
         $fromAccount->transfer($toAccount, Money::create($dto->amount));
 
