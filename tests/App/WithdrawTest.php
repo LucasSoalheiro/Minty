@@ -56,7 +56,7 @@ class WithdrawTest extends TestCase
         );
         $usecase->execute($dto);
 
-        $account = $this->accountRepository->findById($dto->getAccountId());
+        $account = $this->accountRepository->findById($dto->accountId);
         $this->assertNotNull($account);
         $this->assertEquals(50, $account->getBalance()->value());
     }

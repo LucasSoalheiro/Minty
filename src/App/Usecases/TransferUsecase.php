@@ -22,20 +22,20 @@ class TransferUsecase
 
     public function execute(TransferDto $dto): void
     {
-        $fromAccount = $this->accountRepository->findById($dto->getFromAccountId());
-        $toAccount = $this->accountRepository->findById($dto->getToAccountId());
+        $fromAccount = $this->accountRepository->findById($dto->fromAccountId);
+        $toAccount = $this->accountRepository->findById($dto->toAccountId);
 
         if ($fromAccount === null) {
-            throw new AccountNotFound($dto->getFromAccountId());
+            throw new AccountNotFound($dto->fromAccountId);
         }
 
         if ($toAccount === null) {
-            throw new AccountNotFound($dto->getToAccountId());
+            throw new AccountNotFound($dto->toAccountId);
         }
 
-        $category = $this->categoryRepository->findById($dto->getCategoryId());
+        $category = $this->categoryRepository->findById($dto->categoryId);
 
-        $fromAccount->transfer($toAccount, Money::create($dto->getAmount()));
+        $fromAccount->transfer($toAccount, Money::create($dto->amount));
 
         $this->accountRepository->save($fromAccount);
         $this->accountRepository->save($toAccount); 
@@ -43,18 +43,18 @@ class TransferUsecase
         $this->transactionRepository->save(
             Transaction::create(
                 $fromAccount->getId(),
-                Money::create($dto->getAmount()),
+                Money::create($dto->amount),
                 TransactionEnum::OUTFLOW,
-                $dto->getDescription(),
+                $dto->description,
                 $category->getId()
             )
         );
         $this->transactionRepository->save(
             Transaction::create(
                 $toAccount->getId(),
-                Money::create($dto->getAmount()),
+                Money::create($dto->amount),
                 TransactionEnum::INFLOW,
-                $dto->getDescription(),
+                $dto->description,
                 $category->getId()
             )
         );

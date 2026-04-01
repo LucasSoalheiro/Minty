@@ -20,15 +20,15 @@ class CreateUserUsecase
     }
     public function execute(CreateUserDto $dto): void
     {
-        if ($this->userRepository->findByEmail($dto->getEmail()) !== null) {
-            throw new EmailAlreadyInUse($dto->getEmail());
+        if ($this->userRepository->findByEmail($dto->email) !== null) {
+            throw new EmailAlreadyInUse($dto->email);
         }
-        Password::validate($dto->getPassword());
-        $hashedPassword = $this->passwordHasher->hash($dto->getPassword());
+        Password::validate($dto->password);
+        $hashedPassword = $this->passwordHasher->hash($dto->password);
 
         $user = User::create(
-            $dto->getName(),
-            Email::create($dto->getEmail()),
+            $dto->name,
+            Email::create($dto->email),
             Password::restore($hashedPassword)
         );
 

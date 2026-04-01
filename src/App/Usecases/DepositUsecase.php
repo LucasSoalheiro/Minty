@@ -23,25 +23,25 @@ class DepositUsecase
 
     public function execute(DepositDto $dto): void
     {
-        $account = $this->accountRepository->findById($dto->getAccountId());
+        $account = $this->accountRepository->findById($dto->accountId);
         if ($account === null) {
-            throw new AccountNotFound($dto->getAccountId());
+            throw new AccountNotFound($dto->accountId);
         }
 
-        $category = $this->categoryRepository->findById($dto->getCategoryId());
+        $category = $this->categoryRepository->findById($dto->categoryId);
         if ($category === null) {
-            throw new CategoryNotFound($dto->getCategoryId());
+            throw new CategoryNotFound($dto->categoryId);
         }
 
-        $account->deposit(Money::create($dto->getAmount()));
+        $account->deposit(Money::create($dto->amount));
 
 
         $this->transactionRepository->save(
             Transaction::create(
                 $account->getId(),
-                Money::create($dto->getAmount()),
+                Money::create($dto->amount),
                 TransactionEnum::INFLOW,
-                $dto->getDescription(),
+                $dto->description,
                 $category->getId()
             )
         );

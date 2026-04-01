@@ -19,14 +19,14 @@ class CreateAccountUsecase
 
     public function execute(CreateAccountDto $dto): void
     {
-        $user = $this->userRepository->findById($dto->getUserId());
+        $user = $this->userRepository->findById($dto->userId);
         if ($user === null) {
-            throw new UserNotFound($dto->getUserId());
+            throw new UserNotFound($dto->userId);
         }
 
         $account = Account::create(
-            $dto->getName(),
-            Money::create($dto->getBalance()),
+            $dto->name,
+            Money::create($dto->balance),
             $user->getId()
         );
         $this->accountRepository->save($account);

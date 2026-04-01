@@ -56,14 +56,14 @@ class DepositTest extends TestCase
         );
         $usecase->execute($dto);
 
-        $this->assertNotNull($this->transactionRepository->list($dto->getAccountId()));
-        $this->assertNotNull($this->accountRepository->findById($dto->getAccountId()));
+        $this->assertNotNull($this->transactionRepository->list($dto->accountId));
+        $this->assertNotNull($this->accountRepository->findById($dto->accountId));
         $this->assertEquals(
             200,
             $this
                 ->accountRepository
                 ->findById($dto
-                    ->getAccountId())
+                    ->accountId)
                 ->getBalance()
                 ->value()
         );

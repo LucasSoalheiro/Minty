@@ -23,26 +23,26 @@ class WithdrawUsecase
 
     public function execute(WithdrawDto $dto): void
     {
-        $account = $this->accountRepository->findById($dto->getAccountId());
+        $account = $this->accountRepository->findById($dto->accountId);
         if (!$account) {
-            throw new AccountNotFound($dto->getAccountId());
+            throw new AccountNotFound($dto->accountId);
         }
 
-        $category = $this->categoryRepository->findById($dto->getCategoryId());
+        $category = $this->categoryRepository->findById($dto->categoryId);
 
         if (!$category) {
-            throw new CategoryNotFound($dto->getCategoryId());
+            throw new CategoryNotFound($dto->categoryId);
         }
 
         $transaction = Transaction::create(
             $account->getId(),
-            Money::create($dto->getAmount()),
+            Money::create($dto->amount),
             TransactionEnum::OUTFLOW,
-            $dto->getDescription(),
+            $dto->description,
             $category->getId()
         );
 
-        $account->withdraw(Money::create($dto->getAmount()));
+        $account->withdraw(Money::create($dto->amount));
         $this->accountRepository->save($account);
         $this->transactionRepository->save($transaction);
     }

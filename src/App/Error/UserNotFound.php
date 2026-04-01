@@ -4,8 +4,9 @@ namespace Src\App\Error;
 
 
 class UserNotFound extends ApplicationError{
-    public function __construct(string $id)
+    // can be email or id
+    public function __construct(string $string)
     {
-        parent::__construct("User not found: $id");
+        parent::__construct("User not found: $string");
     }
 }
