@@ -4,15 +4,12 @@ namespace Src\App\Usecases;
 
 use Src\App\DTO\ChangeUserNameDto;
 use Src\App\Error\UserNotFound;
-use Src\App\Error\WrongPassword;
-use Src\Domain\User\PasswordHasher;
 use Src\Domain\User\UserRepository;
 
 class ChangeUserNameUsecase
 {
     public function __construct(
         private readonly UserRepository $userRepository,
-        private readonly PasswordHasher $passwordHasher
     ) {
     }
 
@@ -22,9 +19,7 @@ class ChangeUserNameUsecase
         if (!$user) {
             throw new UserNotFound($dto->email);
         }
-        if (!$this->passwordHasher->compare($dto->password, $user->getPassword()->value())) {
-            throw new WrongPassword();
-        }
+        
         $user->changeName($dto->name);
         $this->userRepository->save($user);
     }

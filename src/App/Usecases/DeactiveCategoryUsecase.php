@@ -6,7 +6,7 @@ use Src\App\Error\CategoryAlreadyInactive;
 use Src\App\Error\CategoryNotFound;
 use Src\Domain\Category\CategoryRepository;
 
-class DeleteCategoryUsecase
+class DeactiveCategoryUsecase
 {
     public function __construct(
         private readonly CategoryRepository $categoryRepository,

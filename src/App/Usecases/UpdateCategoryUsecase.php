@@ -4,6 +4,7 @@ namespace Src\App\Usecases;
 
 use Src\App\DTO\UpdateCategoryDto;
 use Src\App\Error\CategoryNotFound;
+use Src\App\Error\NeedToUpdateAtLeastOneField;
 use Src\Domain\Category\CategoryRepository;
 
 class UpdateCategoryUsecase
@@ -18,14 +19,18 @@ class UpdateCategoryUsecase
         $category = $this->categoryRepository->findById($dto->id);
 
         if (!$category) {
-            throw new CategoryNotFound($dto->id);   
+            throw new CategoryNotFound($dto->id);
         }
 
-        if ($dto->name !== null) {
+        if ($dto->name) {
             $category->updateName($dto->name);
         }
-        if ($dto->description !== null) {
+        if ($dto->description) {
             $category->updateDescription($dto->description);
+        }
+
+        if (!$dto->name && !$dto->description) {
+            throw new NeedToUpdateAtLeastOneField();
         }
 
         $this->categoryRepository->save($category);

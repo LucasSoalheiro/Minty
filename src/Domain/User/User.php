@@ -74,7 +74,6 @@ class User
     public function changePassword(
         string $newPassword,
     ): void {
-        Password::validate($newPassword);
         $this->password = Password::restore($newPassword);
     }
 

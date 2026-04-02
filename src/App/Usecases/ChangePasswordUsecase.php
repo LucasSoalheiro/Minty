@@ -7,6 +7,7 @@ use Src\App\Error\EmailNotFound;
 use Src\App\Error\WrongPassword;
 use Src\Domain\User\PasswordHasher;
 use Src\Domain\User\UserRepository;
+use Src\Domain\ValueObject\Password;
 
 class ChangePasswordUsecase
 {
@@ -27,8 +28,8 @@ class ChangePasswordUsecase
         if (!$this->passwordHasher->compare($dto->password, $user->getPassword()->value())) {
             throw new WrongPassword();
         }
-
-        $user->changePassword($this->passwordHasher->hash($dto->password));
+        Password::validate($dto->newPassword);
+        $user->changePassword($this->passwordHasher->hash($dto->newPassword));
         $this->userRepository->save($user);
     }
 }
