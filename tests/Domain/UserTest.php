@@ -101,7 +101,7 @@ class UserTest extends TestCase
     public function testShouldChangePassword(): void
     {
         $user = $this->makeUser();
-
+        Password::validate("NewP@ssw0rd");
         $user->changePassword("NewP@ssw0rd");
 
         $this->assertEquals("NewP@ssw0rd", $user->getPassword()->value());
@@ -112,8 +112,9 @@ class UserTest extends TestCase
         $this->expectException(WeakPassword::class);
 
         $user = $this->makeUser();
-
+        Password::validate("weak");
         $user->changePassword("weak");
+
     }
 
     private function makeUser(): User
