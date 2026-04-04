@@ -2,7 +2,7 @@
 
 namespace Src\App\DTO;
 
-class CreateCategoryDto
+readonly class CreateCategoryDto
 {
     public function __construct(
         public string $name,

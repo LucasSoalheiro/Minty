@@ -2,7 +2,7 @@
 
 namespace Src\App\DTO;
 
-class WithdrawDto
+readonly class WithdrawDto
 {
     public function __construct(
         public string $accountId,

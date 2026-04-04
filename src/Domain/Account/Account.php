@@ -4,7 +4,6 @@ namespace Src\Domain\Account;
 use Src\Domain\Error\AccountAlreadyDeactivated;
 use Src\Domain\Error\InsufficientFunds;
 use Src\Domain\Error\InvalidAmount;
-use Src\Domain\Error\InvalidInitialBalance;
 use Src\Domain\Error\InvalidTransfer;
 use Src\Domain\Error\NameCannotBeNull;
 use Src\Domain\ValueObject\Money;

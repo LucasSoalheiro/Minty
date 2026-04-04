@@ -2,7 +2,7 @@
 
 namespace Src\App\DTO;
 
-class AuthenticateDto
+readonly class AuthenticateDto
 {
     public function __construct(
         public string $email,

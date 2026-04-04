@@ -2,7 +2,7 @@
 
 namespace Src\App\DTO;
 
-class TransferDto
+readonly class TransferDto
 {
     public function __construct(
         public string $fromAccountId,

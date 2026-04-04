@@ -2,7 +2,7 @@
 
 namespace Src\App\DTO;
 
-class DepositDto
+readonly class DepositDto
 {
     public function __construct(
         public string $accountId,

@@ -2,7 +2,7 @@
 
 namespace Src\App\DTO;
 
-class ChangeUserNameDto
+readonly class ChangeUserNameDto
 {
     public function __construct(
         public string $name,

@@ -2,7 +2,7 @@
 
 namespace Src\App\DTO;
 
-class UserResponseDto
+readonly class UserResponseDto
 {
     public function __construct(
         public string $id,

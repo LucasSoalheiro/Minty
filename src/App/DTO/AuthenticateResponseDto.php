@@ -2,7 +2,7 @@
 
 namespace Src\App\DTO;
 
-class AuthenticateResponseDto
+readonly class AuthenticateResponseDto
 {
     public function __construct(
         public string $token,

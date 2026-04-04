@@ -2,7 +2,7 @@
 
 namespace Src\App\DTO;
 
-class ChangeEmailDto
+readonly class ChangeEmailDto
 {
     public function __construct(
         public string $id,

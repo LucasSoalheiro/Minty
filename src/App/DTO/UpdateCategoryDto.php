@@ -2,7 +2,7 @@
 
 namespace Src\App\DTO;
 
-class UpdateCategoryDto
+readonly class UpdateCategoryDto
 {
     public function __construct(
         public string $id,
