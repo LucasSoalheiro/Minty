@@ -10,12 +10,20 @@
       }
     },
   "require-dev": {
-    "phpunit/phpunit": "^12.5"
+    "phpunit/phpunit": "^12.5",
+    "symfony/test-pack": "^1.2"
   },
   "require": {
-    "illuminate/routing": "^13.3",
-    "illuminate/events": "^13.3",
-    "illuminate/container": "^13.3",
-    "illuminate/http": "^13.3"
+    "symfony/routing": "^7.4",
+    "symfony/http-foundation": "^7.4",
+    "symfony/framework-bundle": "^7.4",
+    "symfony/yaml": "^7.4",
+    "symfony/http-kernel": "^7.4",
+    "symfony/event-dispatcher": "^7.4",
+    "symfony/dependency-injection": "^7.4",
+    "symfony/config": "^7.4",
+    "symfony/dotenv": "^7.4",
+    "symfony/string": "^7.4",
+    "symfony/validator": "^7.4"
   }
 }

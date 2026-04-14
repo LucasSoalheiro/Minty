@@ -1,14 +1,16 @@
 <?php
+require_once __DIR__ . '/vendor/autoload.php';
 
-// Caminho do arquivo requisitado
-$uri = urldecode(
-    parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)
-);
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Dotenv\Dotenv;
+use Src\AppKernel;
 
-// Se o arquivo existir na pasta public, serve direto
-if ($uri !== '/' && file_exists(__DIR__ . '/src' . $uri)) {
-    return false;
-}
+$dotenv = new Dotenv();
+$dotenv->loadEnv("./.env");
 
-// Caso contrário, manda tudo pro index.php
-require __DIR__ . '/src/index.php';
+
+$kernel = new AppKernel($_ENV['APP_ENV'] ?? 'dev', (bool) ($_ENV['APP_DEBUG'] ?? true));
+$request = Request::createFromGlobals();
+$response = $kernel->handle($request);
+$response->send();
+$kernel->terminate($request, $response);

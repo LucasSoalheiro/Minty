@@ -1,0 +1,29 @@
+parameters:
+    kernel.secret: '%env(APP_SECRET)%'
+
+framework:
+    secret: '%kernel.secret%'
+    router:
+        resource: '%kernel.project_dir%/src/Infra/Http/Controller/'
+        type: attribute
+    test: true
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    Src\:
+        resource: '../../../*'
+        exclude: '../../../{DependencyInjection,Entity,Tests,Http/Config}'
+when@test:
+    services:
+        _defaults:
+            autowire: true
+            autoconfigure: true
+        Src\Domain\User\UserRepository:
+            class: Tests\fake\FakeUserRepository
+        Src\Domain\User\PasswordHasher:
+            class: Tests\fake\FakeHasher
+            
+
+    
