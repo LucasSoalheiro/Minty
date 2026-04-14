@@ -24,6 +24,8 @@ when@test:
             class: Tests\fake\FakeUserRepository
         Src\Domain\User\PasswordHasher:
             class: Tests\fake\FakeHasher
+        Src\App\Security\TokenService:
+            class: Tests\fake\FakeTokenService
             
 
     

@@ -1,36 +1,38 @@
 <?php
+
 namespace Src\Infra\Http\Controller;
 
-use Src\App\DTO\CreateUserDto;
-use Src\App\Error\EmailAlreadyInUse;
-use Src\App\Usecases\CreateUserUsecase;
-use Src\Infra\Http\Schema\UserSchema;
+use Src\App\DTO\AuthenticateDto;
+use Src\App\Error\EmailNotFound;
+use Src\App\Error\WrongPassword;
+use Src\App\Usecases\AuthenticateUsecase;
+use Src\Infra\Http\Schema\LoginSchema;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class UserController extends AbstractController
+class AuthController extends AbstractController
 {
-    #[Route('/users', methods: ["POST"])]
-    public function createUser(
+    #[Route('/login', methods: ['POST'])]
+    public function login(
         Request $request,
-        CreateUserUsecase $createUserUsecase,
+        AuthenticateUsecase $authenticateUsecase,
         ValidatorInterface $validator
-    ): Response {
+    ) {
         $data = json_decode($request->getContent(), true);
         if ($data === null) {
             throw new BadRequestHttpException("Invalid JSON body");
         }
         try {
-            $parsedData = new UserSchema(
-                name: $data['name'],
-                email: $data['email'],
-                password: $data['password']
+            $parsedData = new LoginSchema(
+                $data['email'],
+                $data['password']
             );
             $errors = $validator->validate($parsedData);
 
@@ -40,23 +42,26 @@ class UserController extends AbstractController
         } catch (\Exception $e) {
             throw new BadRequestHttpException($e->getMessage());
         }
-        $dto = new CreateUserDto(
-            name: $parsedData->name,
+        $dto = new AuthenticateDto(
             email: $parsedData->email,
             password: $parsedData->password
         );
+
         try {
-            $createUserUsecase->execute($dto);
+            $authenticateUsecase->execute($dto);
         } catch (\Exception $e) {
-            if ($e instanceof EmailAlreadyInUse) {
-                throw new ConflictHttpException($e->getMessage());
+            if ($e instanceof EmailNotFound) {
+                throw new NotFoundHttpException($e->getMessage());
+            }
+            if ($e instanceof WrongPassword) {
+                throw new UnauthorizedHttpException($e->getMessage());
             }
             throw new BadRequestHttpException($e->getMessage());
         }
         return new JsonResponse([
-            'status' => 'success',
-            'message' => 'User Created',
+            'status' => "success",
+            'message' => 'Login successful',
             'data' => $data
-        ], 201);
+        ], 200);
     }
 }

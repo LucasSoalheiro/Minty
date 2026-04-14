@@ -19,7 +19,7 @@ class UserControllerTest extends WebTestCase
             content: json_encode([
                 "name" => "Lucas",
                 "email" => "lucas@email.com",
-                "password" => "P@ssw0rd"
+                "password" => "P@ssw0t789"
             ])
         );
 
@@ -39,7 +39,7 @@ class UserControllerTest extends WebTestCase
             ],
             content: json_encode([
                 "email" => "lucas@email.com",
-                "password" => "P@ssw0rd"
+                "password" => "P@ssw0t789"
             ])
         );
 
@@ -59,7 +59,7 @@ class UserControllerTest extends WebTestCase
             content: json_encode([
                 "name" => "Lucas",
                 "email" => "lucasemail.com",
-                "password" => "P@ssw0rd"
+                "password" => "P@ssw0t789"
             ])
         );
 
