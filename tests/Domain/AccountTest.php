@@ -2,13 +2,12 @@
 namespace Tests\Domain;
 
 use PHPUnit\Framework\TestCase;
-use Src\Domain\Account\Account;
+use Src\Domain\Entities\Account;
 use Src\Domain\ValueObject\Money;
 use Src\Domain\ValueObject\UUID;
 use Src\Domain\Error\AccountAlreadyDeactivated;
 use Src\Domain\Error\InsufficientFunds;
 use Src\Domain\Error\InvalidAmount;
-use Src\Domain\Error\InvalidInitialBalance;
 use Src\Domain\Error\InvalidTransfer;
 use Src\Domain\Error\NameCannotBeNull;
 

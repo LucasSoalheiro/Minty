@@ -2,12 +2,9 @@
 
 namespace Src\App\Usecases;
 
-use Src\App\DTO\FindByIdDto;
 use Src\App\DTO\UserResponseDto;
-use Src\App\Error\ApplicationError;
 use Src\App\Error\UserNotFound;
-use Src\Domain\User\User;
-use Src\Domain\User\UserRepository;
+use Src\Domain\Repository\UserRepository;
 
 class FindUserByIdUsecase
 {

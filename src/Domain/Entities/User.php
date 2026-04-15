@@ -1,8 +1,7 @@
 <?php
-namespace Src\Domain\User;
+namespace Src\Domain\Entities;
 
 use Src\Domain\Error\EmailShouldBeDifferent;
-use Src\Domain\Error\InvalidPassword;
 use Src\Domain\Error\NameCannotBeNull;
 use Src\Domain\Error\NameShouldBeDifferent;
 use Src\Domain\ValueObject\Email;

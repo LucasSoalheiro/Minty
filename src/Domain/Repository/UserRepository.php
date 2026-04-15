@@ -1,6 +1,8 @@
 <?php
 
-namespace Src\Domain\User;
+namespace Src\Domain\Repository;
+
+use Src\Domain\Entities\User;
 
 interface UserRepository
 {

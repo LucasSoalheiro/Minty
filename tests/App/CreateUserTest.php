@@ -6,14 +6,14 @@ use PHPUnit\Framework\TestCase;
 use Src\App\DTO\CreateUserDto;
 use Src\App\Error\EmailAlreadyInUse;
 use Src\App\Usecases\CreateUserUsecase;
-use Src\Domain\User\PasswordHasher;
-use Src\Domain\User\UserRepository;
+use Src\Domain\Repository\Hasher;
+use Src\Domain\Repository\UserRepository;
 use Tests\fake\FakeHasher;
 use Tests\fake\FakeUserRepository;
 
 class CreateUserTest extends TestCase
 {
-    private PasswordHasher $hasher;
+    private Hasher $hasher;
     private UserRepository $userRepository;
     public function setUp(): void
     {

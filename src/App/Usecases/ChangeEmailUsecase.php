@@ -6,15 +6,15 @@ use Src\App\DTO\ChangeEmailDto;
 use Src\App\Error\EmailAlreadyInUse;
 use Src\App\Error\UserNotFound;
 use Src\App\Error\WrongPassword;
-use Src\Domain\User\PasswordHasher;
-use Src\Domain\User\UserRepository;
+use Src\Domain\Repository\Hasher;
+use Src\Domain\Repository\UserRepository;
 use Src\Domain\ValueObject\Email;
 
 class ChangeEmailUsecase
 {
     public function __construct(
         private readonly UserRepository $userRepository,
-        private readonly PasswordHasher $passwordHasher
+        private readonly Hasher $passwordHasher
     ) {
     }
 

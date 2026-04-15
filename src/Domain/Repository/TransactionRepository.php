@@ -1,8 +1,8 @@
 <?php
-namespace Src\Domain\Transaction;
+namespace Src\Domain\Repository;
 
-use Src\Domain\Transaction\Transaction;
-use Src\Domain\Transaction\TransactionStatusEnum;
+use Src\Domain\Entities\Transaction;
+use Src\Domain\Entities\TransactionStatusEnum;
 
 interface TransactionRepository
 {

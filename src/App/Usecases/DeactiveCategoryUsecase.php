@@ -4,7 +4,8 @@ namespace Src\App\Usecases;
 
 use Src\App\Error\CategoryAlreadyInactive;
 use Src\App\Error\CategoryNotFound;
-use Src\Domain\Category\CategoryRepository;
+use Src\Domain\Repository\CategoryRepository;
+
 
 class DeactiveCategoryUsecase
 {

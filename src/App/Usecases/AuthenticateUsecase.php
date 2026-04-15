@@ -6,14 +6,14 @@ use Src\App\DTO\AuthenticateDto;
 use Src\App\Error\EmailNotFound;
 use Src\App\Error\WrongPassword;
 use Src\App\Security\TokenService;
-use Src\Domain\User\PasswordHasher;
-use Src\Domain\User\UserRepository;
+use Src\Domain\Repository\Hasher;
+use Src\Domain\Repository\UserRepository;
 
 class AuthenticateUsecase
 {
     public function __construct(
         private readonly UserRepository $userRepository,
-        private readonly PasswordHasher $passwordHasher,
+        private readonly Hasher $passwordHasher,
         private readonly TokenService $tokenService
     ) {
     }

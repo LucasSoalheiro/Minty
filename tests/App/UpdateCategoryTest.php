@@ -6,8 +6,8 @@ use PHPUnit\Framework\TestCase;
 use Src\App\DTO\UpdateCategoryDto;
 use Src\App\Error\NeedToUpdateAtLeastOneField;
 use Src\App\Usecases\UpdateCategoryUsecase;
-use Src\Domain\Category\Category;
-use Src\Domain\Category\CategoryRepository;
+use Src\Domain\Entities\Category;
+use Src\Domain\Repository\CategoryRepository;
 use Src\Domain\ValueObject\UUID;
 use Tests\fake\FakeCategoryRepository;
 

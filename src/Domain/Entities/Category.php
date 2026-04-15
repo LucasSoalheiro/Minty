@@ -1,5 +1,5 @@
 <?php
-namespace Src\Domain\Category;
+namespace Src\Domain\Entities;
 
 use Src\Domain\Error\CategoryInactive;
 use Src\Domain\Error\InvalidDescription;

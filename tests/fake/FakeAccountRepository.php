@@ -2,8 +2,8 @@
 
 namespace Tests\fake;
 
-use Src\Domain\Account\Account;
-use Src\Domain\Account\AccountRepository;
+use Src\Domain\Entities\Account;
+use Src\Domain\Repository\AccountRepository;
 use Src\Domain\ValueObject\UUID;
 
 class FakeAccountRepository implements AccountRepository

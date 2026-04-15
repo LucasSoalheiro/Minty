@@ -6,9 +6,9 @@ use PHPUnit\Framework\TestCase;
 use Src\App\DTO\ChangePasswordDto;
 use Src\App\Error\WrongPassword;
 use Src\App\Usecases\ChangePasswordUsecase;
-use Src\Domain\User\PasswordHasher;
-use Src\Domain\User\User;
-use Src\Domain\User\UserRepository;
+use Src\Domain\Entities\User;
+use Src\Domain\Repository\Hasher;
+use Src\Domain\Repository\UserRepository;
 use Src\Domain\ValueObject\Email;
 use Src\Domain\ValueObject\Password;
 use Tests\fake\FakeHasher;
@@ -18,7 +18,7 @@ use Tests\fake\FakeUserRepository;
 class ChangePasswordTest extends TestCase
 {
     private UserRepository $userRepository;
-    private PasswordHasher $passwordHasher;
+    private Hasher $passwordHasher;
     public function setUp(): void
     {
         $this->userRepository = new FakeUserRepository();

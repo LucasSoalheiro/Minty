@@ -5,7 +5,7 @@ namespace Src\App\Usecases;
 use Src\App\DTO\UpdateCategoryDto;
 use Src\App\Error\CategoryNotFound;
 use Src\App\Error\NeedToUpdateAtLeastOneField;
-use Src\Domain\Category\CategoryRepository;
+use Src\Domain\Repository\CategoryRepository;
 
 class UpdateCategoryUsecase
 {

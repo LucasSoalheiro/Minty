@@ -1,5 +1,5 @@
 <?php
-namespace Src\Domain\Transaction;
+namespace Src\Domain\Entities;
 
 use Src\Domain\Error\InvalidCreatedAt;
 use Src\Domain\Error\TransactionAlreadyCancelled;

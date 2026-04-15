@@ -4,8 +4,7 @@ namespace Src\App\Usecases;
 
 use Src\App\DTO\UserResponseDto;
 use Src\App\Error\EmailNotFound;
-use Src\Domain\User\User;
-use Src\Domain\User\UserRepository;
+use Src\Domain\Repository\UserRepository;
 
 class FindByEmailUsecase
 {

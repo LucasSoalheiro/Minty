@@ -3,12 +3,12 @@
 namespace Tests\Domain;
 
 use PHPUnit\Framework\TestCase;
+use Src\Domain\Entities\Transaction;
+use Src\Domain\Entities\TransactionEnum;
+use Src\Domain\Entities\TransactionStatusEnum;
 use Src\Domain\Error\InvalidAmount;
 use Src\Domain\Error\InvalidCreatedAt;
 use Src\Domain\Error\TransactionAlreadyCancelled;
-use Src\Domain\Transaction\Transaction;
-use Src\Domain\Transaction\TransactionEnum;
-use Src\Domain\Transaction\TransactionStatusEnum;
 use Src\Domain\ValueObject\Money;
 use Src\Domain\ValueObject\UUID;
 

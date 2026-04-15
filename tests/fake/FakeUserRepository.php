@@ -2,8 +2,8 @@
 
 namespace Tests\fake;
 
-use Src\Domain\User\UserRepository;
-use Src\Domain\User\User;
+use Src\Domain\Entities\User;
+use Src\Domain\Repository\UserRepository;
 use Src\Domain\ValueObject\Email;
 use Src\Domain\ValueObject\UUID;
 

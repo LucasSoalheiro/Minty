@@ -5,10 +5,10 @@ namespace Tests\App;
 use PHPUnit\Framework\TestCase;
 use Src\App\DTO\CreateCategoryDto;
 use Src\App\Usecases\CreateCategoryUsecase;
-use Src\Domain\Category\CategoryRepository;
-use Src\Domain\User\PasswordHasher;
-use Src\Domain\User\User;
-use Src\Domain\User\UserRepository;
+use Src\Domain\Entities\User;
+use Src\Domain\Repository\CategoryRepository;
+use Src\Domain\Repository\Hasher;
+use Src\Domain\Repository\UserRepository;
 use Src\Domain\ValueObject\Email;
 use Src\Domain\ValueObject\Password;
 use Tests\fake\FakeCategoryRepository;
@@ -19,7 +19,7 @@ class CreateCategoryTest extends TestCase
 {
     private CategoryRepository $categoryRepository;
     private UserRepository $userRepository;
-    private PasswordHasher $passwordHasher;
+    private Hasher $passwordHasher;
 
     public function setUp(): void
     {

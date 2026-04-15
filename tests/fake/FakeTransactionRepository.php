@@ -2,9 +2,9 @@
 
 namespace Tests\fake;
 
-use Src\Domain\Transaction\Transaction;
-use Src\Domain\Transaction\TransactionRepository;
-use Src\Domain\Transaction\TransactionStatusEnum;
+use Src\Domain\Entities\Transaction;
+use Src\Domain\Entities\TransactionStatusEnum;
+use Src\Domain\Repository\TransactionRepository;
 use Src\Domain\ValueObject\UUID;
 
 class FakeTransactionRepository implements TransactionRepository

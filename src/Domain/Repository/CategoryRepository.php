@@ -1,5 +1,7 @@
 <?php
-namespace Src\Domain\Category;
+namespace Src\Domain\Repository;
+
+use Src\Domain\Entities\Category;
 
 interface CategoryRepository
 {

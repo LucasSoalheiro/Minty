@@ -1,5 +1,5 @@
 <?php
-namespace Src\Domain\Account;
+namespace Src\Domain\Entities;
 
 use Src\Domain\Error\AccountAlreadyDeactivated;
 use Src\Domain\Error\InsufficientFunds;

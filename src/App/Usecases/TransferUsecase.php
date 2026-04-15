@@ -6,11 +6,11 @@ use Src\App\DTO\TransferDto;
 use Src\App\Error\AccountNotFound;
 use Src\App\Error\CategoryInactive;
 use Src\App\Error\CategoryNotFound;
-use Src\Domain\Account\AccountRepository;
-use Src\Domain\Category\CategoryRepository;
-use Src\Domain\Transaction\Transaction;
-use Src\Domain\Transaction\TransactionEnum;
-use Src\Domain\Transaction\TransactionRepository;
+use Src\Domain\Entities\Transaction;
+use Src\Domain\Entities\TransactionEnum;
+use Src\Domain\Repository\AccountRepository;
+use Src\Domain\Repository\CategoryRepository;
+use Src\Domain\Repository\TransactionRepository;
 use Src\Domain\ValueObject\Money;
 
 class TransferUsecase

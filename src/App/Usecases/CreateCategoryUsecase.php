@@ -4,9 +4,9 @@ namespace Src\App\Usecases;
 
 use Src\App\DTO\CreateCategoryDto;
 use Src\App\Error\UserNotFound;
-use Src\Domain\Category\Category;
-use Src\Domain\Category\CategoryRepository;
-use Src\Domain\User\UserRepository;
+use Src\Domain\Entities\Category;
+use Src\Domain\Repository\CategoryRepository;
+use Src\Domain\Repository\UserRepository;
 
 class CreateCategoryUsecase
 {

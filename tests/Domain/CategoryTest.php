@@ -3,7 +3,7 @@
 namespace Tests\Domain;
 
 use PHPUnit\Framework\TestCase;
-use Src\Domain\Category\Category;
+use Src\Domain\Entities\Category;
 use Src\Domain\Error\CategoryInactive;
 use Src\Domain\Error\InvalidDescription;
 use Src\Domain\Error\NameCannotBeNull;

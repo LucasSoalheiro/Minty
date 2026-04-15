@@ -6,9 +6,9 @@ use PHPUnit\Framework\TestCase;
 use Src\App\DTO\AuthenticateDto;
 use Src\App\Security\TokenService;
 use Src\App\Usecases\AuthenticateUsecase;
-use Src\Domain\User\PasswordHasher;
-use Src\Domain\User\User;
-use Src\Domain\User\UserRepository;
+use Src\Domain\Entities\User;
+use Src\Domain\Repository\Hasher;
+use Src\Domain\Repository\UserRepository;
 use Src\Domain\ValueObject\Email;
 use Src\Domain\ValueObject\Password;
 use Tests\fake\FakeHasher;
@@ -18,7 +18,7 @@ use Tests\fake\FakeUserRepository;
 class AuthenticateTest extends TestCase
 {
     private UserRepository $userRepository;
-    private PasswordHasher $passwordHasher;
+    private Hasher $passwordHasher;
     private TokenService $tokenService;
     public function setUp(): void
     {

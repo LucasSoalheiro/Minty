@@ -1,9 +1,8 @@
 <?php
 namespace Src\Infra\Service;
 
-use Src\Domain\User\PasswordHasher;
-
-class Hasher implements PasswordHasher {
+use Src\Domain\Repository\Hasher;
+class ServiceHasher implements Hasher {
  public function hash(string $password): string
     {
         return password_hash($password, PASSWORD_BCRYPT);

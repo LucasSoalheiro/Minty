@@ -4,7 +4,7 @@ namespace Src\App\Usecases;
 
 use Src\App\DTO\ChangeUserNameDto;
 use Src\App\Error\UserNotFound;
-use Src\Domain\User\UserRepository;
+use Src\Domain\Repository\UserRepository;
 
 class ChangeUserNameUsecase
 {

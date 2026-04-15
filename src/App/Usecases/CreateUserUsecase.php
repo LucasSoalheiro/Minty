@@ -3,11 +3,10 @@
 namespace Src\App\Usecases;
 
 use Src\App\DTO\CreateUserDto;
-use Src\App\Error\ApplicationError;
 use Src\App\Error\EmailAlreadyInUse;
-use Src\Domain\User\PasswordHasher;
-use Src\Domain\User\User;
-use Src\Domain\User\UserRepository;
+use Src\Domain\Entities\User;
+use Src\Domain\Repository\Hasher;
+use Src\Domain\Repository\UserRepository;
 use Src\Domain\ValueObject\Password;
 use Src\Domain\ValueObject\Email;
 
@@ -15,7 +14,7 @@ class CreateUserUsecase
 {
     public function __construct(
         private readonly UserRepository $userRepository,
-        private readonly PasswordHasher $passwordHasher
+        private readonly Hasher $passwordHasher
     ) {
     }
     public function execute(CreateUserDto $dto): void

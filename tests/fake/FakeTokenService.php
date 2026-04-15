@@ -4,7 +4,7 @@ namespace Tests\fake;
 
 use Src\App\Security\TokenPayload;
 use Src\App\Security\TokenService;
-use Src\Domain\User\User;
+use Src\Domain\Entities\User;
 
 class FakeTokenService implements TokenService
 {

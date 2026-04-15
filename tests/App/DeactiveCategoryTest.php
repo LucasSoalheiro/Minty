@@ -5,8 +5,8 @@ namespace Tests\App;
 use PHPUnit\Framework\TestCase;
 use Src\App\Error\CategoryAlreadyInactive;
 use Src\App\Usecases\DeactiveCategoryUsecase;
-use Src\Domain\Category\Category;
-use Src\Domain\Category\CategoryRepository;
+use Src\Domain\Entities\Category;
+use Src\Domain\Repository\CategoryRepository;
 use Src\Domain\ValueObject\UUID;
 use Tests\fake\FakeCategoryRepository;
 

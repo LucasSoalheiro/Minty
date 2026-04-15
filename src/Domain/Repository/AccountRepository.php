@@ -1,5 +1,7 @@
 <?php
-namespace Src\Domain\Account;
+namespace Src\Domain\Repository;
+
+use Src\Domain\Entities\Account;
 
 interface AccountRepository
 {

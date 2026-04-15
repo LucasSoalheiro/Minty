@@ -20,9 +20,9 @@ when@test:
         _defaults:
             autowire: true
             autoconfigure: true
-        Src\Domain\User\UserRepository:
+        Src\Domain\Repository\UserRepository:
             class: Tests\fake\FakeUserRepository
-        Src\Domain\User\PasswordHasher:
+        Src\Domain\Repository\PasswordHasher:
             class: Tests\fake\FakeHasher
         Src\App\Security\TokenService:
             class: Tests\fake\FakeTokenService

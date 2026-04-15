@@ -2,8 +2,8 @@
 
 namespace Tests\fake;
 
-use Src\Domain\Category\Category;
-use \Src\Domain\Category\CategoryRepository;
+use Src\Domain\Entities\Category;
+use Src\Domain\Repository\CategoryRepository;
 use Src\Domain\ValueObject\UUID;
 class FakeCategoryRepository implements CategoryRepository
 {

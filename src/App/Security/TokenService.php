@@ -2,8 +2,7 @@
 
 namespace Src\App\Security;
 
-use Src\Domain\User\User;
-
+use Src\Domain\Entities\User;
 
 interface TokenService
 {

@@ -5,15 +5,15 @@ namespace Src\App\Usecases;
 use Src\App\DTO\ChangePasswordDto;
 use Src\App\Error\EmailNotFound;
 use Src\App\Error\WrongPassword;
-use Src\Domain\User\PasswordHasher;
-use Src\Domain\User\UserRepository;
+use Src\Domain\Repository\Hasher;
+use Src\Domain\Repository\UserRepository;
 use Src\Domain\ValueObject\Password;
 
 class ChangePasswordUsecase
 {
     public function __construct(
         private readonly UserRepository $userRepository,
-        private readonly PasswordHasher $passwordHasher
+        private readonly Hasher $passwordHasher
     ) {
     }
 

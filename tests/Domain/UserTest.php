@@ -3,12 +3,13 @@
 namespace Tests\Domain;
 
 use PHPUnit\Framework\TestCase;
+use Src\Domain\Entities\User;
 use Src\Domain\Error\EmailShouldBeDifferent;
 use Src\Domain\Error\InvalidEmail;
 use Src\Domain\Error\NameCannotBeNull;
 use Src\Domain\Error\NameShouldBeDifferent;
 use Src\Domain\Error\WeakPassword;
-use Src\Domain\User\User;
+
 use Src\Domain\ValueObject\Email;
 use Src\Domain\ValueObject\Password;
 

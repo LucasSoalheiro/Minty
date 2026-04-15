@@ -4,9 +4,9 @@ namespace Src\App\Usecases;
 
 use Src\App\DTO\CreateAccountDto;
 use Src\App\Error\UserNotFound;
-use Src\Domain\Account\Account;
-use Src\Domain\Account\AccountRepository;
-use Src\Domain\User\UserRepository;
+use Src\Domain\Entities\Account;
+use Src\Domain\Repository\AccountRepository;
+use Src\Domain\Repository\UserRepository;
 use Src\Domain\ValueObject\Money;
 
 class CreateAccountUsecase

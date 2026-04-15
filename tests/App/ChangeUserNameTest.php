@@ -5,11 +5,11 @@ namespace Tests\App;
 use PHPUnit\Framework\TestCase;
 use Src\App\DTO\ChangeUserNameDto;
 use Src\App\Usecases\ChangeUserNameUsecase;
+use Src\Domain\Entities\User;
 use Src\Domain\Error\NameCannotBeNull;
 use Src\Domain\Error\NameShouldBeDifferent;
-use Src\Domain\User\PasswordHasher;
-use Src\Domain\User\User;
-use Src\Domain\User\UserRepository;
+use Src\Domain\Repository\Hasher;
+use Src\Domain\Repository\UserRepository;
 use Src\Domain\ValueObject\Email;
 use Src\Domain\ValueObject\Password;
 use Tests\fake\FakeHasher;
@@ -18,7 +18,7 @@ use Tests\fake\FakeUserRepository;
 class ChangeUserNameTest extends TestCase
 {
     private UserRepository $userRepository;
-    private PasswordHasher $passwordHasher;
+    private Hasher $passwordHasher;
     public function setUp(): void
     {
         $this->userRepository = new FakeUserRepository();
