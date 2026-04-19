@@ -19,7 +19,7 @@ enum TransactionStatusEnum
     case DONE;
 }
 
-class Transaction
+final class Transaction
 {
     private function __construct(
         private readonly UUID $id,

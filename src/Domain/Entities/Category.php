@@ -7,7 +7,7 @@ use Src\Domain\Error\NameCannotBeNull;
 use Src\Domain\ValueObject\UUID;
 
 
-class Category
+final class Category
 {
     private function __construct(
         private readonly UUID $id,

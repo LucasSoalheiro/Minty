@@ -1,4 +1,5 @@
 <?php
+
 namespace Src\Domain\Entities;
 
 use Src\Domain\Error\AccountAlreadyDeactivated;
@@ -9,7 +10,7 @@ use Src\Domain\Error\NameCannotBeNull;
 use Src\Domain\ValueObject\Money;
 use Src\Domain\ValueObject\UUID;
 
-class Account
+final class Account
 {
     private function __construct(
         private readonly UUID $id,

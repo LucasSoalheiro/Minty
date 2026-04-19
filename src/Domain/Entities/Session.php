@@ -4,13 +4,13 @@ namespace Src\Domain\Entities;
 
 use Src\Domain\ValueObject\UUID;
 
-class Session
+final class Session
 {
     private function __construct(
         private readonly UUID $id,
         private readonly UUID $userId,
-        private readonly string $tokenHash,
-        private readonly \DateTimeImmutable $expiresAt,
+        private string $tokenHash,
+        private \DateTimeImmutable $expiresAt,
         private bool $revoked = false,
     ) {
     }
@@ -23,7 +23,7 @@ class Session
             UUID::generate(),
             $userId,
             $tokenHash,
-            new \DateTimeImmutable()
+            new \DateTimeImmutable("+7 days")
         );
     }
 
@@ -37,5 +37,39 @@ class Session
         $this->revoked == true;
     }
 
-    
+    public function matches(string $token): bool
+    {
+        return password_verify($token, $this->tokenHash);
+    }
+
+    public function rotate(string $newToken): void
+    {
+        $this->tokenHash = password_hash($newToken, PASSWORD_DEFAULT);
+        $this->expiresAt = new \DateTimeImmutable();
+    }
+
+    public function getId(): UUID
+    {
+        return $this->id;
+    }
+
+    public function getUserId(): UUID
+    {
+        return $this->userId;
+    }
+
+    public function getTokenHash(): string
+    {
+        return $this->tokenHash;
+    }
+
+    public function getExpiresAt(): \DateTimeImmutable
+    {
+        return $this->expiresAt;
+    }
+
+    public function getRevoked(): bool
+    {
+        return $this->revoked;
+    }
 }

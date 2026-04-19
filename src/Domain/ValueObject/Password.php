@@ -3,7 +3,6 @@ namespace Src\Domain\ValueObject;
 
 use Src\Domain\Error\InvalidPassword;
 use Src\Domain\Error\WeakPassword;
-use Src\Domain\User\PasswordHasher;
 
 final class Password
 {

@@ -2,16 +2,15 @@
 
 namespace Src\Infra\Http\Controller;
 
-use Src\App\DTO\AuthenticateDto;
+use Src\App\DTO\LoginDto;
 use Src\App\Error\EmailNotFound;
 use Src\App\Error\WrongPassword;
-use Src\App\Usecases\AuthenticateUsecase;
+use Src\App\Usecases\LoginUsecase;
 use Src\Infra\Http\Schema\LoginSchema;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\Routing\Attribute\Route;
@@ -22,7 +21,7 @@ class AuthController extends AbstractController
     #[Route('/login', methods: ['POST'])]
     public function login(
         Request $request,
-        AuthenticateUsecase $authenticateUsecase,
+        LoginUsecase $authenticateUsecase,
         ValidatorInterface $validator
     ) {
         $data = json_decode($request->getContent(), true);
@@ -42,7 +41,7 @@ class AuthController extends AbstractController
         } catch (\Exception $e) {
             throw new BadRequestHttpException($e->getMessage());
         }
-        $dto = new AuthenticateDto(
+        $dto = new LoginDto(
             email: $parsedData->email,
             password: $parsedData->password
         );

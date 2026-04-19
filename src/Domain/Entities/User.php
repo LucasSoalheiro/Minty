@@ -8,7 +8,7 @@ use Src\Domain\ValueObject\Email;
 use Src\Domain\ValueObject\Password;
 use Src\Domain\ValueObject\UUID;
 
-class User
+final class User
 {
 
     private function __construct(

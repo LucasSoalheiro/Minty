@@ -8,8 +8,9 @@ use Src\Domain\Repository\UserRepository;
 
 class FindUserByIdUsecase
 {
-    public function __construct(private readonly UserRepository $userRepository)
-    {
+    public function __construct(
+        private readonly UserRepository $userRepository
+    ) {
     }
     public function execute(string $id): UserResponseDto
     {
