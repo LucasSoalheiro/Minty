@@ -7,7 +7,7 @@ use Src\Domain\Entities\TransactionStatusEnum;
 use Src\Domain\Repository\TransactionRepository;
 use Src\Domain\ValueObject\UUID;
 
-class FakeTransactionRepository implements TransactionRepository
+final class FakeTransactionRepository implements TransactionRepository
 {
     private array $transactions = [];
 
@@ -18,35 +18,21 @@ class FakeTransactionRepository implements TransactionRepository
 
     public function list(string $accountId, ?TransactionStatusEnum $status = null): array
     {
-        $result = [];
-        foreach ($this->transactions as $transaction) {
-            if ($transaction->getAccountId()->equals(UUID::fromString($accountId))) {
-                if ($status === null || $transaction->getStatus() === $status) {
-                    $result[] = $transaction;
-                }
-            }
-        }
-        return $result;
+        return array_filter(
+            $this->transactions,
+            fn($t) =>
+            $t->accountId->equals(UUID::fromString($accountId)) &&
+            $t->status === $status
+        );
     }
 
     public function findById(string $id): ?Transaction
     {
-        foreach ($this->transactions as $transaction) {
-            if ($transaction->getId()->equals(UUID::fromString($id))) {
-                return $transaction;
-            }
-        }
-        return null;
+        return array_find($this->transactions, fn($t) => $t->id->equals(UUID::fromString($id)));
     }
 
     public function findByAccountId(string $accountId): array
     {
-        $result = [];
-        foreach ($this->transactions as $transaction) {
-            if ($transaction->getAccountId()->equals(UUID::fromString($accountId))) {
-                $result[] = $transaction;
-            }
-        }
-        return $result;
+        return array_filter($this->transactions, fn($t) => $t->accountId->equals(UUID::fromString($accountId)));
     }
 }

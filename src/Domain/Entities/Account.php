@@ -13,11 +13,11 @@ use Src\Domain\ValueObject\UUID;
 final class Account
 {
     private function __construct(
-        private readonly UUID $id,
-        private readonly string $name,
-        private Money $balance,
-        private readonly UUID $userId,
-        private bool $isActive,
+        public readonly UUID $id,
+        public readonly string $name,
+        public private(set) Money $balance,
+        public readonly UUID $userId,
+        public private(set) bool $isActive,
     ) {
     }
 
@@ -37,31 +37,6 @@ final class Account
         bool $isActive
     ): Account {
         return new Account($id, $name, $balance, $userId, $isActive);
-    }
-
-    public function getId(): UUID
-    {
-        return $this->id;
-    }
-
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    public function getBalance(): Money
-    {
-        return $this->balance;
-    }
-
-    public function getUserId(): UUID
-    {
-        return $this->userId;
-    }
-
-    public function isActive(): bool
-    {
-        return $this->isActive;
     }
 
     public function deposit(Money $amount): void
@@ -88,7 +63,7 @@ final class Account
         if ($amount->value() <= 0) {
             throw new InvalidAmount();
         }
-        if ($toAccount->getId()->equals($this->id)) {
+        if ($toAccount->id->equals($this->id)) {
             throw new InvalidTransfer();
         }
         $this->withdraw($amount);

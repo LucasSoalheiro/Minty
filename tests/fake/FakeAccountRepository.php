@@ -17,22 +17,11 @@ class FakeAccountRepository implements AccountRepository
 
     public function findById(string $id): ?Account
     {
-        foreach ($this->accounts as $account) {
-            if ($account->getId()->equals(UUID::fromString($id))) {
-                return $account;
-            }
-        }
-        return null;
+        return array_find($this->accounts, fn($a) => $a->id->equals(UUID::fromString($id)));
     }
 
     public function findByUserId(string $userId): array
     {
-        $result = [];
-        foreach ($this->accounts as $account) {
-            if ($account->getUserId()->equals(UUID::fromString($userId))) {
-                $result[] = $account;
-            }
-        }
-        return $result;
+        return array_filter($this->accounts, fn($a) => $a->userId->equals(UUID::fromString($userId)));
     }
 }

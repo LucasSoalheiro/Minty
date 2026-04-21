@@ -14,16 +14,16 @@
     "symfony/test-pack": "^1.2"
   },
   "require": {
-    "symfony/routing": "^7.4",
-    "symfony/http-foundation": "^7.4",
-    "symfony/framework-bundle": "^7.4",
-    "symfony/yaml": "^7.4",
-    "symfony/http-kernel": "^7.4",
-    "symfony/event-dispatcher": "^7.4",
-    "symfony/dependency-injection": "^7.4",
-    "symfony/config": "^7.4",
-    "symfony/dotenv": "^7.4",
-    "symfony/string": "^7.4",
-    "symfony/validator": "^7.4"
+    "symfony/routing": "^8.0",
+    "symfony/http-foundation": "^8.0",
+    "symfony/framework-bundle": "^8.0",
+    "symfony/yaml": "^8.0",
+    "symfony/http-kernel": "^8.0",
+    "symfony/event-dispatcher": "^8.0",
+    "symfony/dependency-injection": "^8.0",
+    "symfony/config": "^8.0",
+    "symfony/dotenv": "^8.0",
+    "symfony/string": "^8.0",
+    "symfony/validator": "^8.0"
   }
 }

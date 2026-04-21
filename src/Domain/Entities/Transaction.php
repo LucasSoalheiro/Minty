@@ -22,14 +22,15 @@ enum TransactionStatusEnum
 final class Transaction
 {
     private function __construct(
-        private readonly UUID $id,
-        private readonly UUID $accountId,
-        private readonly Money $amount,
-        private readonly \DateTime $createdAt,
-        private readonly TransactionEnum $type,
-        private TransactionStatusEnum $status,
-        private readonly ?string $description,
-        private readonly UUID $categoryId,
+        public readonly UUID $id,
+        public readonly UUID $accountId,
+        public readonly Money $amount,
+        public readonly \DateTime $createdAt,
+        public readonly TransactionEnum $type,
+        public private(set) TransactionStatusEnum $status,
+        public readonly ?string $description,
+        public readonly UUID $categoryId,
+
     ) {
     }
 
@@ -77,40 +78,6 @@ final class Transaction
             $description,
             $categoryId
         );
-    }
-
-    public function getId(): UUID
-    {
-        return $this->id;
-    }
-    public function getAccountId(): UUID
-    {
-        return $this->accountId;
-    }
-    public function getAmount(): int
-    {
-        return $this->amount->value();
-    }
-    public function getType(): TransactionEnum
-    {
-        return $this->type;
-    }
-    public function getDescription(): string
-    {
-        return $this->description;
-    }
-    public function getCreatedAt(): \DateTime
-    {
-        return $this->createdAt;
-    }
-
-    public function getStatus(): TransactionStatusEnum
-    {
-        return $this->status;
-    }
-    public function getCategoryId(): UUID
-    {
-        return $this->categoryId;
     }
 
     public function cancel(): void

@@ -36,17 +36,17 @@ class ChangePasswordTest extends TestCase
     public function testChangePassword(): void
     {
         $user = $this->makeUser();
-        $dto = new ChangePasswordDto($user->getEmail()->__toString(), 'P@ssw0rd', 'NewP@ssw0rd');
+        $dto = new ChangePasswordDto($user->email->__toString(), 'P@ssw0rd', 'NewP@ssw0rd');
         $changePasswordUsecase = new ChangePasswordUsecase($this->userRepository, $this->passwordHasher);
         $changePasswordUsecase->execute($dto);
-        $updatedUser = $this->userRepository->findByEmail($user->getEmail()->__toString());
-        $this->assertTrue($this->passwordHasher->compare('NewP@ssw0rd', $updatedUser->getPassword()->value()));
+        $updatedUser = $this->userRepository->findByEmail($user->email->__toString());
+        $this->assertTrue($this->passwordHasher->compare('NewP@ssw0rd', $updatedUser->password->value()));
     }
 
     public function testChangePasswordWithWrongPassword(): void
     {
         $user = $this->makeUser();
-        $dto = new ChangePasswordDto($user->getEmail()->__toString(), 'wrong_password', 'NewP@ssw0rd');
+        $dto = new ChangePasswordDto($user->email->__toString(), 'wrong_password', 'NewP@ssw0rd');
         $changePasswordUsecase = new ChangePasswordUsecase($this->userRepository, $this->passwordHasher);
         $this->expectException(WrongPassword::class);
         $changePasswordUsecase->execute($dto);

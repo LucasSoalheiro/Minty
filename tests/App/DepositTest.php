@@ -49,9 +49,9 @@ class DepositTest extends TestCase
     {
         $usecase = new DepositUsecase($this->accountRepository, $this->transactionRepository, $this->categoryRepository);
         $dto = new DepositDto(
-            $this->makeAccount()->getId()->__toString(),
+            $this->makeAccount()->id->__toString(),
             100,
-            $this->makeCategory()->getId()->__toString(),
+            $this->makeCategory()->id->__toString(),
             'description'
         );
         $usecase->execute($dto);
@@ -62,9 +62,8 @@ class DepositTest extends TestCase
             200,
             $this
                 ->accountRepository
-                ->findById($dto
-                    ->accountId)
-                ->getBalance()
+                ->findById($dto->accountId)
+                ->balance
                 ->value()
         );
     }
@@ -76,7 +75,7 @@ class DepositTest extends TestCase
         $dto = new DepositDto(
             UUID::generate()->__toString(),
             100,
-            $this->makeCategory()->getId()->__toString(),
+            $this->makeCategory()->id->__toString(),
             'description'
         );
         $usecase->execute($dto);
@@ -87,7 +86,7 @@ class DepositTest extends TestCase
         $this->expectException(CategoryNotFound::class);
         $usecase = new DepositUsecase($this->accountRepository, $this->transactionRepository, $this->categoryRepository);
         $dto = new DepositDto(
-            $this->makeAccount()->getId()->__toString(),
+            $this->makeAccount()->id->__toString(),
             100,
             UUID::generate()->__toString(),
             'description'

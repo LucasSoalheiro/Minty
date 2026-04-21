@@ -10,11 +10,18 @@ use Src\Domain\ValueObject\UUID;
 final class Category
 {
     private function __construct(
-        private readonly UUID $id,
-        private string $name,
-        private ?string $description,
-        private readonly UUID $userId,
-        private bool $isActive = true
+        public readonly UUID $id,
+        public private(set) string $name {
+            set(string $name) {
+                if(empty($name)) {
+                    throw new NameCannotBeNull();
+                }
+                $this->name = $name;
+            }
+        },
+        public private(set) ?string $description,
+        public readonly UUID $userId,
+        public private(set) bool $isActive = true
     ) {
     }
 
@@ -39,56 +46,22 @@ final class Category
         return new Category($id, $name, $description, $userId, $isActive);
     }
 
-
-    public function getId(): UUID
-    {
-        return $this->id;
-    }
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function getUserId(): UUID
-    {
-        return $this->userId;
-    }
-
-    public function getIsActive(): bool
-    {
-        return $this->isActive;
-    }
-
     public function updateName(string $name): void
     {
-        if (!$this->isActive()) {
-            throw new CategoryInactive();
-        }
-        if (empty($name)) {
-            throw new NameCannotBeNull();
-        }
+        $this->isInactive();
         $this->name = $name;
     }
 
     public function updateDescription(string $description): void
     {
-        if (!$this->isActive()) {
+        $this->isInactive();
+        if (!$this->isActive) {
             throw new CategoryInactive();
         }
         if (empty($description)) {
             throw new InvalidDescription();
         }
         $this->description = $description;
-    }
-
-    private function isActive(): bool
-    {
-        return $this->isActive;
     }
 
     public function activate(): void
@@ -99,6 +72,12 @@ final class Category
     public function deactivate(): void
     {
         $this->isActive = false;
+    }
+    private function isInactive(): void
+    {
+        if (!$this->isActive) {
+            throw new CategoryInactive();
+        }
     }
 
 }

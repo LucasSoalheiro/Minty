@@ -21,9 +21,9 @@ class AccountTest extends TestCase
     public function testCreateValidAccount()
     {
         $account = Account::create("John Doe", Money::create(100), $this->makeUUID());
-        $this->assertTrue($account->isActive());
-        $this->assertEquals(100, $account->getBalance()->value());
-        $this->assertEquals("John Doe", $account->getName());
+        $this->assertTrue($account->isActive);
+        $this->assertEquals(100, $account->balance->value());
+        $this->assertEquals("John Doe", $account->name);
     }
 
     public function testCreateAccountEmptyNameThrows()
@@ -42,7 +42,7 @@ class AccountTest extends TestCase
     {
         $account = Account::create("John Doe", Money::create(100), $this->makeUUID());
         $account->deposit(Money::create(50));
-        $this->assertEquals(150, $account->getBalance()->value());
+        $this->assertEquals(150, $account->balance->value());
     }
 
     public function testDepositZeroOrNegativeThrows()
@@ -56,7 +56,7 @@ class AccountTest extends TestCase
     {
         $account = Account::create("John Doe", Money::create(100), $this->makeUUID());
         $account->withdraw(Money::create(40));
-        $this->assertEquals(60, $account->getBalance()->value());
+        $this->assertEquals(60, $account->balance->value());
     }
 
     public function testWithdrawMoreThanBalanceThrows()
@@ -80,8 +80,8 @@ class AccountTest extends TestCase
 
         $account1->transfer($account2, Money::create(70));
 
-        $this->assertEquals(30, $account1->getBalance()->value());
-        $this->assertEquals(120, $account2->getBalance()->value());
+        $this->assertEquals(30, $account1->balance->value());
+        $this->assertEquals(120, $account2->balance->value());
     }
 
     public function testTransferToSelfThrows()
@@ -103,7 +103,7 @@ class AccountTest extends TestCase
     {
         $account = Account::create("John Doe", Money::create(100), $this->makeUUID());
         $account->deactivate();
-        $this->assertFalse($account->isActive());
+        $this->assertFalse($account->isActive);
     }
 
     public function testOperationsAfterDeactivateThrow()

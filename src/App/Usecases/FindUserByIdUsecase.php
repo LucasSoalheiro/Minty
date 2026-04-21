@@ -19,9 +19,9 @@ class FindUserByIdUsecase
             throw new UserNotFound($id);
         }
         return new UserResponseDto(
-            $user->getId()->__toString(),
-            $user->getName(),
-            $user->getEmail()
+            $user->id->__toString(),
+            $user->name,
+            $user->email
         );
     }
 }

@@ -27,13 +27,13 @@ class LoginUsecase
         if (!$user) {
             throw new EmailNotFound($dto->email);
         }
-        if (!$this->passwordHasher->compare($dto->password, $user->getPassword()->value())) {
+        if (!$this->passwordHasher->compare($dto->password, $user->password->value())) {
             throw new WrongPassword();
         }
 
         $refreshToken = bin2hex(random_bytes(32));
 
-        $session = Session::create($user->getId(), $refreshToken);
+        $session = Session::create($user->id, $refreshToken);
 
         $this->sessionRepository->save($session);
 

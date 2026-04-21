@@ -24,9 +24,9 @@ class UserTest extends TestCase
         $user = User::create("John Doe", $email, $password);
 
         $this->assertInstanceOf(User::class, $user);
-        $this->assertEquals("John Doe", $user->getName());
-        $this->assertTrue($user->getEmail()->equals($email));
-        $this->assertInstanceOf(Password::class, $user->getPassword());
+        $this->assertEquals("John Doe", $user->name);
+        $this->assertTrue($user->email->equals($email));
+        $this->assertInstanceOf(Password::class, $user->password);
     }
 
     public function testShouldNotCreateUserWithInvalidEmail(): void
@@ -69,7 +69,7 @@ class UserTest extends TestCase
 
         $user->changeEmail($newEmail);
 
-        $this->assertTrue($user->getEmail()->equals($newEmail));
+        $this->assertTrue($user->email->equals($newEmail));
     }
 
     public function testShouldNotChangeToSameEmail(): void
@@ -78,7 +78,7 @@ class UserTest extends TestCase
 
         $user = $this->makeUser();
 
-        $user->changeEmail($user->getEmail());
+        $user->changeEmail($user->email);
     }
 
     public function testShouldChangeName(): void
@@ -87,7 +87,7 @@ class UserTest extends TestCase
 
         $user->changeName("Jane Doe");
 
-        $this->assertEquals("Jane Doe", $user->getName());
+        $this->assertEquals("Jane Doe", $user->name);
     }
 
     public function testShouldNotChangeNameToSame(): void
@@ -105,7 +105,7 @@ class UserTest extends TestCase
         Password::validate("NewP@ssw0rd");
         $user->changePassword("NewP@ssw0rd");
 
-        $this->assertEquals("NewP@ssw0rd", $user->getPassword()->value());
+        $this->assertEquals("NewP@ssw0rd", $user->password->value());
     }
 
     public function testShouldNotChangePasswordToWeakOne(): void

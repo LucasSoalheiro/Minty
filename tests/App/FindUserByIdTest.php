@@ -33,7 +33,7 @@ class FindUserByIdTest extends TestCase
     {
         $usecase = new FindUserByIdUsecase($this->userRepository);
         $userCreated = $this->makeUser();
-        $user = $usecase->execute($userCreated->getId());
+        $user = $usecase->execute($userCreated->id);
 
         $this->assertInstanceOf(UserResponseDto::class, $user);
     }

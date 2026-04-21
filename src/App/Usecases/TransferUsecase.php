@@ -39,7 +39,7 @@ class TransferUsecase
         if ($category === null) {
             throw new CategoryNotFound($dto->categoryId);
         }
-        if (!$category->getIsActive()) {
+        if (!$category->isActive) {
             throw new CategoryInactive($dto->categoryId);
         }
 
@@ -50,20 +50,20 @@ class TransferUsecase
 
         $this->transactionRepository->save(
             Transaction::create(
-                $fromAccount->getId(),
+                $fromAccount->id,
                 Money::create($dto->amount),
                 TransactionEnum::OUTFLOW,
                 $dto->description,
-                $category->getId()
+                $category->id
             )
         );
         $this->transactionRepository->save(
             Transaction::create(
-                $toAccount->getId(),
+                $toAccount->id,
                 Money::create($dto->amount),
                 TransactionEnum::INFLOW,
                 $dto->description,
-                $category->getId()
+                $category->id
             )
         );
 

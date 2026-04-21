@@ -37,18 +37,18 @@ class ChangeEmailTest extends TestCase
     public function testChangeEmail(): void
     {
         $user = $this->makeUser();
-        $dto = new ChangeEmailDto($user->getId()->__toString(), 'jane.doe@example.com', 'P@ssw0rd');
+        $dto = new ChangeEmailDto($user->id->__toString(), 'jane.doe@example.com', 'P@ssw0rd');
         $changeEmailUsecase = new ChangeEmailUsecase($this->userRepository, $this->passwordHasher);
 
         $changeEmailUsecase->execute($dto);
-        $updatedUser = $this->userRepository->findById($user->getId());
-        $this->assertEquals('jane.doe@example.com', $updatedUser->getEmail()->__toString());
+        $updatedUser = $this->userRepository->findById($user->id);
+        $this->assertEquals('jane.doe@example.com', $updatedUser->email->__toString());
     }
 
     public function testChangeEmailWithWrongPassword(): void
     {
         $user = $this->makeUser();
-        $dto = new ChangeEmailDto($user->getId()->__toString(), 'jane.doe@example.com', 'WrongPassword');
+        $dto = new ChangeEmailDto($user->id->__toString(), 'jane.doe@example.com', 'WrongPassword');
         $changeEmailUsecase = new ChangeEmailUsecase($this->userRepository, $this->passwordHasher);
 
         $this->expectException(WrongPassword::class);
@@ -61,7 +61,7 @@ class ChangeEmailTest extends TestCase
         $user2 = User::create('Jane Doe', Email::create('jane.doe@example.com'), Password::restore($this->passwordHasher->hash('P@ssw0rd')));
         $this->userRepository->save($user2);
 
-        $dto = new ChangeEmailDto($user1->getId()->__toString(), 'jane.doe@example.com', 'P@ssw0rd');
+        $dto = new ChangeEmailDto($user1->id->__toString(), 'jane.doe@example.com', 'P@ssw0rd');
         $changeEmailUsecase = new ChangeEmailUsecase($this->userRepository, $this->passwordHasher);
         $this->expectException(EmailAlreadyInUse::class);
         $changeEmailUsecase->execute($dto);

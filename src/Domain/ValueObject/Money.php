@@ -17,16 +17,16 @@ final class Money
         if ($amount < 0) {
             throw new InvalidAmount();
         }
-        return new Money($amount);
+        return new self($amount);
     }
     public function add(Money $other): Money
     {
-        return new Money($this->amount + $other->amount);
+        return new self($this->amount + $other->amount);
     }
 
     public function subtract(Money $other): Money
     {
-        return new Money($this->amount - $other->amount);
+        return new self($this->amount - $other->amount);
     }
 
     public function value(): int

@@ -2,6 +2,7 @@
 
 namespace Tests\Domain;
 
+use Exception;
 use PHPUnit\Framework\TestCase;
 use Src\Domain\Entities\Transaction;
 use Src\Domain\Entities\TransactionEnum;
@@ -21,11 +22,11 @@ class TransactionTest extends TestCase
         $transaction = Transaction::create($accountId, Money::create(1000), TransactionEnum::INFLOW, "Test transaction", $categoryId);
 
         $this->assertInstanceOf(Transaction::class, $transaction);
-        $this->assertTrue($transaction->getAccountId()->equals($accountId));
-        $this->assertEquals(1000, $transaction->getAmount());
-        $this->assertEquals(TransactionEnum::INFLOW, $transaction->getType());
-        $this->assertEquals("Test transaction", $transaction->getDescription());
-        $this->assertTrue($transaction->getCategoryId()->equals($categoryId));
+        $this->assertTrue($transaction->accountId->equals($accountId));
+        $this->assertEquals(1000, $transaction->amount->value());
+        $this->assertEquals(TransactionEnum::INFLOW, $transaction->type);
+        $this->assertEquals("Test transaction", $transaction->description);
+        $this->assertTrue($transaction->categoryId->equals($categoryId));
     }
 
     public function testShouldNotCreateTransactionWithNegativeAmount(): void
@@ -72,7 +73,7 @@ class TransactionTest extends TestCase
         );
         $transaction->cancel();
 
-        $this->assertEquals(TransactionStatusEnum::CANCELLED, $transaction->getStatus());
+        $this->assertEquals(TransactionStatusEnum::CANCELLED, $transaction->status);
     }
 
     public function testShouldNotCancelAlreadyCancelledTransaction(): void
@@ -89,4 +90,5 @@ class TransactionTest extends TestCase
         $transaction->cancel();
         $transaction->cancel();
     }
+
 }

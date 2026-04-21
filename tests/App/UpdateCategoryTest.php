@@ -23,23 +23,23 @@ class UpdateCategoryTest extends TestCase
     {
         $category = Category::create("Test Name", null, UUID::generate());
         $this->categoryRepository->save($category);
-        return $this->categoryRepository->findById($category->getId()->__toString());
+        return $this->categoryRepository->findById($category->id->__toString());
     }
 
     public function testUpdateCategory(): void
     {
         $category = $this->makeCategory();
-        $dto = new UpdateCategoryDto($category->getId()->__toString(), "Only Test", "A Description");
+        $dto = new UpdateCategoryDto($category->id->__toString(), "Only Test", "A Description");
         $updateCategoryUsecase = new UpdateCategoryUsecase($this->categoryRepository);
         $updateCategoryUsecase->execute($dto);
-        $this->assertEquals("Only Test", $category->getName());
-        $this->assertEquals("A Description", $category->getDescription());
+        $this->assertEquals("Only Test", $category->name);
+        $this->assertEquals("A Description", $category->description);
     }
 
     public function testUpdateCategoryWithoutAnyData(): void
     {
         $category = $this->makeCategory();
-        $dto = new UpdateCategoryDto($category->getId()->__toString(), "", "");
+        $dto = new UpdateCategoryDto($category->id->__toString(), "", "");
         $updateCategoryUsecase = new UpdateCategoryUsecase($this->categoryRepository);
         $this->expectException(NeedToUpdateAtLeastOneField::class);
         $updateCategoryUsecase->execute($dto);

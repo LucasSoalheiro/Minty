@@ -23,7 +23,7 @@ class DeactiveCategoryUsecase
             throw new CategoryNotFound($categoryId);
         }       
 
-        if (!$category->getIsActive()) {
+        if (!$category->isActive) {
             throw new CategoryAlreadyInactive();
         }
 

@@ -47,11 +47,11 @@ class LoginTest extends TestCase
         $authenticate = new LoginUsecase($this->sessionRepository,$this->userRepository, $this->passwordHasher, $this->tokenService);
         $dto = new LoginDto('john.doe@example.com', 'P@ssw0rd');
         $response = $authenticate->execute($dto);
-        $tokenPayload = $this->tokenService->validateToken("fake-token-{$user->getId()->__toString()}");
+        $tokenPayload = $this->tokenService->validateToken("fake-token-{$user->id->__toString()}");
         $this->assertInstanceOf(LoginResponseDto::class, $response);
         $this->assertNotNull($tokenPayload);
-        $this->assertEquals($user->getId()->__toString(), $tokenPayload->userId);
-        $this->assertEquals($user->getEmail()->__toString(), $tokenPayload->claims['email']);
+        $this->assertEquals($user->id->__toString(), $tokenPayload->userId);
+        $this->assertEquals($user->email->__toString(), $tokenPayload->claims['email']);
     }
 
     public function testAuthenticateWithWrongPassword(): void

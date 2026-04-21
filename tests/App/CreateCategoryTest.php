@@ -39,10 +39,10 @@ class CreateCategoryTest extends TestCase
     public function testCreateCategory(): void
     {
         $user = $this->makeUser();
-        $dto = new CreateCategoryDto("Test Name", "Test Description", $user->getId()->__toString());
+        $dto = new CreateCategoryDto("Test Name", "Test Description", $user->id->__toString());
         $createCategoryUsecase = new CreateCategoryUsecase($this->categoryRepository, $this->userRepository);
         $createCategoryUsecase->execute($dto);
-        $createdCategory = $this->categoryRepository->findAllByUserId($user->getId()->__toString());
+        $createdCategory = $this->categoryRepository->findAllByUserId($user->id->__toString());
         $this->assertCount(1, $createdCategory);
     }
 }

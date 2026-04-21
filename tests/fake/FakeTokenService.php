@@ -6,16 +6,16 @@ use Src\App\Security\TokenPayload;
 use Src\App\Security\TokenService;
 use Src\Domain\Entities\User;
 
-class FakeTokenService implements TokenService
+final class FakeTokenService implements TokenService
 {
     private array $store = [];
 
     public function generateToken(User $user): string
     {
-        $token = "fake-token-{$user->getId()->__toString()}";
+        $token = "fake-token-{$user->id->__toString()}";
 
-        $this->store[$token] = new TokenPayload($user->getId()->__toString(), [
-            'email' => $user->getEmail()->__toString()
+        $this->store[$token] = new TokenPayload($user->id->__toString(), [
+            'email' => $user->email->__toString()
         ]);
 
         return $token;

@@ -34,7 +34,7 @@ class CreateAccountTest extends TestCase
     private function makeAccount()
     {
         $user = $this->makeUser();
-        $account = new CreateAccountDto('John\'s Account', 100, $user->getId()->__toString());
+        $account = new CreateAccountDto('John\'s Account', 100, $user->id->__toString());
         return $account;
     }
 
@@ -46,8 +46,8 @@ class CreateAccountTest extends TestCase
         $account->execute($dto);
         $savedAccount = $this->accountRepository->findByUserId($dto->userId);
         $this->assertCount(1, $savedAccount);
-        $this->assertEquals($dto->name, $savedAccount[0]->getName());
-        $this->assertEquals($dto->balance, $savedAccount[0]->getBalance()->value());
+        $this->assertEquals($dto->name, $savedAccount[0]->name);
+        $this->assertEquals($dto->balance, $savedAccount[0]->balance->value());
 
         }
 

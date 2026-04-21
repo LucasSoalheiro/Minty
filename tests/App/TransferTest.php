@@ -53,22 +53,22 @@ class TransferTest extends TestCase
 
         $usecase = new TransferUsecase($this->accountRepository, $this->transactionRepository, $this->categoryRepository);
         $dto = new TransferDto(
-            $account1->getId()->__toString(),
-            $account2->getId()->__toString(),
+            $account1->id->__toString(),
+            $account2->id->__toString(),
             50,
-            $category->getId()->__toString(),
+            $category->id->__toString(),
             'description'
         );
         $usecase->execute($dto);
 
-        $account1 = $this->accountRepository->findById($account1->getId());
-        $account2 = $this->accountRepository->findById($account2->getId());
+        $account1 = $this->accountRepository->findById($account1->id);
+        $account2 = $this->accountRepository->findById($account2->id);
 
-        $this->assertNotNull($this->transactionRepository->list($account1->getId()->__toString()));
-        $this->assertNotNull($this->transactionRepository->list($account2->getId()->__toString()));
+        $this->assertNotNull($this->transactionRepository->list($account1->id->__toString()));
+        $this->assertNotNull($this->transactionRepository->list($account2->id->__toString()));
 
-        $this->assertEquals(50, $account1?->getBalance()->value());
-        $this->assertEquals(150, $account2?->getBalance()->value());
+        $this->assertEquals(50, $account1?->balance->value());
+        $this->assertEquals(150, $account2?->balance->value());
     }
 
     public function testTransferWithNonExistentFromAccount(): void
@@ -80,9 +80,9 @@ class TransferTest extends TestCase
         $usecase = new TransferUsecase($this->accountRepository, $this->transactionRepository, $this->categoryRepository);
         $dto = new TransferDto(
             UUID::generate()->__toString(),
-            $account2->getId()->__toString(),
+            $account2->id->__toString(),
             50,
-            $category->getId()->__toString(),
+            $category->id->__toString(),
             'description'
         );
         $usecase->execute($dto);
@@ -96,10 +96,10 @@ class TransferTest extends TestCase
 
         $usecase = new TransferUsecase($this->accountRepository, $this->transactionRepository, $this->categoryRepository);
         $dto = new TransferDto(
-            $account1->getId()->__toString(),
+            $account1->id->__toString(),
             UUID::generate()->__toString(),
             50,
-            $category->getId()->__toString(),
+            $category->id->__toString(),
             'description'
         );
         $usecase->execute($dto);
@@ -114,16 +114,16 @@ class TransferTest extends TestCase
 
         $usecase = new TransferUsecase($this->accountRepository, $this->transactionRepository, $this->categoryRepository);
         $dto = new TransferDto(
-            $account1->getId()->__toString(),
-            $account2->getId()->__toString(),
+            $account1->id->__toString(),
+            $account2->id->__toString(),
             50,
-            $category->getId()->__toString(),
+            $category->id->__toString(),
             'description'
         );
         $usecase->execute($dto);
 
-        $transactions1 = $this->transactionRepository->list($account1->getId()->__toString(), TransactionStatusEnum::PENDING);
-        $transactions2 = $this->transactionRepository->list($account2->getId()->__toString(), TransactionStatusEnum::CANCELLED);
+        $transactions1 = $this->transactionRepository->list($account1->id->__toString(), TransactionStatusEnum::PENDING);
+        $transactions2 = $this->transactionRepository->list($account2->id->__toString(), TransactionStatusEnum::CANCELLED);
 
         $this->assertCount(1, $transactions1);
         $this->assertCount(0, $transactions2);

@@ -33,7 +33,7 @@ class DepositUsecase
         if ($category === null) {
             throw new CategoryNotFound($dto->categoryId);
         }
-        if (!$category->getIsActive()) {
+        if (!$category->isActive) {
             throw new CategoryInactive($dto->categoryId);
         }
 
@@ -42,11 +42,11 @@ class DepositUsecase
 
         $this->transactionRepository->save(
             Transaction::create(
-                $account->getId(),
+                $account->id,
                 Money::create($dto->amount),
                 TransactionEnum::INFLOW,
                 $dto->description,
-                $category->getId()
+                $category->id
             )
         );
 

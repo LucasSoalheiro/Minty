@@ -27,7 +27,7 @@ class CreateAccountUsecase
         $account = Account::create(
             $dto->name,
             Money::create($dto->balance),
-            $user->getId()
+            $user->id
         );
         $this->accountRepository->save($account);
     }

@@ -22,7 +22,7 @@ class CreateCategoryUsecase
         if (!$user) {
             throw new UserNotFound($dto->userId);
         }
-        $category = Category::create($dto->name, $dto->description, $user->getId());
+        $category = Category::create($dto->name, $dto->description, $user->id);
         $this->categoryRepository->save($category);
     }
 }

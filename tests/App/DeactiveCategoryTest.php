@@ -22,22 +22,22 @@ class DeactiveCategoryTest extends TestCase
     {
         $category = Category::create("Test Name", null, UUID::generate());
         $this->categoryRepository->save($category);
-        return $this->categoryRepository->findById($category->getId()->__toString());
+        return $this->categoryRepository->findById($category->id->__toString());
     }
 
     public function testDeactiveCategory(): void
     {
         $category = $this->makeCategory();
         $deactiveCategoryUsecase = new DeactiveCategoryUsecase($this->categoryRepository);
-        $deactiveCategoryUsecase->execute($category->getId()->__toString());
-        $this->assertEquals(false, $category->getIsActive());
+        $deactiveCategoryUsecase->execute($category->id->__toString());
+        $this->assertEquals(false, $category->isActive);
     }
     public function testDeactiveCategoryWithCategoryAlreadyDeactivated(): void
     {
         $category = $this->makeCategory();
         $deactiveCategoryUsecase = new DeactiveCategoryUsecase($this->categoryRepository);
-        $deactiveCategoryUsecase->execute($category->getId()->__toString());
+        $deactiveCategoryUsecase->execute($category->id->__toString());
         $this->expectException(CategoryAlreadyInactive::class);
-        $deactiveCategoryUsecase->execute($category->getId()->__toString());
+        $deactiveCategoryUsecase->execute($category->id->__toString());
     }
 }

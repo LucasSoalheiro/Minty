@@ -6,6 +6,8 @@ use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class AppKernel extends Kernel
 {
@@ -23,7 +25,7 @@ class AppKernel extends Kernel
         return \dirname(__DIR__);
     }
 
-    public function registerContainerConfiguration(LoaderInterface $loader)
+    private function configureContainer(ContainerConfigurator $container, LoaderInterface $loader, ContainerBuilder $builder): void
     {
         $loader->load($this->getProjectDir() . '/src/Infra/Http/Config/services.yml');
     }

@@ -14,27 +14,19 @@ class FakeCategoryRepository implements CategoryRepository
         $this->categories[] = $category;
     }
 
+
     public function findById(string $id): ?Category
     {
-        foreach ($this->categories as $category) {
-            if ($category->getId()->equals(UUID::fromString($id))) {
-                return $category;
-            }
-        }
-        return null;
+        return array_find($this->categories, fn($c) => $c->id->equals(UUID::fromString($id)));
     }
 
     public function findAllByUserId(string $userId, ?bool $isActive = true): array
     {
-        $result = [];
-        foreach ($this->categories as $category) {
-            if (
-                $category->getUserId()->equals(UUID::fromString($userId)) &&
-                $category->getIsActive() === $isActive
-            ) {
-                $result[] = $category;
-            }
-        }
-        return $result;
+        return array_filter(
+            $this->categories,
+            fn($c) =>
+            $c->userId->equals(UUID::fromString($userId)) &&
+            $c->isActive === $isActive
+        );
     }
 }

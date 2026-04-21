@@ -49,16 +49,16 @@ class WithdrawTest extends TestCase
     {
         $usecase = new WithdrawUsecase($this->accountRepository, $this->transactionRepository, $this->categoryRepository);
         $dto = new WithdrawDto(
-            $this->makeAccount()->getId()->__toString(),
+            $this->makeAccount()->id->__toString(),
             50,
-            $this->makeCategory()->getId()->__toString(),
+            $this->makeCategory()->id->__toString(),
             'description'
         );
         $usecase->execute($dto);
 
         $account = $this->accountRepository->findById($dto->accountId);
         $this->assertNotNull($account);
-        $this->assertEquals(50, $account->getBalance()->value());
+        $this->assertEquals(50, $account->balance->value());
     }
 
     public function testWithdrawWithNonExistentAccount(): void
@@ -68,7 +68,7 @@ class WithdrawTest extends TestCase
         $dto = new WithdrawDto(
             UUID::generate()->__toString(),
             50,
-            $this->makeCategory()->getId()->__toString(),
+            $this->makeCategory()->id->__toString(),
             'description'
         );
         $usecase->execute($dto);
@@ -79,7 +79,7 @@ class WithdrawTest extends TestCase
         $this->expectException(CategoryNotFound::class);
         $usecase = new WithdrawUsecase($this->accountRepository, $this->transactionRepository, $this->categoryRepository);
         $dto = new WithdrawDto(
-            $this->makeAccount()->getId()->__toString(),
+            $this->makeAccount()->id->__toString(),
             50,
             UUID::generate()->__toString(),
             'description'

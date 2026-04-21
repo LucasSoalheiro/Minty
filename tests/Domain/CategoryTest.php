@@ -15,9 +15,9 @@ class CategoryTest extends TestCase
     {
         $userId = UUID::generate();
         $category = Category::create("Food", "Expenses on food", $userId);
-        $this->assertEquals("Food", $category->getName());
-        $this->assertEquals("Expenses on food", $category->getDescription());
-        $this->assertEquals($userId, $category->getUserId());
+        $this->assertEquals("Food", $category->name);
+        $this->assertEquals("Expenses on food", $category->description);
+        $this->assertEquals($userId, $category->userId);
     }
 
     public function testCreateCategoryWithEmptyName(): void
@@ -32,7 +32,7 @@ class CategoryTest extends TestCase
         $userId = UUID::generate();
         $category = Category::create("Food", "Expenses on food", $userId);
         $category->updateName("Groceries");
-        $this->assertEquals("Groceries", $category->getName());
+        $this->assertEquals("Groceries", $category->name);
     }
 
     public function testUpdateCategoryNameWithEmptyValue(): void
@@ -48,7 +48,7 @@ class CategoryTest extends TestCase
         $userId = UUID::generate();
         $category = Category::create("Food", "Expenses on food", $userId);
         $category->updateDescription("All food-related expenses");
-        $this->assertEquals("All food-related expenses", $category->getDescription());
+        $this->assertEquals("All food-related expenses", $category->description);
     }
 
     public function testInactivateCategory(): void
@@ -56,7 +56,7 @@ class CategoryTest extends TestCase
         $userId = UUID::generate();
         $category = Category::create("Food", "Expenses on food", $userId);
         $category->deactivate();
-        $this->assertFalse($category->getIsActive());
+        $this->assertFalse($category->isActive);
     }
 
     public function testUpdateCategoryNameWhenInactive(): void

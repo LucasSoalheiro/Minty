@@ -19,7 +19,6 @@ class ChangeUserNameUsecase
         if (!$user) {
             throw new UserNotFound($dto->email);
         }
-        
         $user->changeName($dto->name);
         $this->userRepository->save($user);
     }

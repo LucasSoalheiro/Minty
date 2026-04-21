@@ -29,7 +29,7 @@ class ChangeEmailUsecase
             throw new EmailAlreadyInUse($dto->email);
         }
 
-        if (!$this->passwordHasher->compare($dto->password, $user->getPassword()->value())) {
+        if (!$this->passwordHasher->compare($dto->password, $user->password->value())) {
             throw new WrongPassword();
         }
 

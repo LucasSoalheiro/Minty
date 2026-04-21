@@ -36,16 +36,16 @@ class ChangeUserNameTest extends TestCase
     public function testChangeUserName(): void
     {
         $user = $this->makeUser();
-        $dto = new ChangeUserNameDto("Jane Doe", $user->getEmail()->__toString());
+        $dto = new ChangeUserNameDto("Jane Doe", $user->email->__toString());
         $changeUserNameUsecase = new ChangeUserNameUsecase($this->userRepository);
         $changeUserNameUsecase->execute($dto);
-        $updatedUser = $this->userRepository->findByEmail($user->getEmail()->__toString());
-        $this->assertEquals("Jane Doe", $updatedUser->getName());
+        $updatedUser = $this->userRepository->findByEmail($user->email->__toString());
+        $this->assertEquals("Jane Doe", $updatedUser->name);
     }
     public function testChangeUserNameWithTheSameName(): void
     {
         $user = $this->makeUser();
-        $dto = new ChangeUserNameDto("John Doe", $user->getEmail()->__toString());
+        $dto = new ChangeUserNameDto("John Doe", $user->email->__toString());
         $changeUserNameUsecase = new ChangeUserNameUsecase($this->userRepository);
         $this->expectException(NameShouldBeDifferent::class);
         $changeUserNameUsecase->execute($dto);
@@ -54,7 +54,7 @@ class ChangeUserNameTest extends TestCase
     public function testChangeUserNameWithNullName():void
     {
         $user = $this->makeUser();
-        $dto = new ChangeUserNameDto("", $user->getEmail()->__toString());
+        $dto = new ChangeUserNameDto("", $user->email->__toString());
         $changeUserNameUsecase = new ChangeUserNameUsecase($this->userRepository);
         $this->expectException(NameCannotBeNull::class);
         $changeUserNameUsecase->execute($dto);

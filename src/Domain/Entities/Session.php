@@ -7,11 +7,11 @@ use Src\Domain\ValueObject\UUID;
 final class Session
 {
     private function __construct(
-        private readonly UUID $id,
-        private readonly UUID $userId,
-        private string $tokenHash,
-        private \DateTimeImmutable $expiresAt,
-        private bool $revoked = false,
+        public readonly UUID $id,
+        public readonly UUID $userId,
+        public private(set) string $tokenHash,
+        public private(set) \DateTimeImmutable $expiresAt,
+        public private(set) bool $revoked = false,
     ) {
     }
 
@@ -46,30 +46,5 @@ final class Session
     {
         $this->tokenHash = password_hash($newToken, PASSWORD_DEFAULT);
         $this->expiresAt = new \DateTimeImmutable();
-    }
-
-    public function getId(): UUID
-    {
-        return $this->id;
-    }
-
-    public function getUserId(): UUID
-    {
-        return $this->userId;
-    }
-
-    public function getTokenHash(): string
-    {
-        return $this->tokenHash;
-    }
-
-    public function getExpiresAt(): \DateTimeImmutable
-    {
-        return $this->expiresAt;
-    }
-
-    public function getRevoked(): bool
-    {
-        return $this->revoked;
     }
 }

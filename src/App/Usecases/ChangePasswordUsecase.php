@@ -25,7 +25,7 @@ class ChangePasswordUsecase
             throw new EmailNotFound($dto->email);
         }
 
-        if (!$this->passwordHasher->compare($dto->password, $user->getPassword()->value())) {
+        if (!$this->passwordHasher->compare($dto->password, $user->password->value())) {
             throw new WrongPassword();
         }
         Password::validate($dto->newPassword);

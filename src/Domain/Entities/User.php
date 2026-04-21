@@ -10,16 +10,22 @@ use Src\Domain\ValueObject\UUID;
 
 final class User
 {
-
     private function __construct(
-        private readonly UUID $id,
-        private string $name,
-        private Email $email,
-        private Password $password
+        public readonly UUID $id,
+        public private(set) string $name {
+            set(string $name) {
+                if(empty($name)) {
+                    throw new NameCannotBeNull();
+                }
+                $this->name = $name;
+            }
+            get => $this->name;
+        },
+        public private(set) Email $email,
+        public private(set) Password $password
     ) {
 
     }
-
     public static function create(string $name, Email $email, Password $password): self
     {
 
@@ -33,29 +39,8 @@ final class User
     {
         return new self($id, $name, $email, $password);
     }
-    public function getId(): UUID
-    {
-        return $this->id;
-    }
-    public function getName(): string
-    {
-        return $this->name;
-    }
-    public function getEmail(): Email
-    {
-        return $this->email;
-    }
-
-    public function getPassword(): Password
-    {
-        return $this->password;
-    }
-
     public function changeName(string $name): void
     {
-        if (empty($name)) {
-            throw new NameCannotBeNull();
-        }
         if ($this->name === $name) {
             throw new NameShouldBeDifferent($name);
         }
@@ -71,8 +56,9 @@ final class User
     }
 
     public function changePassword(
-        string $newPassword,
+        string $newPassword
     ): void {
+
         $this->password = Password::restore($newPassword);
     }
 

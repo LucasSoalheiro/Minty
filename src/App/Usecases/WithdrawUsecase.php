@@ -35,16 +35,16 @@ class WithdrawUsecase
             throw new CategoryNotFound($dto->categoryId);
         }
 
-        if (!$category->getIsActive()) {
+        if (!$category->isActive) {
             throw new CategoryInactive($dto->categoryId);
         }
 
         $transaction = Transaction::create(
-            $account->getId(),
+            $account->id,
             Money::create($dto->amount),
             TransactionEnum::OUTFLOW,
             $dto->description,
-            $category->getId()
+            $category->id
         );
 
         $account->withdraw(Money::create($dto->amount));
