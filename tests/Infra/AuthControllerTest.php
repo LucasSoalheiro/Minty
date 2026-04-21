@@ -28,9 +28,7 @@ class AuthControllerTest extends WebTestCase
 
     public function testLogin()
     {
-        echo "meudeusmeajude";
         $client = static::createClient();
-        echo "meudeusmeajude";
         $client->disableReboot();
         $email = $this->createUser($client);
 

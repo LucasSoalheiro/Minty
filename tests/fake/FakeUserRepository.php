@@ -9,6 +9,9 @@ use Src\Domain\ValueObject\UUID;
 
 final class FakeUserRepository implements UserRepository
 {
+    /**
+     * @var User[]
+     */
     private array $users = [];
 
     public function save(User $user): void

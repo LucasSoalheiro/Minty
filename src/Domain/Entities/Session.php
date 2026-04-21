@@ -2,6 +2,7 @@
 
 namespace Src\Domain\Entities;
 
+use Src\Domain\Error\InvalidSession;
 use Src\Domain\ValueObject\UUID;
 
 final class Session
@@ -22,7 +23,7 @@ final class Session
         return new self(
             UUID::generate(),
             $userId,
-            $tokenHash,
+            password_hash($tokenHash, PASSWORD_DEFAULT),
             new \DateTimeImmutable("+7 days")
         );
     }
@@ -34,9 +35,12 @@ final class Session
 
     public function revoke(): void
     {
-        $this->revoked == true;
-    }
+        if ($this->revoked) {
+            return;
+        }
 
+        $this->revoked = true;
+    }
     public function matches(string $token): bool
     {
         return password_verify($token, $this->tokenHash);
@@ -44,7 +48,10 @@ final class Session
 
     public function rotate(string $newToken): void
     {
+        if (!$this->isValid()) {
+            throw new InvalidSession("Cannot rotate an invalid session");
+        }
         $this->tokenHash = password_hash($newToken, PASSWORD_DEFAULT);
-        $this->expiresAt = new \DateTimeImmutable();
+        $this->expiresAt = new \DateTimeImmutable("+7 days");
     }
 }

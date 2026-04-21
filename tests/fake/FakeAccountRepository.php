@@ -8,6 +8,9 @@ use Src\Domain\ValueObject\UUID;
 
 class FakeAccountRepository implements AccountRepository
 {
+    /**
+     * @var Account[]
+     */
     private array $accounts = [];
 
     public function save($account): void

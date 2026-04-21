@@ -9,6 +9,9 @@ use Src\Domain\ValueObject\UUID;
 
 final class FakeTransactionRepository implements TransactionRepository
 {
+    /**
+     * @var Transaction[]
+     */
     private array $transactions = [];
 
     public function save(Transaction $transaction): void

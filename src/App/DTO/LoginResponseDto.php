@@ -6,7 +6,7 @@ readonly class LoginResponseDto
 {
     public function __construct(
         public string $accessToken,
-        public string $RefreshToken
+        public string $refreshToken
     ) {
     }
 }

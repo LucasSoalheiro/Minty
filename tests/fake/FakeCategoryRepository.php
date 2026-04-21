@@ -7,6 +7,9 @@ use Src\Domain\Repository\CategoryRepository;
 use Src\Domain\ValueObject\UUID;
 class FakeCategoryRepository implements CategoryRepository
 {
+    /**
+     * @var Category[]
+     */
     private array $categories = [];
 
     public function save($category): void
