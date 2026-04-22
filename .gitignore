@@ -1,8 +1,7 @@
 # Dependências do Composer
 /vendor/
 
-# Autoload gerado
-composer.lock
+
 
 # Arquivos de ambiente
 .env
