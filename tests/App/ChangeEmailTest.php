@@ -8,28 +8,22 @@ use Src\App\Error\EmailAlreadyInUse;
 use Src\App\Error\WrongPassword;
 use Src\App\Usecases\ChangeEmailUsecase;
 use Src\Domain\Entities\User;
-use Src\Domain\Repository\Hasher;
 use Src\Domain\Repository\UserRepository;
 use Src\Domain\ValueObject\Email;
 use Src\Domain\ValueObject\Password;
-use Tests\fake\FakeHasher;
 use Tests\fake\FakeUserRepository;
 
 class ChangeEmailTest extends TestCase
 {
     private UserRepository $userRepository;
-    private Hasher $passwordHasher;
     public function setUp(): void
     {
         $this->userRepository = new FakeUserRepository();
-        $this->passwordHasher = new FakeHasher();
     }
 
     private function makeUser(): User
     {
-        Password::validate('P@ssw0rd');
-        $passwordHash = $this->passwordHasher->hash('P@ssw0rd');
-        $this->userRepository->save(User::create('John Doe', Email::create('john.doe@example.com'), Password::restore($passwordHash)));
+        $this->userRepository->save(User::create('John Doe', Email::create('john.doe@example.com'), Password::create('P@ssw0rd')));
         return $this->userRepository->findByEmail('john.doe@example.com');
     }
 
@@ -38,7 +32,7 @@ class ChangeEmailTest extends TestCase
     {
         $user = $this->makeUser();
         $dto = new ChangeEmailDto($user->id->__toString(), 'jane.doe@example.com', 'P@ssw0rd');
-        $changeEmailUsecase = new ChangeEmailUsecase($this->userRepository, $this->passwordHasher);
+        $changeEmailUsecase = new ChangeEmailUsecase($this->userRepository);
 
         $changeEmailUsecase->execute($dto);
         $updatedUser = $this->userRepository->findById($user->id);
@@ -49,7 +43,7 @@ class ChangeEmailTest extends TestCase
     {
         $user = $this->makeUser();
         $dto = new ChangeEmailDto($user->id->__toString(), 'jane.doe@example.com', 'WrongPassword');
-        $changeEmailUsecase = new ChangeEmailUsecase($this->userRepository, $this->passwordHasher);
+        $changeEmailUsecase = new ChangeEmailUsecase($this->userRepository);
 
         $this->expectException(WrongPassword::class);
         $changeEmailUsecase->execute($dto);
@@ -58,11 +52,11 @@ class ChangeEmailTest extends TestCase
     public function testChangeEmailToExistingEmail(): void
     {
         $user1 = $this->makeUser();
-        $user2 = User::create('Jane Doe', Email::create('jane.doe@example.com'), Password::restore($this->passwordHasher->hash('P@ssw0rd')));
+        $user2 = User::create('Jane Doe', Email::create('jane.doe@example.com'), Password::create('P@ssw0rd'));
         $this->userRepository->save($user2);
 
         $dto = new ChangeEmailDto($user1->id->__toString(), 'jane.doe@example.com', 'P@ssw0rd');
-        $changeEmailUsecase = new ChangeEmailUsecase($this->userRepository, $this->passwordHasher);
+        $changeEmailUsecase = new ChangeEmailUsecase($this->userRepository);
         $this->expectException(EmailAlreadyInUse::class);
         $changeEmailUsecase->execute($dto);
     }

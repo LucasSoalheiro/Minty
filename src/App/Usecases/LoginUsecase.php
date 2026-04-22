@@ -17,7 +17,6 @@ class LoginUsecase
     public function __construct(
         private readonly SessionRepository $sessionRepository,
         private readonly UserRepository $userRepository,
-        private readonly Hasher $passwordHasher,
         private readonly TokenService $tokenService
     ) {
     }
@@ -27,7 +26,7 @@ class LoginUsecase
         if (!$user) {
             throw new EmailNotFound($dto->email);
         }
-        if (!$this->passwordHasher->compare($dto->password, $user->password->value())) {
+        if (!$user->passwordMatch($dto->password)) {
             throw new WrongPassword();
         }
 

@@ -23,7 +23,7 @@ class FindUserByEmailTest extends TestCase
 
     private function makeUser(): void
     {
-        $user = User::create("John Doe", Email::create("john.doe@example.com"), Password::restore("P@ssw0rd"));
+        $user = User::create("John Doe", Email::create("john.doe@example.com"), Password::create("P@ssw0rd"));
         $this->userRepository->save($user);
     }
 

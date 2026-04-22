@@ -10,18 +10,7 @@ final class Password
         private string $hashedPassword
     ) {
     }
-
-    public static function restore(string $hashedPassword): self
-    {
-        return new self($hashedPassword);
-    }
-    
-    public function value(): string
-    {
-        return $this->hashedPassword;
-    }
-
-    public static function validate(string $password): void
+    public static function create($password): self
     {
         if (empty($password)) {
             throw new InvalidPassword();
@@ -33,5 +22,11 @@ final class Password
         if (!preg_match('/[A-Za-z]/', $password) || !preg_match('/\d/', $password)) {
             throw new WeakPassword($password);
         }
+        return new self(password_hash($password, PASSWORD_DEFAULT));
+    }
+
+    public function passwordMatch($password): bool
+    {
+        return password_verify($password, $this->hashedPassword);
     }
 }

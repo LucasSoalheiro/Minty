@@ -14,7 +14,6 @@ class ChangeEmailUsecase
 {
     public function __construct(
         private readonly UserRepository $userRepository,
-        private readonly Hasher $passwordHasher
     ) {
     }
 
@@ -29,7 +28,7 @@ class ChangeEmailUsecase
             throw new EmailAlreadyInUse($dto->email);
         }
 
-        if (!$this->passwordHasher->compare($dto->password, $user->password->value())) {
+        if (!$user->passwordMatch($dto->password)) {
             throw new WrongPassword();
         }
 

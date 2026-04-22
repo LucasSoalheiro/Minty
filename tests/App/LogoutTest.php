@@ -21,7 +21,6 @@ use Tests\fake\FakeUserRepository;
 class LogoutTest extends TestCase
 {
     private UserRepository $userRepository;
-    private Hasher $passwordHasher;
     private TokenService $tokenService;
     private SessionRepository $sessionRepository;
 
@@ -29,21 +28,18 @@ class LogoutTest extends TestCase
     {
         $this->sessionRepository = new FakeSessionRepository();
         $this->userRepository = new FakeUserRepository();
-        $this->passwordHasher = new FakeHasher();
         $this->tokenService = new FakeTokenService();
     }
 
     private function makeUser() 
     {
-        Password::validate('P@ssw0rd');
-        $passwordHash = $this->passwordHasher->hash('P@ssw0rd');
-        $this->userRepository->save(User::create('John Doe', Email::create('john.doe@example.com'), Password::restore($passwordHash)));
+        $this->userRepository->save(User::create('John Doe', Email::create('john.doe@example.com'), Password::create('P@ssw0rd')));
     }
 
     private function makeLogin()
     {
         $this->makeUser();
-        $authenticate = new LoginUsecase($this->sessionRepository, $this->userRepository, $this->passwordHasher, $this->tokenService);
+        $authenticate = new LoginUsecase($this->sessionRepository, $this->userRepository,$this->tokenService);
         $dto = new LoginDto('john.doe@example.com', 'P@ssw0rd');
         return $authenticate->execute($dto);
     }

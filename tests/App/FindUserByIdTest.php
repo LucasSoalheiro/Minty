@@ -23,7 +23,7 @@ class FindUserByIdTest extends TestCase
 
     private function makeUser(): User
     {
-        $user = User::create("John Doe", Email::create("john.doe@example.com"), Password::restore("P@ssw0rd"));
+        $user = User::create("John Doe", Email::create("john.doe@example.com"), Password::create("P@ssw0rd"));
         $this->userRepository->save($user);
         return $user;
 

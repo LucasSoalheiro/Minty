@@ -19,20 +19,16 @@ class CreateCategoryTest extends TestCase
 {
     private CategoryRepository $categoryRepository;
     private UserRepository $userRepository;
-    private Hasher $passwordHasher;
 
     public function setUp(): void
     {
         $this->categoryRepository = new FakeCategoryRepository();
         $this->userRepository = new FakeUserRepository();
-        $this->passwordHasher = new FakeHasher();
     }
 
     private function makeUser(): User
     {
-        Password::validate('P@ssw0rd');
-        $passwordHash = $this->passwordHasher->hash('P@ssw0rd');
-        $this->userRepository->save(User::create('John Doe', Email::create('john.doe@example.com'), Password::restore($passwordHash)));
+        $this->userRepository->save(User::create('John Doe', Email::create('john.doe@example.com'), Password::create('P@ssw0rd')));
         return $this->userRepository->findByEmail('john.doe@example.com');
     }
 

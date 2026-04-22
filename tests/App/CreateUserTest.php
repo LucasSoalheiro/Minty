@@ -13,11 +13,9 @@ use Tests\fake\FakeUserRepository;
 
 class CreateUserTest extends TestCase
 {
-    private Hasher $hasher;
     private UserRepository $userRepository;
     public function setUp(): void
     {
-        $this->hasher = new FakeHasher();
         $this->userRepository = new FakeUserRepository();
         
     }
@@ -28,7 +26,7 @@ class CreateUserTest extends TestCase
 
     public function testCreateUserUsecase(): void
     {
-        $usecase = new CreateUserUsecase($this->userRepository, $this->hasher);
+        $usecase = new CreateUserUsecase($this->userRepository);
         $dto = $this->makeUser();
         $usecase->execute($dto);
         $user = $this->userRepository->findByEmail("john.doe@example.com");
@@ -37,7 +35,7 @@ class CreateUserTest extends TestCase
 
     public function testCreateUserWithExistingEmail(): void
     {
-        $usecase = new CreateUserUsecase($this->userRepository, $this->hasher);
+        $usecase = new CreateUserUsecase($this->userRepository);
         $dto = $this->makeUser();
         $usecase->execute($dto);
         $this->expectException(EmailAlreadyInUse::class);

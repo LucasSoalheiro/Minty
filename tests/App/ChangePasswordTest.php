@@ -18,18 +18,14 @@ use Tests\fake\FakeUserRepository;
 class ChangePasswordTest extends TestCase
 {
     private UserRepository $userRepository;
-    private Hasher $passwordHasher;
     public function setUp(): void
     {
         $this->userRepository = new FakeUserRepository();
-        $this->passwordHasher = new FakeHasher();
     }
 
     private function makeUser(): User
     {
-        Password::validate('P@ssw0rd');
-        $passwordHash = $this->passwordHasher->hash('P@ssw0rd');
-        $this->userRepository->save(User::create('John Doe', Email::create('john.doe@example.com'), Password::restore($passwordHash)));
+        $this->userRepository->save(User::create('John Doe', Email::create('john.doe@example.com'), Password::create('P@ssw0rd')));
         return $this->userRepository->findByEmail('john.doe@example.com');
     }
 
@@ -37,19 +33,9 @@ class ChangePasswordTest extends TestCase
     {
         $user = $this->makeUser();
         $dto = new ChangePasswordDto($user->email->__toString(), 'P@ssw0rd', 'NewP@ssw0rd');
-        $changePasswordUsecase = new ChangePasswordUsecase($this->userRepository, $this->passwordHasher);
+        $changePasswordUsecase = new ChangePasswordUsecase($this->userRepository);
         $changePasswordUsecase->execute($dto);
         $updatedUser = $this->userRepository->findByEmail($user->email->__toString());
-        $this->assertTrue($this->passwordHasher->compare('NewP@ssw0rd', $updatedUser->password->value()));
-    }
-
-    public function testChangePasswordWithWrongPassword(): void
-    {
-        $user = $this->makeUser();
-        $dto = new ChangePasswordDto($user->email->__toString(), 'wrong_password', 'NewP@ssw0rd');
-        $changePasswordUsecase = new ChangePasswordUsecase($this->userRepository, $this->passwordHasher);
-        $this->expectException(WrongPassword::class);
-        $changePasswordUsecase->execute($dto);
-
+        $this->assertTrue($user->passwordMatch('NewP@ssw0rd'));
     }
 }

@@ -2,8 +2,10 @@
 namespace Src\Domain\Entities;
 
 use Src\Domain\Error\EmailShouldBeDifferent;
+use Src\Domain\Error\InvalidPassword;
 use Src\Domain\Error\NameCannotBeNull;
 use Src\Domain\Error\NameShouldBeDifferent;
+use Src\Domain\Error\PasswordDoesNotMatch;
 use Src\Domain\ValueObject\Email;
 use Src\Domain\ValueObject\Password;
 use Src\Domain\ValueObject\UUID;
@@ -22,7 +24,7 @@ final class User
             get => $this->name;
         },
         public private(set) Email $email,
-        public private(set) Password $password
+        private private(set) Password $password
     ) {
 
     }
@@ -32,7 +34,13 @@ final class User
         if (empty($name)) {
             throw new NameCannotBeNull();
         }
-        return new self(UUID::generate(), $name, $email, $password);
+
+        return new self(
+            UUID::generate(),
+            $name,
+            $email,
+            $password
+        );
     }
 
     public static function restore(UUID $id, string $name, Email $email, Password $password): self
@@ -54,12 +62,19 @@ final class User
         }
         $this->email = $email;
     }
-
-    public function changePassword(
-        string $newPassword
-    ): void {
-
-        $this->password = Password::restore($newPassword);
+    public function changePassword(string $oldPassword, string $newPassword): void
+    {
+        if (!$this->password->passwordMatch($oldPassword)) {
+            throw new PasswordDoesNotMatch();
+        }
+        if ($this->password->passwordMatch($newPassword)) {
+            throw new InvalidPassword("The new password should be different");
+        }
+        $this->password = Password::create($newPassword);
     }
 
+    public function passwordMatch($password): bool
+    {
+        return $this->password->passwordMatch($password);
+    }
 }

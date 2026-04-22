@@ -27,7 +27,7 @@ class CreateAccountTest extends TestCase
 
     private function makeUser(): User
     {
-        $this->userRepository->save(User::create('John Doe', Email::create('john.doe@example.com'), Password::restore('password123')));
+        $this->userRepository->save(User::create('John Doe', Email::create('john.doe@example.com'), Password::create('P@ssw0rd')));
         return $this->userRepository->findByEmail('john.doe@example.com');
     }
 

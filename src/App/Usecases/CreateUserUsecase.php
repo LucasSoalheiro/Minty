@@ -14,7 +14,6 @@ class CreateUserUsecase
 {
     public function __construct(
         private readonly UserRepository $userRepository,
-        private readonly Hasher $passwordHasher
     ) {
     }
     public function execute(CreateUserDto $dto): void
@@ -22,13 +21,11 @@ class CreateUserUsecase
         if ($this->userRepository->findByEmail($dto->email) !== null) {
             throw new EmailAlreadyInUse($dto->email);
         }
-        Password::validate($dto->password);
-        $hashedPassword = $this->passwordHasher->hash($dto->password);
 
         $user = User::create(
             $dto->name,
             Email::create($dto->email),
-            Password::restore($hashedPassword)
+            Password::create($dto->password)
         );
 
         $this->userRepository->save($user);

@@ -13,7 +13,6 @@ class ChangePasswordUsecase
 {
     public function __construct(
         private readonly UserRepository $userRepository,
-        private readonly Hasher $passwordHasher
     ) {
     }
 
@@ -25,11 +24,7 @@ class ChangePasswordUsecase
             throw new EmailNotFound($dto->email);
         }
 
-        if (!$this->passwordHasher->compare($dto->password, $user->password->value())) {
-            throw new WrongPassword();
-        }
-        Password::validate($dto->newPassword);
-        $user->changePassword($this->passwordHasher->hash($dto->newPassword));
+        $user->changePassword($dto->password, $dto->newPassword);
         $this->userRepository->save($user);
     }
 }
