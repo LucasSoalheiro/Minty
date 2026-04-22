@@ -24,6 +24,8 @@
     "symfony/config": "^8.0",
     "symfony/dotenv": "^8.0",
     "symfony/string": "^8.0",
-    "symfony/validator": "^8.0"
+    "symfony/validator": "^8.0",
+    "firebase/php-jwt": "^7.0",
+    "paragonie/sodium_compat": "^2.5"
   }
 }

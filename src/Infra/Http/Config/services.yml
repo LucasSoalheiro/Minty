@@ -22,8 +22,6 @@ when@test:
             autoconfigure: true
         Src\Domain\Repository\UserRepository:
             class: Tests\fake\FakeUserRepository
-        Src\Domain\Repository\PasswordHasher:
-            class: Tests\fake\FakeHasher
         Src\App\Security\TokenService:
             class: Tests\fake\FakeTokenService
         Src\Domain\Repository\SessionRepository:
