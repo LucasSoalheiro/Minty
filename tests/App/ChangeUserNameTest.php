@@ -8,11 +8,9 @@ use Src\App\Usecases\ChangeUserNameUsecase;
 use Src\Domain\Entities\User;
 use Src\Domain\Error\NameCannotBeNull;
 use Src\Domain\Error\NameShouldBeDifferent;
-use Src\Domain\Repository\Hasher;
 use Src\Domain\Repository\UserRepository;
 use Src\Domain\ValueObject\Email;
 use Src\Domain\ValueObject\Password;
-use Tests\fake\FakeHasher;
 use Tests\fake\FakeUserRepository;
 
 class ChangeUserNameTest extends TestCase

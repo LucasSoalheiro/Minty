@@ -9,7 +9,6 @@ use Src\Domain\Error\InvalidEmail;
 use Src\Domain\Error\NameCannotBeNull;
 use Src\Domain\Error\NameShouldBeDifferent;
 use Src\Domain\Error\WeakPassword;
-
 use Src\Domain\ValueObject\Email;
 use Src\Domain\ValueObject\Password;
 

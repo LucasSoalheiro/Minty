@@ -4,10 +4,7 @@ namespace Src\App\Usecases;
 
 use Src\App\DTO\ChangePasswordDto;
 use Src\App\Error\EmailNotFound;
-use Src\App\Error\WrongPassword;
-use Src\Domain\Repository\Hasher;
 use Src\Domain\Repository\UserRepository;
-use Src\Domain\ValueObject\Password;
 
 class ChangePasswordUsecase
 {

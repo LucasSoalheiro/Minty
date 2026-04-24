@@ -6,7 +6,6 @@ use Src\App\DTO\ChangeEmailDto;
 use Src\App\Error\EmailAlreadyInUse;
 use Src\App\Error\UserNotFound;
 use Src\App\Error\WrongPassword;
-use Src\Domain\Repository\Hasher;
 use Src\Domain\Repository\UserRepository;
 use Src\Domain\ValueObject\Email;
 

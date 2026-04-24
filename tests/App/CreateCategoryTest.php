@@ -7,12 +7,10 @@ use Src\App\DTO\CreateCategoryDto;
 use Src\App\Usecases\CreateCategoryUsecase;
 use Src\Domain\Entities\User;
 use Src\Domain\Repository\CategoryRepository;
-use Src\Domain\Repository\Hasher;
 use Src\Domain\Repository\UserRepository;
 use Src\Domain\ValueObject\Email;
 use Src\Domain\ValueObject\Password;
 use Tests\fake\FakeCategoryRepository;
-use Tests\fake\FakeHasher;
 use Tests\fake\FakeUserRepository;
 
 class CreateCategoryTest extends TestCase

@@ -4,14 +4,11 @@ namespace Tests\App;
 
 use PHPUnit\Framework\TestCase;
 use Src\App\DTO\ChangePasswordDto;
-use Src\App\Error\WrongPassword;
 use Src\App\Usecases\ChangePasswordUsecase;
 use Src\Domain\Entities\User;
-use Src\Domain\Repository\Hasher;
 use Src\Domain\Repository\UserRepository;
 use Src\Domain\ValueObject\Email;
 use Src\Domain\ValueObject\Password;
-use Tests\fake\FakeHasher;
 use Tests\fake\FakeUserRepository;
 
 

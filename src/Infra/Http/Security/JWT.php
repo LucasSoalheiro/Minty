@@ -8,16 +8,14 @@ use RuntimeException;
 use Src\App\Security\TokenPayload;
 use Src\App\Security\TokenService;
 use Src\Domain\Entities\User;
-use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class JWT implements TokenService
 {
     private string $secret;
-    public function __construct()
+    public function __construct(string $secret)
     {
-
-        $this->secret = $_ENV['JWT_SECRET'];
+        $this->secret = $_ENV['JWT_SECRET'] != null? $_ENV["JWT_SECRET"] : $secret;
     }
     public function generateToken(User $user): string
     {
@@ -38,9 +36,10 @@ class JWT implements TokenService
     public function validateToken(string $token): ?TokenPayload
     {
         try {
+            echo $token;
             $decoded = FirebaseJWT::decode($token, new Key($this->secret, 'HS256'));
-            
-            if ($decoded->iss != "minty"){
+
+            if ($decoded->iss != "minty") {
                 throw new RuntimeException("Invalid Issuer");
             }
             return new TokenPayload($decoded->sub, [
@@ -48,7 +47,7 @@ class JWT implements TokenService
                 'exp' => $decoded->exp
             ]);
         } catch (\Exception $e) {
-            throw new RuntimeException("Invalid Token");
+            throw new RuntimeException($e->getMessage());
         }
     }
 

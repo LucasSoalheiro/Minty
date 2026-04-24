@@ -5,7 +5,6 @@ namespace Src\App\Usecases;
 use Src\App\DTO\CreateUserDto;
 use Src\App\Error\EmailAlreadyInUse;
 use Src\Domain\Entities\User;
-use Src\Domain\Repository\Hasher;
 use Src\Domain\Repository\UserRepository;
 use Src\Domain\ValueObject\Password;
 use Src\Domain\ValueObject\Email;

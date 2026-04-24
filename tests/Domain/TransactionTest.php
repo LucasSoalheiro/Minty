@@ -2,7 +2,6 @@
 
 namespace Tests\Domain;
 
-use Exception;
 use PHPUnit\Framework\TestCase;
 use Src\Domain\Entities\Transaction;
 use Src\Domain\Entities\TransactionEnum;

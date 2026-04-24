@@ -105,7 +105,6 @@ class TransferTest extends TestCase
         $usecase->execute($dto);
     }
 
-    // test the TransactionStatusEnum in the list method of the TransactionRepository
     public function testTransferWithTransactionStatusEnum(): void
     {
         $account1 = $this->makeAccount();

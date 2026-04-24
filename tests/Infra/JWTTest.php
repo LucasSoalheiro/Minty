@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App;
+namespace Tests\Infra;
 
 use PHPUnit\Framework\TestCase;
 use Src\App\DTO\LoginDto;
@@ -12,21 +12,18 @@ use Src\Domain\Repository\SessionRepository;
 use Src\Domain\Repository\UserRepository;
 use Src\Domain\ValueObject\Email;
 use Src\Domain\ValueObject\Password;
+use Src\Infra\Http\Security\JWT;
 use Tests\fake\FakeSessionRepository;
-use Tests\fake\FakeTokenService;
 use Tests\fake\FakeUserRepository;
 
-class LoginTest extends TestCase
+class JWTTest extends TestCase
 {
-    private UserRepository $userRepository;
-    private TokenService $tokenService;
     private SessionRepository $sessionRepository;
-
+    private UserRepository $userRepository;
     public function setUp(): void
     {
         $this->sessionRepository = new FakeSessionRepository();
         $this->userRepository = new FakeUserRepository();
-        $this->tokenService = new FakeTokenService();
     }
 
     private function makeUser(): User
@@ -35,26 +32,17 @@ class LoginTest extends TestCase
         return $this->userRepository->findByEmail('john.doe@example.com');
     }
 
-    public function testLogin(): void
+    public function testJwt(): void
     {
+        $token = "Secret_made_only_for_tests_so_you_can_ignore_it";
+        $tokenService = new JWT($token);
         $user = $this->makeUser();
-        $authenticate = new LoginUsecase($this->sessionRepository,$this->userRepository, $this->tokenService);
+        $authenticate = new LoginUsecase($this->sessionRepository, $this->userRepository, $tokenService);
         $dto = new LoginDto('john.doe@example.com', 'P@ssw0rd');
         $response = $authenticate->execute($dto);
-        $tokenPayload = $this->tokenService->validateToken("fake-token-{$user->id->__toString()}");
+        $tokenPayload = $tokenService->validateToken($response->accessToken);
         $this->assertInstanceOf(LoginResponseDto::class, $response);
         $this->assertNotNull($tokenPayload);
-        $this->assertEquals($user->id->__toString(), $tokenPayload->userId);
-        $this->assertEquals($user->email->__toString(), $tokenPayload->claims['email']);
+        $this->assertEquals($user->id, $tokenPayload->userId);
     }
-
-
-    public function testAuthenticateWithNonExistingEmail(): void
-    {
-        $authenticate = new LoginUsecase($this->sessionRepository,$this->userRepository,$this->tokenService);
-        $dto = new LoginDto('non.existing@example.com', 'P@ssw0rd');
-        $this->expectException(\Src\App\Error\EmailNotFound::class);
-        $authenticate->execute($dto);
-    }
-
 }

@@ -8,7 +8,6 @@ use Src\App\Error\EmailNotFound;
 use Src\App\Error\WrongPassword;
 use Src\App\Security\TokenService;
 use Src\Domain\Entities\Session;
-use Src\Domain\Repository\Hasher;
 use Src\Domain\Repository\SessionRepository;
 use Src\Domain\Repository\UserRepository;
 
