@@ -20,11 +20,12 @@ class UserControllerTest extends WebTestCase
             ])
         );
 
-        // valida criação
         $this->assertResponseStatusCodeSame(201);
 
         return $email;
     }
+
+    // Create User Route Tests
     public function testCreateUser()
     {
         $client = static::createClient();
@@ -86,6 +87,8 @@ class UserControllerTest extends WebTestCase
 
     }
 
+    // Find By Email Route Tests
+
     public function testFindByEmail(): void
     {
         $client = static::createClient();
@@ -100,5 +103,17 @@ class UserControllerTest extends WebTestCase
 
         $data = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals($email, $data['email']);
+    }
+
+    public function testUserNotFoundWithSendedEmail(): void
+    {
+        $client = static::createClient();
+        $client->request(
+            method: "GET",
+            uri: "/users?email=lucas@email.com",
+            server: ["CONTENT_TYPE" => "application/json"]
+        );
+
+        $this->assertResponseStatusCodeSame(404);
     }
 }
