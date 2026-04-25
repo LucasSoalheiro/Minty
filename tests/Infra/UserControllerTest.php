@@ -102,7 +102,7 @@ class UserControllerTest extends WebTestCase
         );
 
         $data = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals($email, $data['email']);
+        $this->assertEquals($email, $data['data']['email']);
     }
 
     public function testUserNotFoundWithSendedEmail(): void
@@ -115,5 +115,75 @@ class UserControllerTest extends WebTestCase
         );
 
         $this->assertResponseStatusCodeSame(404);
+    }
+
+    // Change Email Route Tests
+
+    public function testChangeEmail(): void
+    {
+        $client = static::createClient();
+        $client->disableReboot();
+        $email = $this->createUser($client);
+        $client->request(
+            method: "GET",
+            uri: "/users?email=lucas@email.com",
+            server: ["CONTENT_TYPE" => "application/json"]
+        );
+        $data = json_decode($client->getResponse()->getContent(), true);
+        $client->request(
+            method: "PATCH",
+            uri: "/users/email/" . $data["data"]["id"],
+            server: ["CONTENT_TYPE" => "application/json"],
+            content: json_encode([
+                "email" => "test@email.com",
+                "password" => "P@ssw0t789"
+            ])
+        );
+        $this->assertResponseIsSuccessful();
+    }
+    public function testChangeEmailWithIncorrectPassword(): void
+    {
+        $client = static::createClient();
+        $client->disableReboot();
+        $email = $this->createUser($client);
+        $client->request(
+            method: "GET",
+            uri: "/users?email=lucas@email.com",
+            server: ["CONTENT_TYPE" => "application/json"]
+        );
+        $data = json_decode($client->getResponse()->getContent(), true);
+        $client->request(
+            method: "PATCH",
+            uri: "/users/email/" . $data["data"]["id"],
+            server: ["CONTENT_TYPE" => "application/json"],
+            content: json_encode([
+                "email" => "test@email.com",
+                "password" => "Wrong_password"
+            ])
+        );
+        $this->assertResponseStatusCodeSame(401);
+    }
+    public function testChangeEmailWithAEmailThatIsAlreadyInUse(): void
+    {
+        $client = static::createClient();
+        $client->disableReboot();
+        $email = $this->createUser($client);
+        $email = $this->createUser($client, "other.email@email.com");
+        $client->request(
+            method: "GET",
+            uri: "/users?email=lucas@email.com",
+            server: ["CONTENT_TYPE" => "application/json"]
+        );
+        $data = json_decode($client->getResponse()->getContent(), true);
+        $client->request(
+            method: "PATCH",
+            uri: "/users/email/" . $data["data"]["id"],
+            server: ["CONTENT_TYPE" => "application/json"],
+            content: json_encode([
+                "email" => "other.email@email.com",
+                "password" => "P@ssw0t789"
+            ])
+        );
+        $this->assertResponseStatusCodeSame(409);
     }
 }
