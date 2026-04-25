@@ -36,7 +36,6 @@ class JWT implements TokenService
     public function validateToken(string $token): ?TokenPayload
     {
         try {
-            echo $token;
             $decoded = FirebaseJWT::decode($token, new Key($this->secret, 'HS256'));
 
             if ($decoded->iss != "minty") {

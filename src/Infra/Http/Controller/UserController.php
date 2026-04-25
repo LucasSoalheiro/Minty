@@ -59,25 +59,25 @@ class UserController extends AbstractController
             throw new BadRequestHttpException($e->getMessage());
         }
     }
-
+    #[Route('/users', methods: ['GET'])]
     public function findByEmail(
         Request $request,
         FindByEmailUsecase $findByEmailUsecase,
         ValidatorInterface $validator
     ): Response {
-        $data = json_decode($request->getContent(), true);
-        if ($data === null) {
-            throw new BadRequestHttpException("Invalid JSON body");
+        $email = $request->query->get('email');
+
+        if ($email === null) {
+            throw new BadRequestHttpException("Email is required");
         }
         try {
-            $parsedData = new FindByEmailSchema(
-                email: $data['email']
-            );
-            $errors = $validator->validate($parsedData);
+            $parsedData = new FindByEmailSchema(email: $email);
 
+            $errors = $validator->validate($parsedData);
             if (\count($errors) > 0) {
                 throw new BadRequestHttpException((string) $errors);
             }
+
             $response = $findByEmailUsecase->execute($parsedData->email);
 
             return new JsonResponse([
@@ -85,6 +85,7 @@ class UserController extends AbstractController
                 "name" => $response->name,
                 "email" => $response->email
             ], 200);
+
         } catch (\Exception $e) {
             if ($e instanceof EmailNotFound) {
                 throw new NotFoundHttpException($e->getMessage());
