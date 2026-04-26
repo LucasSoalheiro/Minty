@@ -244,4 +244,24 @@ class UserControllerTest extends WebTestCase
         );
         $this->assertResponseStatusCodeSame(409);
     }
+
+    // Change User Name Tests
+
+    public function testUpdateName(): void
+    {
+        $client = static::createClient();
+        $client->disableReboot();
+        $email = $this->createUser($client);
+
+        $client->request(
+            method: "PATCH",
+            uri: "/users/name?email=$email",
+            server: ["CONTENT_TYPE" => "application/json"],
+            content: json_encode([
+                "email" => "other.email@email.com",
+                "name" => "Joao"
+            ])
+        );
+        $this->assertResponseIsSuccessful();
+    }
 }

@@ -3,15 +3,18 @@ namespace Src\Infra\Http\Controller;
 
 use Src\App\DTO\ChangeEmailDto;
 use Src\App\DTO\ChangePasswordDto;
+use Src\App\DTO\ChangeUserNameDto;
 use Src\App\DTO\CreateUserDto;
 use Src\App\Usecases\ChangeEmailUsecase;
 use Src\App\Usecases\ChangePasswordUsecase;
+use Src\App\Usecases\ChangeUserNameUsecase;
 use Src\App\Usecases\CreateUserUsecase;
 use Src\App\Usecases\FindByEmailUsecase;
 use Src\Infra\Http\Response\ResponseFactory;
 use Src\Infra\Http\Schema\CreateUserSchema;
 use Src\Infra\Http\Schema\FindByEmailSchema;
 use Src\Infra\Http\Schema\UpdateEmailSchema;
+use Src\Infra\Http\Schema\UpdateNameSchema;
 use Src\Infra\Http\Schema\UpdatePasswordSchema;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -137,5 +140,30 @@ class UserController extends AbstractController
 
         $changePasswordUsecase->execute($dto);
         return ResponseFactory::success(null, "Password Updated");
+    }
+
+    #[Route("/users/name", methods: ["PATCH"])]
+    public function updateName(
+        Request $request,
+        ChangeUserNameUsecase $changeUserNameUsecase,
+        ValidatorInterface $validator
+    ): Response {
+        $email = $request->query->get('email');
+        $data = json_decode($request->getContent(), true);
+        if ($data === null) {
+            throw new \InvalidArgumentException("Invalid JSON body");
+        }
+        $parsedData = new UpdateNameSchema(
+            $email,
+            $data['name']
+        );
+
+        $errors = $validator->validate($parsedData);
+        if (\count($errors) > 0) {
+            throw new \InvalidArgumentException((string) $errors);
+        }
+        $dto = new ChangeUserNameDto($parsedData->name, $parsedData->email);
+        $changeUserNameUsecase->execute($dto);
+        return ResponseFactory::success(null, "Name updated");
     }
 }
