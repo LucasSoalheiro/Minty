@@ -167,8 +167,8 @@ class UserControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->disableReboot();
-        $email = $this->createUser($client);
-        $email = $this->createUser($client, "other.email@email.com");
+        $this->createUser($client);
+        $this->createUser($client, "other.email@email.com");
         $client->request(
             method: "GET",
             uri: "/users?email=lucas@email.com",
@@ -186,4 +186,24 @@ class UserControllerTest extends WebTestCase
         );
         $this->assertResponseStatusCodeSame(409);
     }
+
+    public function testUpdatePassword(): void
+    {
+        $client = static::createClient();
+        $client->disableReboot();
+        $email = $this->createUser($client);
+
+        $client->request(
+            method: "PATCH",
+            uri: "/users/password?email=$email",
+            server: ["CONTENT_TYPE" => "application/json"],
+            content: json_encode([
+                "email" => "other.email@email.com",
+                "oldPassword" => "P@ssw0t789",
+                "newPassword" => "NewP@ssw0t789"
+            ])
+        );
+        $this->assertResponseIsSuccessful();
+    }
+
 }

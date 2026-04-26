@@ -107,13 +107,13 @@ class UserController extends AbstractController
         return ResponseFactory::success(null, "Email Updated");
     }
 
-    #[Route("/users/changePassword/{email}", methods: ["PATCH"])]
+    #[Route("/users/password", methods: ["PATCH"])]
     public function updatePassword(
-        string $email,
         Request $request,
         ChangePasswordUsecase $changePasswordUsecase,
         ValidatorInterface $validator
     ): Response {
+        $email = $request->query->get('email');
         $data = json_decode($request->getContent(), true);
         if ($data === null) {
             throw new \InvalidArgumentException("Invalid JSON body");
