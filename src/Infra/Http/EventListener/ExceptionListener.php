@@ -15,6 +15,7 @@ use Src\App\Error\UserNotFound;
 use Src\App\Error\WrongPassword;
 use Src\Domain\Error\AccountAlreadyDeactivated;
 use Src\Domain\Error\CategoryInactive as ErrorCategoryInactive;
+use Src\Domain\Error\ConflictPassword;
 use Src\Domain\Error\EmailShouldBeDifferent;
 use Src\Domain\Error\InsufficientFunds;
 use Src\Domain\Error\InvalidAmount;
@@ -41,47 +42,45 @@ final class ExceptionListener
     public function __invoke(ExceptionEvent $event): void
     {
         $exception = $event->getThrowable();
-        $message = \sprintf(
-            'Error: %s\nCode: %s',
-            $exception->getMessage(),
-            $exception->getCode()
-        );
-        $statusCode = match (true) {
-            $exception instanceof \InvalidArgumentException => 400,
-            $exception instanceof EmailAlreadyInUse => 409,
-            $exception instanceof AccountNotFound => 404,
-            $exception instanceof CategoryAlreadyInactive => 409,
-            $exception instanceof CategoryNotFound => 404,
-            $exception instanceof EmailNotFound => 404,
-            $exception instanceof InvalidRefreshToken => 400,
-            $exception instanceof NeedToUpdateAtLeastOneField => 400,
-            $exception instanceof SessionNotFound => 404,
-            $exception instanceof UserNotFound => 404,
-            $exception instanceof WrongPassword => 401,
-            $exception instanceof AccountAlreadyDeactivated => 409,
-            $exception instanceof CategoryInactive => 409,
-            $exception instanceof ErrorCategoryInactive => 409,
-            $exception instanceof EmailShouldBeDifferent => 409,
-            $exception instanceof InsufficientFunds => 422,
-            $exception instanceof InvalidAmount => 400,
-            $exception instanceof InvalidCreatedAt => 500,
-            $exception instanceof InvalidDescription => 400,
-            $exception instanceof InvalidEmail => 400,
-            $exception instanceof InvalidInitialBalance => 400,
-            $exception instanceof InvalidPassword => 400,
-            $exception instanceof InvalidSession => 400,
-            $exception instanceof InvalidTransfer => 400,
-            $exception instanceof NameCannotBeNull => 400,
-            $exception instanceof NameShouldBeDifferent => 409,
-            $exception instanceof PasswordDoesNotMatch => 403,
-            $exception instanceof TransactionAlreadyCancelled => 409,
-            $exception instanceof UnformattedPassword => 422,
-            $exception instanceof WeakPassword => 422,
+
+        [$statusCode, $errorCode] = match (true) {
+            $exception instanceof \InvalidArgumentException => [400, 'INVALID_ARGUMENT'],
+            $exception instanceof EmailAlreadyInUse => [409, 'EMAIL_ALREADY_IN_USE'],
+            $exception instanceof ConflictPassword => [409, 'CONFLICT_PASSWORD'],
+            $exception instanceof AccountNotFound => [404, 'ACCOUNT_NOT_FOUND'],
+            $exception instanceof CategoryAlreadyInactive => [409, 'CATEGORY_ALREADY_INACTIVE'],
+            $exception instanceof CategoryNotFound => [404, 'CATEGORY_NOT_FOUND'],
+            $exception instanceof EmailNotFound => [404, 'EMAIL_NOT_FOUND'],
+            $exception instanceof InvalidRefreshToken => [400, 'INVALID_REFRESH_TOKEN'],
+            $exception instanceof NeedToUpdateAtLeastOneField => [400, 'NEED_TO_UPDATE_AT_LEAST_ONE_FIELD'],
+            $exception instanceof SessionNotFound => [404, 'SESSION_NOT_FOUND'],
+            $exception instanceof UserNotFound => [404, 'USER_NOT_FOUND'],
+            $exception instanceof WrongPassword => [401, 'WRONG_PASSWORD'],
+            $exception instanceof AccountAlreadyDeactivated => [409, 'ACCOUNT_ALREADY_DEACTIVATED'],
+            $exception instanceof CategoryInactive || $exception instanceof ErrorCategoryInactive => [409, 'CATEGORY_INACTIVE'],
+            $exception instanceof EmailShouldBeDifferent => [409, 'EMAIL_SHOULD_BE_DIFFERENT'],
+            $exception instanceof InsufficientFunds => [422, 'INSUFFICIENT_FUNDS'],
+            $exception instanceof InvalidAmount => [400, 'INVALID_AMOUNT'],
+            $exception instanceof InvalidCreatedAt => [500, 'INVALID_CREATED_AT'],
+            $exception instanceof InvalidDescription => [400, 'INVALID_DESCRIPTION'],
+            $exception instanceof InvalidEmail => [400, 'INVALID_EMAIL'],
+            $exception instanceof InvalidInitialBalance => [400, 'INVALID_INITIAL_BALANCE'],
+            $exception instanceof InvalidPassword => [400, 'INVALID_PASSWORD'],
+            $exception instanceof InvalidSession => [400, 'INVALID_SESSION'],
+            $exception instanceof InvalidTransfer => [400, 'INVALID_TRANSFER'],
+            $exception instanceof NameCannotBeNull => [400, 'NAME_CANNOT_BE_NULL'],
+            $exception instanceof NameShouldBeDifferent => [409, 'NAME_SHOULD_BE_DIFFERENT'],
+            $exception instanceof PasswordDoesNotMatch => [403, 'PASSWORD_DOES_NOT_MATCH'],
+            $exception instanceof TransactionAlreadyCancelled => [409, 'TRANSACTION_ALREADY_CANCELLED'],
+            $exception instanceof UnformattedPassword => [422, 'UNFORMATTED_PASSWORD'],
+            $exception instanceof WeakPassword => [422, 'WEAK_PASSWORD'],
+            default => [500, 'INTERNAL_SERVER_ERROR'],
         };
 
         $response = new JsonResponse([
             'error' => true,
-            'message' => $message
+            'code' => $errorCode,
+            'message' => $exception->getMessage()
         ], $statusCode);
 
         $event->setResponse($response);

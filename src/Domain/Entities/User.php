@@ -1,6 +1,7 @@
 <?php
 namespace Src\Domain\Entities;
 
+use Src\Domain\Error\ConflictPassword;
 use Src\Domain\Error\EmailShouldBeDifferent;
 use Src\Domain\Error\InvalidPassword;
 use Src\Domain\Error\NameCannotBeNull;
@@ -68,7 +69,7 @@ final class User
             throw new PasswordDoesNotMatch();
         }
         if ($this->password->passwordMatch($newPassword)) {
-            throw new InvalidPassword("The new password should be different");
+            throw new ConflictPassword("The new password should be different");
         }
         $this->password = Password::create($newPassword);
     }

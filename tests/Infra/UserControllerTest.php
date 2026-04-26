@@ -187,6 +187,7 @@ class UserControllerTest extends WebTestCase
         $this->assertResponseStatusCodeSame(409);
     }
 
+    // Change Password Tests
     public function testUpdatePassword(): void
     {
         $client = static::createClient();
@@ -206,4 +207,41 @@ class UserControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
     }
 
+    public function testUpdatePasswordWithWrongPassword(): void
+    {
+        $client = static::createClient();
+        $client->disableReboot();
+        $email = $this->createUser($client);
+
+        $client->request(
+            method: "PATCH",
+            uri: "/users/password?email=$email",
+            server: ["CONTENT_TYPE" => "application/json"],
+            content: json_encode([
+                "email" => "other.email@email.com",
+                "oldPassword" => "WrongPassword",
+                "newPassword" => "NewP@ssw0t789"
+            ])
+        );
+        $this->assertResponseStatusCodeSame(403);
+    }
+    
+    public function testUpdatePasswordWitSamePassword(): void
+    {
+        $client = static::createClient();
+        $client->disableReboot();
+        $email = $this->createUser($client);
+
+        $client->request(
+            method: "PATCH",
+            uri: "/users/password?email=$email",
+            server: ["CONTENT_TYPE" => "application/json"],
+            content: json_encode([
+                "email" => "other.email@email.com",
+                "oldPassword" => "P@ssw0t789",
+                "newPassword" => "P@ssw0t789"
+            ])
+        );
+        $this->assertResponseStatusCodeSame(409);
+    }
 }
