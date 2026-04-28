@@ -1,5 +1,6 @@
 parameters:
     kernel.secret: '%env(APP_SECRET)%'
+    jwt_secret: '%env(JWT_SECRET)%'
 
 framework:
     secret: '%kernel.secret%'
@@ -8,6 +9,9 @@ framework:
         type: attribute
     test: true
 services:
+    Src\Infra\Http\Security\JWT:
+        arguments:
+            $secret: '%jwt_secret%'
     _defaults:
         autowire: true
         autoconfigure: true

@@ -38,6 +38,6 @@ class AuthController extends AbstractController
         );
 
         $response = $authenticateUsecase->execute($dto);
-        return ResponseFactory::success($response, "Login Successful");
+        return ResponseFactory::success([ "access_token" => $response->accessToken, "refresh" => $response->refreshToken ], "Login Successful");
     }
 }

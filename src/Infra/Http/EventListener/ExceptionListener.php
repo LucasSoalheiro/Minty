@@ -35,6 +35,7 @@ use Src\Domain\Error\WeakPassword;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
 #[AsEventListener]
 final class ExceptionListener
@@ -42,7 +43,16 @@ final class ExceptionListener
     public function __invoke(ExceptionEvent $event): void
     {
         $exception = $event->getThrowable();
+        if ($exception instanceof HttpExceptionInterface) {
+            $response = new JsonResponse([
+                'error' => true,
+                'code' => $exception->getStatusCode(),
+                'message' => $exception->getMessage()
+            ], $exception->getStatusCode());
 
+            $event->setResponse($response);
+            return;
+        }
         [$statusCode, $errorCode] = match (true) {
             $exception instanceof \InvalidArgumentException => [400, 'INVALID_ARGUMENT'],
             $exception instanceof EmailAlreadyInUse => [409, 'EMAIL_ALREADY_IN_USE'],

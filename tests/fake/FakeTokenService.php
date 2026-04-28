@@ -1,28 +1,51 @@
 <?php
-
 namespace Tests\fake;
 
+use RuntimeException;
 use Src\App\Security\TokenPayload;
 use Src\App\Security\TokenService;
 use Src\Domain\Entities\User;
 
 final class FakeTokenService implements TokenService
 {
-    private array $store = [];
-
     public function generateToken(User $user): string
     {
-        $token = "fake-token-{$user->id->__toString()}";
+        $payload = [
+            'iss' => 'minty',
+            'sub' => $user->id->__toString(),
+            'iat' => time(),
+            'exp' => time() + 900
+        ];
 
-        $this->store[$token] = new TokenPayload($user->id->__toString(), [
-            'email' => $user->email->__toString()
-        ]);
-
-        return $token;
+        return base64_encode(json_encode($payload));
     }
 
     public function validateToken(string $token): ?TokenPayload
     {
-        return $this->store[$token] ?? null;
+        try {
+            $decoded = json_decode(base64_decode($token), true);
+    
+            if (!$decoded) {
+                throw new RuntimeException('Invalid token format');
+            }
+
+            if (($decoded['iss'] ?? null) !== 'minty') {
+                throw new RuntimeException('Invalid issuer');
+            }
+
+            if (($decoded['exp'] ?? 0) < time()) {
+                throw new RuntimeException('Token expired');
+            }
+            return new TokenPayload(
+                $decoded['sub'],
+                [
+                    'sub' => $decoded['sub'],
+                    'exp' => $decoded['exp']
+                ]
+            );
+
+        } catch (\Exception $e) {
+            throw new RuntimeException($e->getMessage());
+        }
     }
 }

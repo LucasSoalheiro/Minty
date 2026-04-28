@@ -15,7 +15,7 @@ class JWT implements TokenService
     private string $secret;
     public function __construct(string $secret)
     {
-        $this->secret = $_ENV['JWT_SECRET'] != null? $_ENV["JWT_SECRET"] : $secret;
+        $this->secret = $secret;
     }
     public function generateToken(User $user): string
     {

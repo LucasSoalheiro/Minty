@@ -31,30 +31,54 @@ class LoginTest extends TestCase
 
     private function makeUser(): User
     {
-        $this->userRepository->save(User::create('John Doe', Email::create('john.doe@example.com'), Password::create('P@ssw0rd')));
+        $this->userRepository->save(
+            User::create(
+                'John Doe',
+                Email::create('john.doe@example.com'),
+                Password::create('P@ssw0rd')
+            )
+        );
+
         return $this->userRepository->findByEmail('john.doe@example.com');
     }
 
     public function testLogin(): void
     {
         $user = $this->makeUser();
-        $authenticate = new LoginUsecase($this->sessionRepository,$this->userRepository, $this->tokenService);
+
+        $authenticate = new LoginUsecase(
+            $this->sessionRepository,
+            $this->userRepository,
+            $this->tokenService
+        );
+
         $dto = new LoginDto('john.doe@example.com', 'P@ssw0rd');
+
         $response = $authenticate->execute($dto);
-        $tokenPayload = $this->tokenService->validateToken("fake-token-{$user->id->__toString()}");
+
+        $token = $response->accessToken ?? $response->token ?? null;
+
+        $this->assertNotNull($token, 'Token not returned in response');
+
+        $tokenPayload = $this->tokenService->validateToken($token);
+
         $this->assertInstanceOf(LoginResponseDto::class, $response);
         $this->assertNotNull($tokenPayload);
         $this->assertEquals($user->id->__toString(), $tokenPayload->userId);
-        $this->assertEquals($user->email->__toString(), $tokenPayload->claims['email']);
     }
-
 
     public function testAuthenticateWithNonExistingEmail(): void
     {
-        $authenticate = new LoginUsecase($this->sessionRepository,$this->userRepository,$this->tokenService);
+        $authenticate = new LoginUsecase(
+            $this->sessionRepository,
+            $this->userRepository,
+            $this->tokenService
+        );
+
         $dto = new LoginDto('non.existing@example.com', 'P@ssw0rd');
+
         $this->expectException(\Src\App\Error\EmailNotFound::class);
+
         $authenticate->execute($dto);
     }
-
 }

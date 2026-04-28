@@ -8,10 +8,9 @@ class UserControllerTest extends WebTestCase
 {
     private function createUser($client, string $email = "lucas@email.com"): string
     {
-
         $client->request(
-            method: "POST",
-            uri: "/users",
+            "POST",
+            "/users",
             server: ["CONTENT_TYPE" => "application/json"],
             content: json_encode([
                 "name" => "Lucas",
@@ -25,26 +24,44 @@ class UserControllerTest extends WebTestCase
         return $email;
     }
 
-    // Create User Route Tests
-    public function testCreateUser()
+    private function loginAndGetToken($client, string $email): string
     {
-        $client = static::createClient();
-
         $client->request(
-            method: "POST",
-            uri: "/users",
-            server: [
-                "CONTENT_TYPE" => "application/json",
-            ],
+            "POST",
+            "/login",
+            server: ["CONTENT_TYPE" => "application/json"],
             content: json_encode([
-                "name" => "Lucas",
-                "email" => "lucas@email.com",
+                "email" => $email,
                 "password" => "P@ssw0t789"
             ])
         );
 
         $this->assertResponseIsSuccessful();
-        $this->assertResponseStatusCodeSame(201);
+
+        $response = json_decode($client->getResponse()->getContent(), true);
+
+        return $response['data']['access_token'];
+    }
+
+    private function authHeader(string $token): array
+    {
+        return [
+            "CONTENT_TYPE" => "application/json",
+            "HTTP_AUTHORIZATION" => "Bearer $token"
+        ];
+    }
+
+    // ========================
+    // CREATE USER
+    // ========================
+
+    public function testCreateUser()
+    {
+        $client = static::createClient();
+
+        $this->createUser($client);
+
+        $this->assertResponseIsSuccessful();
     }
 
     public function testShouldNotCreateUserWIthoutName()
@@ -52,11 +69,9 @@ class UserControllerTest extends WebTestCase
         $client = static::createClient();
 
         $client->request(
-            method: "POST",
-            uri: "/users",
-            server: [
-                "CONTENT_TYPE" => "application/json",
-            ],
+            "POST",
+            "/users",
+            server: ["CONTENT_TYPE" => "application/json"],
             content: json_encode([
                 "email" => "lucas@email.com",
                 "password" => "P@ssw0t789"
@@ -71,11 +86,9 @@ class UserControllerTest extends WebTestCase
         $client = static::createClient();
 
         $client->request(
-            method: "POST",
-            uri: "/users",
-            server: [
-                "CONTENT_TYPE" => "application/json",
-            ],
+            "POST",
+            "/users",
+            server: ["CONTENT_TYPE" => "application/json"],
             content: json_encode([
                 "name" => "Lucas",
                 "email" => "lucasemail.com",
@@ -84,126 +97,112 @@ class UserControllerTest extends WebTestCase
         );
 
         $this->assertResponseStatusCodeSame(400);
-
     }
 
-    // Find By Email Route Tests
-
-    public function testFindByEmail(): void
-    {
-        $client = static::createClient();
-        $client->disableReboot();
-        $email = $this->createUser($client);
-
-        $client->request(
-            method: "GET",
-            uri: "/users?email=lucas@email.com",
-            server: ["CONTENT_TYPE" => "application/json"]
-        );
-
-        $data = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals($email, $data['data']['email']);
-    }
+    // ========================
+    // FIND
+    // ========================
 
     public function testUserNotFoundWithSendedEmail(): void
     {
         $client = static::createClient();
-        $client->request(
-            method: "GET",
-            uri: "/users?email=lucas@email.com",
-            server: ["CONTENT_TYPE" => "application/json"]
-        );
+
+        $client->request("GET", "/users?email=lucas@email.com");
 
         $this->assertResponseStatusCodeSame(404);
     }
 
-    // Change Email Route Tests
+    // ========================
+    // CHANGE EMAIL
+    // ========================
 
     public function testChangeEmail(): void
     {
         $client = static::createClient();
         $client->disableReboot();
+
         $email = $this->createUser($client);
+        $token = $this->loginAndGetToken($client, $email);
+
         $client->request(
-            method: "GET",
-            uri: "/users?email=lucas@email.com",
-            server: ["CONTENT_TYPE" => "application/json"]
-        );
-        $data = json_decode($client->getResponse()->getContent(), true);
-        $client->request(
-            method: "PATCH",
-            uri: "/users/email/" . $data["data"]["id"],
-            server: ["CONTENT_TYPE" => "application/json"],
+            "PATCH",
+            "/users/email",
+            server: $this->authHeader($token),
             content: json_encode([
                 "email" => "test@email.com",
                 "password" => "P@ssw0t789"
             ])
         );
+
         $this->assertResponseIsSuccessful();
     }
+
     public function testChangeEmailWithIncorrectPassword(): void
     {
         $client = static::createClient();
         $client->disableReboot();
+
         $email = $this->createUser($client);
+        $token = $this->loginAndGetToken($client, $email);
+
         $client->request(
-            method: "GET",
-            uri: "/users?email=lucas@email.com",
-            server: ["CONTENT_TYPE" => "application/json"]
-        );
-        $data = json_decode($client->getResponse()->getContent(), true);
-        $client->request(
-            method: "PATCH",
-            uri: "/users/email/" . $data["data"]["id"],
-            server: ["CONTENT_TYPE" => "application/json"],
+            "PATCH",
+            "/users/email",
+            server: $this->authHeader($token),
             content: json_encode([
                 "email" => "test@email.com",
                 "password" => "Wrong_password"
             ])
         );
+
         $this->assertResponseStatusCodeSame(401);
     }
+
     public function testChangeEmailWithAEmailThatIsAlreadyInUse(): void
     {
         $client = static::createClient();
         $client->disableReboot();
-        $this->createUser($client);
-        $this->createUser($client, "other.email@email.com");
+
+        $email = $this->createUser($client);
+        $this->createUser($client, "other@email.com");
+
+        $token = $this->loginAndGetToken($client, $email);
+
         $client->request(
-            method: "GET",
-            uri: "/users?email=lucas@email.com",
-            server: ["CONTENT_TYPE" => "application/json"]
-        );
-        $data = json_decode($client->getResponse()->getContent(), true);
-        $client->request(
-            method: "PATCH",
-            uri: "/users/email/" . $data["data"]["id"],
-            server: ["CONTENT_TYPE" => "application/json"],
+            "PATCH",
+            "/users/email",
+            server: $this->authHeader($token),
             content: json_encode([
-                "email" => "other.email@email.com",
+                "email" => "other@email.com",
                 "password" => "P@ssw0t789"
             ])
         );
+
         $this->assertResponseStatusCodeSame(409);
     }
 
-    // Change Password Tests
+    // ========================
+    // PASSWORD
+    // ========================
+
     public function testUpdatePassword(): void
     {
         $client = static::createClient();
         $client->disableReboot();
+
         $email = $this->createUser($client);
+        $token = $this->loginAndGetToken($client, $email);
 
         $client->request(
-            method: "PATCH",
-            uri: "/users/password?email=$email",
-            server: ["CONTENT_TYPE" => "application/json"],
+            "PATCH",
+            "/users/password?email=$email",
+            server: $this->authHeader($token),
             content: json_encode([
-                "email" => "other.email@email.com",
                 "oldPassword" => "P@ssw0t789",
                 "newPassword" => "NewP@ssw0t789"
             ])
         );
+
         $this->assertResponseIsSuccessful();
     }
 
@@ -211,57 +210,65 @@ class UserControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->disableReboot();
+
         $email = $this->createUser($client);
+        $token = $this->loginAndGetToken($client, $email);
 
         $client->request(
-            method: "PATCH",
-            uri: "/users/password?email=$email",
-            server: ["CONTENT_TYPE" => "application/json"],
+            "PATCH",
+            "/users/password?email=$email",
+            server: $this->authHeader($token),
             content: json_encode([
-                "email" => "other.email@email.com",
                 "oldPassword" => "WrongPassword",
                 "newPassword" => "NewP@ssw0t789"
             ])
         );
+
         $this->assertResponseStatusCodeSame(403);
     }
-    
+
     public function testUpdatePasswordWitSamePassword(): void
     {
         $client = static::createClient();
         $client->disableReboot();
+
         $email = $this->createUser($client);
+        $token = $this->loginAndGetToken($client, $email);
 
         $client->request(
-            method: "PATCH",
-            uri: "/users/password?email=$email",
-            server: ["CONTENT_TYPE" => "application/json"],
+            "PATCH",
+            "/users/password?email=$email",
+            server: $this->authHeader($token),
             content: json_encode([
-                "email" => "other.email@email.com",
                 "oldPassword" => "P@ssw0t789",
                 "newPassword" => "P@ssw0t789"
             ])
         );
+
         $this->assertResponseStatusCodeSame(409);
     }
 
-    // Change User Name Tests
+    // ========================
+    // NAME
+    // ========================
 
     public function testUpdateName(): void
     {
         $client = static::createClient();
         $client->disableReboot();
+
         $email = $this->createUser($client);
+        $token = $this->loginAndGetToken($client, $email);
 
         $client->request(
-            method: "PATCH",
-            uri: "/users/name?email=$email",
-            server: ["CONTENT_TYPE" => "application/json"],
+            "PATCH",
+            "/users/name?email=$email",
+            server: $this->authHeader($token),
             content: json_encode([
-                "email" => "other.email@email.com",
                 "name" => "Joao"
             ])
         );
+
         $this->assertResponseIsSuccessful();
     }
 }

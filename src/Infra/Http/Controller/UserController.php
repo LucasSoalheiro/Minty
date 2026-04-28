@@ -16,6 +16,7 @@ use Src\Infra\Http\Schema\FindByEmailSchema;
 use Src\Infra\Http\Schema\UpdateEmailSchema;
 use Src\Infra\Http\Schema\UpdateNameSchema;
 use Src\Infra\Http\Schema\UpdatePasswordSchema;
+use Src\Infra\Http\Security\RequiresAuth;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -57,6 +58,7 @@ class UserController extends AbstractController
         $createUserUsecase->execute($dto);
         return ResponseFactory::created(null, 'User Created');
     }
+
     #[Route('/users', methods: ['GET'])]
     public function findByEmail(
         Request $request,
@@ -84,13 +86,14 @@ class UserController extends AbstractController
         ], 'User Found');
     }
 
-    #[Route('/users/email/{id}', methods: ['PATCH'])]
+    #[RequiresAuth]
+    #[Route('/users/email', methods: ['PATCH'])]
     public function updateEmail(
-        string $id,
         Request $request,
         ChangeEmailUsecase $changeEmailUsecase,
         ValidatorInterface $validator
     ): Response {
+        $id = $request->attributes->get('user_id');
         $data = json_decode($request->getContent(), true);
         if ($data === null) {
             throw new \InvalidArgumentException("Invalid JSON body");
@@ -110,6 +113,7 @@ class UserController extends AbstractController
         return ResponseFactory::success(null, "Email Updated");
     }
 
+    #[RequiresAuth]
     #[Route("/users/password", methods: ["PATCH"])]
     public function updatePassword(
         Request $request,
@@ -142,6 +146,7 @@ class UserController extends AbstractController
         return ResponseFactory::success(null, "Password Updated");
     }
 
+    #[RequiresAuth]
     #[Route("/users/name", methods: ["PATCH"])]
     public function updateName(
         Request $request,
