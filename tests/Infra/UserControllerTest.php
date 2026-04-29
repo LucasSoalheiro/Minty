@@ -107,9 +107,25 @@ class UserControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $client->request("GET", "/users?email=lucas@email.com");
+        $client->request("GET", "/users/email/lucas@email.com");
 
         $this->assertResponseStatusCodeSame(404);
+    }
+
+
+    // ========================
+    // SEARCH
+    // ========================
+
+    public function testSearchByEmail(): void
+    {
+        $client = static::createClient();
+
+        $this->createUser($client);
+
+        $client->request("GET", "/users/search?email=lucas@email.com");
+
+        $this->assertResponseIsSuccessful();
     }
 
     // ========================

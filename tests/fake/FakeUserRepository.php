@@ -21,7 +21,7 @@ final class FakeUserRepository implements UserRepository
 
     public function searchByEmail(string $email): array
     {
-        return array_filter($this->users, fn($u) => $u->email->equals(Email::create($email)));
+        return array_filter($this->users, fn($u) => str_contains($u->email->__toString(), $email));
     }
 
     public function findByEmail(string $email): ?User

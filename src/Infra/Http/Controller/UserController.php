@@ -10,6 +10,7 @@ use Src\App\Usecases\ChangePasswordUsecase;
 use Src\App\Usecases\ChangeUserNameUsecase;
 use Src\App\Usecases\CreateUserUsecase;
 use Src\App\Usecases\FindByEmailUsecase;
+use Src\App\Usecases\SearchByEmailUsecase;
 use Src\Infra\Http\Response\ResponseFactory;
 use Src\Infra\Http\Schema\CreateUserSchema;
 use Src\Infra\Http\Schema\FindByEmailSchema;
@@ -59,14 +60,13 @@ class UserController extends AbstractController
         return ResponseFactory::created(null, 'User Created');
     }
 
-    #[Route('/users', methods: ['GET'])]
+    #[Route('/users/email/{email}', methods: ['GET'])]
     public function findByEmail(
+        string $email,
         Request $request,
         FindByEmailUsecase $findByEmailUsecase,
         ValidatorInterface $validator
     ): Response {
-        $email = $request->query->get('email');
-
         if ($email === null) {
             throw new \InvalidArgumentException("Email is required");
         }
@@ -84,6 +84,22 @@ class UserController extends AbstractController
             "name" => $response->name,
             "email" => $response->email
         ], 'User Found');
+    }
+
+    #[Route('/users/search', methods: ['GET'])]
+    public function searchByEmail(
+        Request $request,
+        SearchByEmailUsecase $searchByEmailUsecase,
+    ): Response {
+        $search = $request->query->get('email');
+
+        if ($search === null) {
+            throw new \InvalidArgumentException("Search term is required");
+        }
+
+        $response = $searchByEmailUsecase->execute($search);
+
+        return ResponseFactory::success($response->users, 'Users Found');
     }
 
     #[RequiresAuth]

@@ -5,7 +5,7 @@ namespace Src\App\Usecases;
 use Src\App\DTO\SearchByEmailResponse;
 use Src\Domain\Repository\UserRepository;
 
-class SearchByEmail
+class SearchByEmailUsecase
 {
     public function __construct(private readonly UserRepository $userRepository)
     {

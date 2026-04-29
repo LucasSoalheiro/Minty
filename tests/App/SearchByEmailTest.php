@@ -3,8 +3,7 @@
 namespace Tests\App;
 
 use PHPUnit\Framework\TestCase;
-use Src\App\DTO\SearchByEmailResponse;
-use Src\App\Usecases\SearchByEmail;
+use Src\App\Usecases\SearchByEmailUsecase;
 use Src\Domain\Entities\User;
 use Src\Domain\Repository\UserRepository;
 use Src\Domain\ValueObject\Email;
@@ -28,7 +27,7 @@ class SearchByEmailTest extends TestCase
     public function testSearchByEmail(): void
     {
         $this->makeUser();
-        $searchByEmailUsecase = new SearchByEmail($this->userRepository);
+        $searchByEmailUsecase = new SearchByEmailUsecase($this->userRepository);
         $response = $searchByEmailUsecase->execute('john.doe@example.com');
         $this->assertIsArray($response->users);
     }
@@ -36,7 +35,7 @@ class SearchByEmailTest extends TestCase
 
     public function testSearchByEmailWithNoResults(): void
     {
-        $searchByEmailUsecase = new SearchByEmail($this->userRepository);
+        $searchByEmailUsecase = new SearchByEmailUsecase($this->userRepository);
         $response = $searchByEmailUsecase->execute('nonexistent@example.com');
         $this->assertIsArray($response->users);
         $this->assertCount(0, $response->users);
