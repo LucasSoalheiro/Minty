@@ -5,6 +5,7 @@ namespace Src\Infra\Http\Controller;
 use Src\App\DTO\LoginDto;
 use Src\App\Usecases\LoginUsecase;
 use Src\App\Usecases\LogoutUsecase;
+use Src\App\Usecases\RefreshTokenUsecase;
 use Src\Infra\Http\Response\ResponseFactory;
 use Src\Infra\Http\Schema\LoginSchema;
 use Src\Infra\Http\Security\RequiresAuth;
@@ -53,10 +54,10 @@ class AuthController extends AbstractController
                 time() + (7 * 24 * 60 * 60),
                 '/',
                 null,
-                true, 
-                true, 
-                false, 
-                'Strict' 
+                true,
+                true,
+                false,
+                'Strict'
             )
         );
         return $responseHttp;
@@ -73,8 +74,38 @@ class AuthController extends AbstractController
             throw new \InvalidArgumentException("Refresh token not found in cookies");
         }
         $logoutUsecase->execute($refreshToken);
-        $response =  ResponseFactory::noContent();
+        $response = ResponseFactory::noContent();
         $response->headers->clearCookie('refresh_token');
         return $response;
+    }
+
+    #[Route("/refresh", methods: ['POST'])]
+    public function refresh(
+        Request $request,
+        RefreshTokenUsecase $refreshTokenUsecase
+    ): Response {
+        $refreshToken = $request->cookies->get('refresh_token');
+        if (!$refreshToken) {
+            throw new \InvalidArgumentException("Refresh token not found in cookies");
+        }
+        $response = $refreshTokenUsecase->execute($refreshToken);
+        $responseHttp = ResponseFactory::success([
+            "access_token" => $response->accessToken,
+            "refresh" => $response->refreshToken
+        ], "Token Refreshed");
+        $responseHttp->headers->setCookie(
+            new Cookie(
+                'refresh_token',
+                $response->refreshToken,
+                time() + (7 * 24 * 60 * 60),
+                '/',
+                null,
+                true,
+                true,
+                false,
+                'Strict'
+            )
+        );
+        return $responseHttp;   
     }
 }

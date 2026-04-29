@@ -111,4 +111,35 @@ class AuthControllerTest extends WebTestCase
         $this->assertResponseStatusCodeSame(204);
     }
 
+    // refresh token test
+
+    public function testRefreshToken()
+    {
+        $client = static::createClient();
+        $client->disableReboot();
+        $email = $this->createUser($client);
+
+        $client->request(
+            method: "POST",
+            uri: "/login",
+            server: ["CONTENT_TYPE" => "application/json"],
+            content: json_encode([
+                "email" => $email,
+                "password" => "P@ssw0t789"
+            ])
+        );
+        $response = json_decode($client->getResponse()->getContent(), true);
+        $this->assertResponseIsSuccessful();
+        $refreshToken = $client->getResponse()->headers->getCookies()[0]->getValue();
+
+        $client->request(
+            method: "POST",
+            uri: "/refresh",
+            server: ["CONTENT_TYPE" => "application/json", "HTTP_COOKIE" => "refresh_token={$refreshToken}"],
+        );
+
+        $this->assertResponseIsSuccessful();
+        $this->assertResponseStatusCodeSame(200);
+    }
+
 }
