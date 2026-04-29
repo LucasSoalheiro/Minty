@@ -82,4 +82,33 @@ class AuthControllerTest extends WebTestCase
         $this->assertResponseStatusCodeSame(401);
     }
 
+    public function testLogout()
+    {
+        $client = static::createClient();
+        $client->disableReboot();
+        $email = $this->createUser($client);
+
+        $client->request(
+            method: "POST",
+            uri: "/login",
+            server: ["CONTENT_TYPE" => "application/json"],
+            content: json_encode([
+                "email" => $email,
+                "password" => "P@ssw0t789"
+            ])
+        );
+        $response = json_decode($client->getResponse()->getContent(), true);
+        $this->assertResponseIsSuccessful();
+        $refreshToken = $client->getResponse()->headers->getCookies()[0]->getValue();
+
+        $client->request(
+            method: "POST",
+            uri: "/logout",
+            server: ["CONTENT_TYPE" => "application/json", "HTTP_COOKIE" => "refresh_token={$refreshToken}", "HTTP_AUTHORIZATION" => "Bearer " . $response['data']['access_token']],
+
+        );
+
+        $this->assertResponseStatusCodeSame(204);
+    }
+
 }

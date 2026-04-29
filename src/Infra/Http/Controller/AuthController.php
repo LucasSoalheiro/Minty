@@ -4,10 +4,14 @@ namespace Src\Infra\Http\Controller;
 
 use Src\App\DTO\LoginDto;
 use Src\App\Usecases\LoginUsecase;
+use Src\App\Usecases\LogoutUsecase;
 use Src\Infra\Http\Response\ResponseFactory;
 use Src\Infra\Http\Schema\LoginSchema;
+use Src\Infra\Http\Security\RequiresAuth;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -38,6 +42,39 @@ class AuthController extends AbstractController
         );
 
         $response = $authenticateUsecase->execute($dto);
-        return ResponseFactory::success([ "access_token" => $response->accessToken, "refresh" => $response->refreshToken ], "Login Successful");
+        $responseHttp = ResponseFactory::success([
+            "access_token" => $response->accessToken,
+            "refresh" => $response->refreshToken
+        ], "Login Successful");
+        $responseHttp->headers->setCookie(
+            new Cookie(
+                'refresh_token',
+                $response->refreshToken,
+                time() + (7 * 24 * 60 * 60),
+                '/',
+                null,
+                true, 
+                true, 
+                false, 
+                'Strict' 
+            )
+        );
+        return $responseHttp;
+    }
+
+    #[RequiresAuth]
+    #[Route('/logout', methods: ['POST'])]
+    public function logout(
+        Request $request,
+        LogoutUsecase $logoutUsecase
+    ): Response {
+        $refreshToken = $request->cookies->get('refresh_token');
+        if (!$refreshToken) {
+            throw new \InvalidArgumentException("Refresh token not found in cookies");
+        }
+        $logoutUsecase->execute($refreshToken);
+        $response =  ResponseFactory::noContent();
+        $response->headers->clearCookie('refresh_token');
+        return $response;
     }
 }

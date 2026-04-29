@@ -24,7 +24,7 @@ final class FakeTokenService implements TokenService
     {
         try {
             $decoded = json_decode(base64_decode($token), true);
-    
+            
             if (!$decoded) {
                 throw new RuntimeException('Invalid token format');
             }
