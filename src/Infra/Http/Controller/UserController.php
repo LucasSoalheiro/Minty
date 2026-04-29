@@ -10,10 +10,12 @@ use Src\App\Usecases\ChangePasswordUsecase;
 use Src\App\Usecases\ChangeUserNameUsecase;
 use Src\App\Usecases\CreateUserUsecase;
 use Src\App\Usecases\FindByEmailUsecase;
+use Src\App\Usecases\FindUserByIdUsecase;
 use Src\App\Usecases\SearchByEmailUsecase;
 use Src\Infra\Http\Response\ResponseFactory;
 use Src\Infra\Http\Schema\CreateUserSchema;
 use Src\Infra\Http\Schema\FindByEmailSchema;
+use Src\Infra\Http\Schema\FindByIdSchema;
 use Src\Infra\Http\Schema\UpdateEmailSchema;
 use Src\Infra\Http\Schema\UpdateNameSchema;
 use Src\Infra\Http\Schema\UpdatePasswordSchema;
@@ -60,16 +62,30 @@ class UserController extends AbstractController
         return ResponseFactory::created(null, 'User Created');
     }
 
+    #[RequiresAuth]
+    #[Route('/users/me', methods: ['GET'])]
+    public function findById(
+        Request $request,
+        FindUserByIdUsecase $findUserByIdUsecase,
+        ValidatorInterface $validator
+    ): Response {
+        $id = $request->attributes->get('user_id');
+        $parsedData = new FindByIdSchema($id);
+        $errors = $validator->validate($parsedData);
+        if (\count($errors) > 0) {
+            throw new \InvalidArgumentException((string) $errors);
+        }
+
+        $response = $findUserByIdUsecase->execute($parsedData->id);
+        return ResponseFactory::success($response, 'User Found');
+    }
+
     #[Route('/users/email/{email}', methods: ['GET'])]
     public function findByEmail(
         string $email,
-        Request $request,
         FindByEmailUsecase $findByEmailUsecase,
         ValidatorInterface $validator
     ): Response {
-        if ($email === null) {
-            throw new \InvalidArgumentException("Email is required");
-        }
         $parsedData = new FindByEmailSchema(email: $email);
 
         $errors = $validator->validate($parsedData);
@@ -79,11 +95,7 @@ class UserController extends AbstractController
 
         $response = $findByEmailUsecase->execute($parsedData->email);
 
-        return ResponseFactory::success([
-            "id" => $response->id,
-            "name" => $response->name,
-            "email" => $response->email
-        ], 'User Found');
+        return ResponseFactory::success($response, 'User Found');
     }
 
     #[Route('/users/search', methods: ['GET'])]

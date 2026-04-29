@@ -103,6 +103,22 @@ class UserControllerTest extends WebTestCase
     // FIND
     // ========================
 
+    public function testFindById(): void
+    {
+        $client = static::createClient();
+        $client->disableReboot();
+        $email = $this->createUser($client);
+        $token = $this->loginAndGetToken($client, $email);
+
+        $client->request(
+            "GET",
+            "/users/me",
+            server: $this->authHeader($token)
+        );
+
+        $this->assertResponseIsSuccessful();
+    }
+
     public function testUserNotFoundWithSendedEmail(): void
     {
         $client = static::createClient();
@@ -120,10 +136,10 @@ class UserControllerTest extends WebTestCase
     public function testSearchByEmail(): void
     {
         $client = static::createClient();
-
+        $client->disableReboot();
         $this->createUser($client);
 
-        $client->request("GET", "/users/search?email=lucas@email.com");
+        $client->request("GET", "/users/search?email=lucas");
 
         $this->assertResponseIsSuccessful();
     }
