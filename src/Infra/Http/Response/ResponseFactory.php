@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ResponseFactory
 {
-    public static function success(mixed $data = null, ?string $message, int $status = 200): JsonResponse
+    public static function success(mixed $data, ?string $message, int $status = 200): JsonResponse
     {
         return new JsonResponse([
             'success' => true,
@@ -15,7 +15,7 @@ class ResponseFactory
         ], $status);
     }
 
-    public static function created(mixed $data = null, ?string $message, ): JsonResponse
+    public static function created(mixed $data, ?string $message, ): JsonResponse
     {
         return new JsonResponse([
             'success' => true,

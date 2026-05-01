@@ -13,7 +13,7 @@ class FakeAccountRepository implements AccountRepository
      */
     private array $accounts = [];
 
-    public function save($account): void
+    public function save(Account $account): void
     {
         $this->accounts[] = $account;
     }

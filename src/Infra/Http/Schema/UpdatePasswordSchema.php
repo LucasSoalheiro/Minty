@@ -9,17 +9,17 @@ public function __construct(
 
 #[Constraints\NotBlank(message: "Email is required")]
 #[Constraints\Email(message: "Invalid email format")]
-public $email,
+public string $email,
 
 #[Constraints\NotBlank(message: "Email is required")]
 #[Constraints\PasswordStrength(minScore: 1)]
 #[Constraints\Length(min: 6, minMessage: "Password must have at least 6 characters")]
-public $newPassword,
+public string $newPassword,
 
 #[Constraints\NotBlank(message: "Email is required")]
 #[Constraints\PasswordStrength(minScore: 1)]
 #[Constraints\Length(min: 6, minMessage: "Password must have at least 6 characters")]
-public $oldPassword
+public string $oldPassword
 ) {
 }
 }

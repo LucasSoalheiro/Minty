@@ -12,7 +12,7 @@ class FakeCategoryRepository implements CategoryRepository
      */
     private array $categories = [];
 
-    public function save($category): void
+    public function save(Category $category): void
     {
         $this->categories[] = $category;
     }

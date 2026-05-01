@@ -2,11 +2,12 @@
 
 namespace Tests\Infra;
 
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class UserControllerTest extends WebTestCase
 {
-    private function createUser($client, string $email = "lucas@email.com"): string
+    private function createUser(KernelBrowser $client, string $email = "lucas@email.com"): string
     {
         $client->request(
             "POST",
@@ -24,7 +25,7 @@ class UserControllerTest extends WebTestCase
         return $email;
     }
 
-    private function loginAndGetToken($client, string $email): string
+    private function loginAndGetToken(KernelBrowser $client, string $email): string
     {
         $client->request(
             "POST",

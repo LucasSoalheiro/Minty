@@ -32,10 +32,16 @@ use Src\Domain\Error\PasswordDoesNotMatch;
 use Src\Domain\Error\TransactionAlreadyCancelled;
 use Src\Domain\Error\UnformattedPassword;
 use Src\Domain\Error\WeakPassword;
+use Src\Infra\Http\Error\CookieException;
+use Src\Infra\Http\Error\InvalidJsonBody;
+use Src\Infra\Http\Error\ParamsException;
+use Src\Infra\Http\Error\QueryException;
+use Src\Infra\Http\Error\ValidatorException;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
+use Symfony\Component\Validator\Exception\InvalidArgumentException as ValidatorInvalidArgumentException;
 
 #[AsEventListener]
 final class ExceptionListener
@@ -55,6 +61,12 @@ final class ExceptionListener
         }
         [$statusCode, $errorCode] = match (true) {
             $exception instanceof \InvalidArgumentException => [400, 'INVALID_ARGUMENT'],
+            $exception instanceof ValidatorInvalidArgumentException => [400, 'VALIDATION_ERROR'],
+            $exception instanceof CookieException => [400, 'COOKIE_ERROR'],
+            $exception instanceof InvalidJsonBody => [400, 'INVALID_JSON_BODY'],
+            $exception instanceof ValidatorException => [400, 'VALIDATION_ERROR'],
+            $exception instanceof ParamsException => [400, 'PARAMS_ERROR'],
+            $exception instanceof QueryException => [400, 'QUERY_ERROR'],
             $exception instanceof EmailAlreadyInUse => [409, 'EMAIL_ALREADY_IN_USE'],
             $exception instanceof ConflictPassword => [409, 'CONFLICT_PASSWORD'],
             $exception instanceof AccountNotFound => [404, 'ACCOUNT_NOT_FOUND'],

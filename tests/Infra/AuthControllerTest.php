@@ -2,11 +2,12 @@
 
 namespace Tests\Infra;
 
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class AuthControllerTest extends WebTestCase
 {
-    private function createUser($client, string $email = "lucas@email.com"): string
+    private function createUser(KernelBrowser $client, string $email = "lucas@email.com"): string
     {
 
         $client->request(

@@ -1,0 +1,22 @@
+nelmio_api_doc:
+    documentation:
+        info:
+            title: 'Minty API'
+            description: 'Docs for the Minty API'
+            version: '1.0.0'
+
+        components:
+            securitySchemes:
+                Bearer:
+                    type: http
+                    scheme: bearer
+                    bearerFormat: JWT
+
+        security:
+            - Bearer: []
+
+    areas:
+        default:
+            path_patterns:
+                - ^/
+    

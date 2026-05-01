@@ -5,7 +5,6 @@ namespace Tests\Infra;
 use PHPUnit\Framework\TestCase;
 use Src\App\DTO\LoginDto;
 use Src\App\DTO\LoginResponseDto;
-use Src\App\Security\TokenService;
 use Src\App\Usecases\LoginUsecase;
 use Src\Domain\Entities\User;
 use Src\Domain\Repository\SessionRepository;

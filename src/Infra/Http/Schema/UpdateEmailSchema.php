@@ -10,16 +10,16 @@ class UpdateEmailSchema
         
         #[Constraints\NotBlank(message: "ID is required")]
         #[Constraints\Uuid(message: "Invalid UUID format", versions: [4])]
-        public $id,
+        public string $id,
 
         #[Constraints\NotBlank(message: "Email is required")]
         #[Constraints\Email(message: "Invalid email format")]
-        public $email,
+        public string $email,
 
         #[Constraints\NotBlank(message: "Password is required")]
         #[Constraints\PasswordStrength(minScore: 1)]
         #[Constraints\Length(min: 6, minMessage: "Password must have at least 6 characters")]
-        public $password
+        public string $password
     ) {
     }
 }
