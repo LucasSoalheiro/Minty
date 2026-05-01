@@ -2,6 +2,7 @@ parameters:
     kernel.secret: '%env(APP_SECRET)%'
     jwt_secret: '%env(JWT_SECRET)%'
 
+
 framework:
     secret: '%kernel.secret%'
     router:
@@ -26,10 +27,9 @@ when@test:
             autoconfigure: true
         Src\Domain\Repository\UserRepository:
             class: Tests\fake\FakeUserRepository
+        Src\Domain\Repository\AccountRepository:
+            class: Tests\fake\FakeAccountRepository
         Src\App\Security\TokenService:
             class: Tests\fake\FakeTokenService
         Src\Domain\Repository\SessionRepository:
             class: Tests\fake\FakeSessionRepository
-            
-
-    
