@@ -2,6 +2,7 @@
 
 namespace Tests\fake;
 
+use Override;
 use Src\Domain\Entities\Account;
 use Src\Domain\Repository\AccountRepository;
 use Src\Domain\ValueObject\UUID;
@@ -23,7 +24,7 @@ class FakeAccountRepository implements AccountRepository
         return array_find($this->accounts, fn($a) => $a->id->equals(UUID::fromString($id)));
     }
 
-    public function findByUserId(string $userId): array
+    public function list(string $userId): array
     {
         return array_filter($this->accounts, fn($a) => $a->userId->equals(UUID::fromString($userId)));
     }

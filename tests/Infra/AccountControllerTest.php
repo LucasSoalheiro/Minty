@@ -66,4 +66,36 @@ class AccountControllerTest extends WebTestCase
         $this->assertResponseStatusCodeSame(201);
     }
 
+
+    public function testCreateAccountUnauthorized()
+    {
+        $client = static::createClient();
+        $client->request(
+            "POST",
+            "/accounts",
+            server: ["CONTENT_TYPE" => "application/json"],
+            content: json_encode([
+                "name" => "My Account",
+                "balance" => 1000
+            ])
+        );
+        $this->assertResponseStatusCodeSame(401);
+    }
+
+    public function testListAccounts()
+    {
+        $client = static::createClient();
+        $client->disableReboot();
+        $email = $this->createUser($client, "john@example.com");
+        $token = $this->loginAndGetToken($client, $email);
+        $client->request(
+            "GET",
+            "/accounts",
+            server: [
+                "CONTENT_TYPE" => "application/json",
+                "HTTP_AUTHORIZATION" => "Bearer $token"
+            ]
+        );
+        $this->assertResponseIsSuccessful();
+    }
 }

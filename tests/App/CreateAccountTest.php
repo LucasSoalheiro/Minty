@@ -44,7 +44,7 @@ class CreateAccountTest extends TestCase
         $account = new CreateAccountUsecase($this->userRepository, $this->accountRepository);
         $dto = $this->makeAccount();
         $account->execute($dto);
-        $savedAccount = $this->accountRepository->findByUserId($dto->userId);
+        $savedAccount = $this->accountRepository->list($dto->userId);
         $this->assertCount(1, $savedAccount);
         $this->assertEquals($dto->name, $savedAccount[0]->name);
         $this->assertEquals($dto->balance, $savedAccount[0]->balance->value());

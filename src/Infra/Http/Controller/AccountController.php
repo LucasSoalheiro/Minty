@@ -4,6 +4,7 @@ namespace Src\Infra\Http\Controller;
 use OpenApi\Attributes as OA;
 use Src\App\DTO\CreateAccountDto;
 use Src\App\Usecases\CreateAccountUsecase;
+use Src\App\Usecases\ListAccountUsecase;
 use Src\Infra\Http\Error\InvalidJsonBody;
 use Src\Infra\Http\Error\ValidatorException;
 use Src\Infra\Http\Response\ResponseFactory;
@@ -102,5 +103,14 @@ class AccountController extends AbstractController
 
         $createAccountUsecase->execute($dto);
         return ResponseFactory::created(null, "Account created successfully");
+    }
+
+    #[RequiresAuth]
+    #[Route("/accounts", methods: ["GET"])]
+    public function listAccounts(Request $request, ListAccountUsecase $listAccountUsecase): Response
+    {
+        $userId = $request->attributes->get('user_id');
+        $accounts = $listAccountUsecase->execute($userId);
+        return ResponseFactory::success($accounts, "Accounts retrieved successfully");
     }
 }
