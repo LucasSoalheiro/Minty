@@ -98,4 +98,56 @@ class AccountControllerTest extends WebTestCase
         );
         $this->assertResponseIsSuccessful();
     }
+
+    public function testListAccountsUnauthorized()
+    {
+        $client = static::createClient();
+        $client->request(
+            "GET",
+            "/accounts",
+            server: ["CONTENT_TYPE" => "application/json"]
+        );
+        $this->assertResponseStatusCodeSame(401);
+    }
+
+    public function testGetAccountById()
+    {
+        $client = static::createClient();
+        $client->disableReboot();
+        $email = $this->createUser($client, "john@example.com");
+        $token = $this->loginAndGetToken($client, $email);
+        $client->request(
+            "POST",
+            "/accounts",
+            server: [
+                "CONTENT_TYPE" => "application/json",
+                "HTTP_AUTHORIZATION" => "Bearer $token"
+            ],
+            content: json_encode([
+                "name" => "My Account",
+                "balance" => 1000
+            ])
+        );
+        $this->assertResponseStatusCodeSame(201);
+        $client->request(
+            "GET",
+            "/accounts",
+            server: [
+                "CONTENT_TYPE" => "application/json",
+                "HTTP_AUTHORIZATION" => "Bearer $token"
+            ]
+        );
+        $this->assertResponseIsSuccessful();
+        $response = json_decode($client->getResponse()->getContent(), true);
+        $accountId = $response['data'][0]['id'];
+        $client->request(
+            "GET",
+            "/accounts/$accountId",
+            server: [
+                "CONTENT_TYPE" => "application/json",
+                "HTTP_AUTHORIZATION" => "Bearer $token"
+            ]
+        );
+        $this->assertResponseIsSuccessful();
+    }
 }
