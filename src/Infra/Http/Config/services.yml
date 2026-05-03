@@ -31,6 +31,8 @@ when@test:
             class: Tests\fake\FakeAccountRepository
         Src\Domain\Repository\CategoryRepository:
             class: Tests\fake\FakeCategoryRepository
+        Src\Domain\Repository\TransactionRepository:
+            class: Tests\fake\FakeTransactionRepository
         Src\App\Security\TokenService:
             class: Tests\fake\FakeTokenService
         Src\Domain\Repository\SessionRepository:

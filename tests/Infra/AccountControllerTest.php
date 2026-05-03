@@ -150,4 +150,115 @@ class AccountControllerTest extends WebTestCase
         );
         $this->assertResponseIsSuccessful();
     }
+
+    public function testGetAccountByIdUnauthorized()
+    {
+        $client = static::createClient();
+        $client->request(
+            "GET",
+            "/accounts/non-existing-id",
+            server: ["CONTENT_TYPE" => "application/json"]
+        );
+        $this->assertResponseStatusCodeSame(401);
+    }
+
+    public function testGetAccountByIdNotFound()
+    {
+        $client = static::createClient();
+        $client->disableReboot();
+        $email = $this->createUser($client, "john@example.com");
+        $token = $this->loginAndGetToken($client, $email);
+        $client->request(
+            "GET",
+            "/accounts/non-existing-id",
+            server: [
+                "CONTENT_TYPE" => "application/json",
+                "HTTP_AUTHORIZATION" => "Bearer $token"
+            ]
+        );
+        $this->assertResponseStatusCodeSame(404);
+    }
+
+    public function testDeposit()
+    {
+        $client = static::createClient();
+        $client->disableReboot();
+        $email = $this->createUser($client, "john@example.com");
+        $token = $this->loginAndGetToken($client, $email);
+        $client->request(
+            "POST",
+            "/accounts",
+            server: [
+                "CONTENT_TYPE" => "application/json",
+                "HTTP_AUTHORIZATION" => "Bearer $token"
+            ],
+            content: json_encode([
+                "name" => "My Account",
+                "balance" => 1000
+            ])
+        );
+        $this->assertResponseStatusCodeSame(201);
+        $client->request(
+            "GET",
+            "/accounts",
+            server: [
+                "CONTENT_TYPE" => "application/json",
+                "HTTP_AUTHORIZATION" => "Bearer $token"
+            ]
+        );
+        $this->assertResponseIsSuccessful();
+        $response = json_decode($client->getResponse()->getContent(), true);
+        $accountId = $response['data'][0]['id'];
+        $client->request(
+            "POST",
+            "/categories",
+            server: [
+                "CONTENT_TYPE" => "application/json",
+                "HTTP_AUTHORIZATION" => "Bearer $token"
+            ],
+            content: json_encode([
+                "name" => "Test Category",
+                "description" => "This is a test category"
+            ])
+        );
+
+        $this->assertResponseStatusCodeSame(201);
+
+        $client->request(
+            "GET",
+            "/categories",
+            server: [
+                "CONTENT_TYPE" => "application/json",
+                "HTTP_AUTHORIZATION" => "Bearer $token"
+            ]
+        );
+        $this->assertResponseIsSuccessful();
+        $response = json_decode($client->getResponse()->getContent(), true);
+        $categoryId = $response['data'][0]['id'];
+        $client->request(
+            "POST",
+            "/accounts/$accountId/deposit",
+            server: [
+                "CONTENT_TYPE" => "application/json",
+                "HTTP_AUTHORIZATION" => "Bearer $token"
+            ],
+            content: json_encode([
+                "amount" => 500,
+                "categoryId" => $categoryId
+            ])
+        );
+        $this->assertResponseIsSuccessful();
+
+        $client->request(
+            "GET",
+            "/accounts/$accountId",
+            server: [
+                "CONTENT_TYPE" => "application/json",
+                "HTTP_AUTHORIZATION" => "Bearer $token"
+            ]
+        );
+        $this->assertResponseIsSuccessful();
+        $response = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals(1500, $response['data']['balance']);
+    }
 }

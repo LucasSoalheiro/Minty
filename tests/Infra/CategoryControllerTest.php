@@ -66,4 +66,22 @@ class CategoryControllerTest extends WebTestCase
         $this->assertResponseStatusCodeSame(201);
     }
 
+    public function testListCategories(): void
+    {
+        $client = static::createClient();
+        $client->disableReboot();
+        $email = $this->createUser($client, "john.doe@example.com");
+        $token = $this->loginAndGetToken($client, $email);
+
+        $client->request(
+            "GET",
+            "/categories",
+            server: [
+                "HTTP_AUTHORIZATION" => "Bearer $token"
+            ]
+        );
+
+        $this->assertResponseIsSuccessful();
+    }
+
 }

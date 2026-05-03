@@ -42,69 +42,100 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\Validator\Exception\InvalidArgumentException as ValidatorInvalidArgumentException;
+use Psr\Log\LoggerInterface;
 
 #[AsEventListener]
 final class ExceptionListener
 {
+    private const array EXCEPTION_MAP = [
+        CookieException::class => [400, 'COOKIE_ERROR'],
+        InvalidJsonBody::class => [400, 'INVALID_JSON_BODY'],
+        ValidatorException::class => [400, 'VALIDATION_ERROR'],
+        ParamsException::class => [400, 'PARAMS_ERROR'],
+        QueryException::class => [400, 'QUERY_ERROR'],
+        InvalidRefreshToken::class => [400, 'INVALID_REFRESH_TOKEN'],
+        NeedToUpdateAtLeastOneField::class => [400, 'NEED_TO_UPDATE_AT_LEAST_ONE_FIELD'],
+        InvalidAmount::class => [400, 'INVALID_AMOUNT'],
+        InvalidDescription::class => [400, 'INVALID_DESCRIPTION'],
+        InvalidEmail::class => [400, 'INVALID_EMAIL'],
+        InvalidInitialBalance::class => [400, 'INVALID_INITIAL_BALANCE'],
+        InvalidPassword::class => [400, 'INVALID_PASSWORD'],
+        InvalidSession::class => [400, 'INVALID_SESSION'],
+        InvalidTransfer::class => [400, 'INVALID_TRANSFER'],
+        NameCannotBeNull::class => [400, 'NAME_CANNOT_BE_NULL'],
+        WrongPassword::class => [401, 'WRONG_PASSWORD'],
+        PasswordDoesNotMatch::class => [403, 'PASSWORD_DOES_NOT_MATCH'],
+        AccountNotFound::class => [404, 'ACCOUNT_NOT_FOUND'],
+        CategoryNotFound::class => [404, 'CATEGORY_NOT_FOUND'],
+        EmailNotFound::class => [404, 'EMAIL_NOT_FOUND'],
+        SessionNotFound::class => [404, 'SESSION_NOT_FOUND'],
+        UserNotFound::class => [404, 'USER_NOT_FOUND'],
+        EmailAlreadyInUse::class => [409, 'EMAIL_ALREADY_IN_USE'],
+        ConflictPassword::class => [409, 'CONFLICT_PASSWORD'],
+        CategoryAlreadyInactive::class => [409, 'CATEGORY_ALREADY_INACTIVE'],
+        CategoryInactive::class => [409, 'CATEGORY_INACTIVE'],
+        ErrorCategoryInactive::class => [409, 'CATEGORY_INACTIVE'],
+        EmailShouldBeDifferent::class => [409, 'EMAIL_SHOULD_BE_DIFFERENT'],
+        AccountAlreadyDeactivated::class => [409, 'ACCOUNT_ALREADY_DEACTIVATED'],
+        NameShouldBeDifferent::class => [409, 'NAME_SHOULD_BE_DIFFERENT'],
+        TransactionAlreadyCancelled::class => [409, 'TRANSACTION_ALREADY_CANCELLED'],
+        InsufficientFunds::class => [422, 'INSUFFICIENT_FUNDS'],
+        UnformattedPassword::class => [422, 'UNFORMATTED_PASSWORD'],
+        WeakPassword::class => [422, 'WEAK_PASSWORD'],
+        InvalidCreatedAt::class => [500, 'INVALID_CREATED_AT'],
+    ];
+
+    public function __construct(private readonly LoggerInterface $logger)
+    {
+    }
+
     public function __invoke(ExceptionEvent $event): void
     {
         $exception = $event->getThrowable();
-        if ($exception instanceof HttpExceptionInterface) {
-            $response = new JsonResponse([
-                'error' => true,
-                'code' => $exception->getStatusCode(),
-                'message' => $exception->getMessage()
-            ], $exception->getStatusCode());
 
-            $event->setResponse($response);
+        if ($exception instanceof HttpExceptionInterface) {
+            $this->respond($event, $exception->getStatusCode(), $exception->getMessage());
             return;
         }
-        [$statusCode, $errorCode] = match (true) {
-            $exception instanceof \InvalidArgumentException => [400, 'INVALID_ARGUMENT'],
-            $exception instanceof ValidatorInvalidArgumentException => [400, 'VALIDATION_ERROR'],
-            $exception instanceof CookieException => [400, 'COOKIE_ERROR'],
-            $exception instanceof InvalidJsonBody => [400, 'INVALID_JSON_BODY'],
-            $exception instanceof ValidatorException => [400, 'VALIDATION_ERROR'],
-            $exception instanceof ParamsException => [400, 'PARAMS_ERROR'],
-            $exception instanceof QueryException => [400, 'QUERY_ERROR'],
-            $exception instanceof EmailAlreadyInUse => [409, 'EMAIL_ALREADY_IN_USE'],
-            $exception instanceof ConflictPassword => [409, 'CONFLICT_PASSWORD'],
-            $exception instanceof AccountNotFound => [404, 'ACCOUNT_NOT_FOUND'],
-            $exception instanceof CategoryAlreadyInactive => [409, 'CATEGORY_ALREADY_INACTIVE'],
-            $exception instanceof CategoryNotFound => [404, 'CATEGORY_NOT_FOUND'],
-            $exception instanceof EmailNotFound => [404, 'EMAIL_NOT_FOUND'],
-            $exception instanceof InvalidRefreshToken => [400, 'INVALID_REFRESH_TOKEN'],
-            $exception instanceof NeedToUpdateAtLeastOneField => [400, 'NEED_TO_UPDATE_AT_LEAST_ONE_FIELD'],
-            $exception instanceof SessionNotFound => [404, 'SESSION_NOT_FOUND'],
-            $exception instanceof UserNotFound => [404, 'USER_NOT_FOUND'],
-            $exception instanceof WrongPassword => [401, 'WRONG_PASSWORD'],
-            $exception instanceof AccountAlreadyDeactivated => [409, 'ACCOUNT_ALREADY_DEACTIVATED'],
-            $exception instanceof CategoryInactive || $exception instanceof ErrorCategoryInactive => [409, 'CATEGORY_INACTIVE'],
-            $exception instanceof EmailShouldBeDifferent => [409, 'EMAIL_SHOULD_BE_DIFFERENT'],
-            $exception instanceof InsufficientFunds => [422, 'INSUFFICIENT_FUNDS'],
-            $exception instanceof InvalidAmount => [400, 'INVALID_AMOUNT'],
-            $exception instanceof InvalidCreatedAt => [500, 'INVALID_CREATED_AT'],
-            $exception instanceof InvalidDescription => [400, 'INVALID_DESCRIPTION'],
-            $exception instanceof InvalidEmail => [400, 'INVALID_EMAIL'],
-            $exception instanceof InvalidInitialBalance => [400, 'INVALID_INITIAL_BALANCE'],
-            $exception instanceof InvalidPassword => [400, 'INVALID_PASSWORD'],
-            $exception instanceof InvalidSession => [400, 'INVALID_SESSION'],
-            $exception instanceof InvalidTransfer => [400, 'INVALID_TRANSFER'],
-            $exception instanceof NameCannotBeNull => [400, 'NAME_CANNOT_BE_NULL'],
-            $exception instanceof NameShouldBeDifferent => [409, 'NAME_SHOULD_BE_DIFFERENT'],
-            $exception instanceof PasswordDoesNotMatch => [403, 'PASSWORD_DOES_NOT_MATCH'],
-            $exception instanceof TransactionAlreadyCancelled => [409, 'TRANSACTION_ALREADY_CANCELLED'],
-            $exception instanceof UnformattedPassword => [422, 'UNFORMATTED_PASSWORD'],
-            $exception instanceof WeakPassword => [422, 'WEAK_PASSWORD'],
-            default => [500, 'INTERNAL_SERVER_ERROR'],
-        };
 
-        $response = new JsonResponse([
-            'error' => true,
-            'code' => $errorCode,
-            'message' => $exception->getMessage()
-        ], $statusCode);
+        [$status, $code] = $this->resolve($exception);
 
-        $event->setResponse($response);
+        if ($status >= 500) {
+            $this->logger->error($exception->getMessage(), ['exception' => $exception]);
+        }
+
+        $this->respond($event, $status, $this->formatMessage($exception), $code);
+    }
+
+    private function resolve(\Throwable $exception): array
+    {
+        foreach (self::EXCEPTION_MAP as $class => $mapping) {
+            if ($exception instanceof $class) {
+                return $mapping;
+            }
+        }
+
+        return [500, 'INTERNAL_SERVER_ERROR'];
+    }
+
+    private function formatMessage(\Throwable $exception): string
+    {
+        if (!$exception instanceof ValidatorInvalidArgumentException) {
+            return $exception->getMessage();
+        }
+
+        $message = preg_replace('/^Object\(.*?\)\..*?:[\s\n]+/', '', $exception->getMessage());
+        return preg_replace('/\s*\(code.*\)\s*/', '', $message);
+    }
+
+    private function respond(ExceptionEvent $event, int $status, string $message, string $code = ''): void
+    {
+        $body = ['error' => true, 'message' => $message];
+
+        if ($code !== '') {
+            $body['code'] = $code;
+        }
+
+        $event->setResponse(new JsonResponse($body, $status));
     }
 }

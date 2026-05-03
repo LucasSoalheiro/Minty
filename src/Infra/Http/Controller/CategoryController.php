@@ -4,6 +4,7 @@ namespace Src\Infra\Http\Controller;
 
 use Src\App\DTO\CreateCategoryDto;
 use Src\App\Usecases\CreateCategoryUsecase;
+use Src\App\Usecases\ListCategoriesUsecase;
 use Src\Infra\Http\Error\InvalidJsonBody;
 use Src\Infra\Http\Error\ValidatorException;
 use Src\Infra\Http\Response\ResponseFactory;
@@ -49,5 +50,20 @@ class CategoryController extends AbstractController
 
         $createCategoryUsecase->execute($dto);
         return ResponseFactory::created(null, 'Category created successfully');
+    }
+
+    #[RequiresAuth]
+    #[Route('/categories', methods: ['GET'])]
+    public function listCategories(Request $request, ListCategoriesUsecase $listCategoriesUsecase): Response
+    {
+        $userId = $request->attributes->get('user_id');
+        $isActive = $request->query->get('isActive');
+
+        if ($isActive !== null) {
+            $isActive = filter_var($isActive, FILTER_VALIDATE_BOOLEAN);
+        }
+
+        $categories = $listCategoriesUsecase->execute($userId, $isActive);
+        return ResponseFactory::success($categories, 'Categories retrieved successfully');
     }
 }
