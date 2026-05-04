@@ -13,6 +13,7 @@ use Src\Infra\Http\Error\ValidatorException;
 use Src\Infra\Http\Response\ResponseFactory;
 use Src\Infra\Http\Schema\LoginSchema;
 use Src\Infra\Http\Security\RequiresAuth;
+use Src\Infra\Http\Util\RequestValidator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
@@ -90,24 +91,12 @@ class AuthController extends AbstractController
     public function login(
         Request $request,
         LoginUsecase $authenticateUsecase,
-        ValidatorInterface $validator
+        RequestValidator $requestValidator,
     ) {
-        $data = json_decode($request->getContent(), true);
-        if ($data === null) {
-            throw new InvalidJsonBody();
-        }
-        $parsedData = new LoginSchema(
-            $data['email'],
-            $data['password']
-        );
-        $errors = $validator->validate($parsedData);
-
-        if (\count($errors) > 0) {
-            throw new ValidatorException((string) $errors);
-        }
-        $dto = new LoginDto(
-            email: $parsedData->email,
-            password: $parsedData->password
+        $dto = $requestValidator->validate(
+            $request,
+            LoginSchema::class,
+            LoginDto::class
         );
 
         $response = $authenticateUsecase->execute($dto);
@@ -224,6 +213,6 @@ class AuthController extends AbstractController
                 'Strict'
             )
         );
-        return $responseHttp;   
+        return $responseHttp;
     }
 }

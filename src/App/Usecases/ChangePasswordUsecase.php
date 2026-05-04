@@ -21,7 +21,7 @@ class ChangePasswordUsecase
             throw new EmailNotFound($dto->email);
         }
 
-        $user->changePassword($dto->password, $dto->newPassword);
+        $user->changePassword($dto->oldPassword, $dto->newPassword);
         $this->userRepository->save($user);
     }
 }

@@ -15,6 +15,7 @@ use Src\Infra\Http\Response\ResponseFactory;
 use Src\Infra\Http\Schema\CreateAccountSchema;
 use Src\Infra\Http\Schema\DepositSchema;
 use Src\Infra\Http\Security\RequiresAuth;
+use Src\Infra\Http\Util\RequestValidator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -79,31 +80,14 @@ class AccountController extends AbstractController
     public function create(
         Request $request,
         CreateAccountUsecase $createAccountUsecase,
-        ValidatorInterface $validator
+        RequestValidator $requestValidator
     ): Response {
         $userId = $request->attributes->get('user_id');
-        $data = json_decode($request->getContent(), true);
-        if ($data === null) {
-            throw new InvalidJsonBody();
-        }
-
-        $parsedData = new CreateAccountSchema(
-            name: $data['name'],
-            balance: $data['balance'],
-            userId: $userId
-
-        );
-
-        $errors = $validator->validate($parsedData);
-
-        if (\count($errors) > 0) {
-            throw new ValidatorException((string) $errors);
-        }
-
-        $dto = new CreateAccountDto(
-            name: $parsedData->name,
-            balance: $parsedData->balance,
-            userId: $parsedData->userId
+        $dto = $requestValidator->validate(
+            $request,
+            CreateAccountSchema::class,
+            CreateAccountDto::class,
+            ['userId' => $userId]
         );
 
         $createAccountUsecase->execute($dto);
@@ -132,34 +116,16 @@ class AccountController extends AbstractController
 
     #[RequiresAuth]
     #[Route("/accounts/{accountId}/deposit", methods: ["Post"])]
-    public function deposit(string $accountId, Request $request, DepositUsecase $depositUsecase, ValidatorInterface $validator): Response
+    public function deposit(string $accountId, Request $request, DepositUsecase $depositUsecase, RequestValidator $requestValidator): Response
     {
         if (!$accountId) {
             throw new ParamsException("Account ID is required");
         }
-        $data = json_decode($request->getContent(), true);
-        if ($data === null) {
-            throw new InvalidJsonBody();
-        }
-
-        $parsedData = new DepositSchema(
-            accountId: $accountId,
-            amount: $data['amount'],
-            categoryId: $data['categoryId'],
-            description: $data['description'] ?? null
-        );
-
-        $errors = $validator->validate($parsedData);
-
-        if (\count($errors) > 0) {
-            throw new ValidatorException((string) $errors);
-        }
-
-        $dto = new DepositDto(
-            accountId: $parsedData->accountId,
-            amount: $parsedData->amount,
-            categoryId: $parsedData->categoryId,
-            description: $parsedData->description
+        $dto = $requestValidator->validate(
+            $request,
+            DepositSchema::class,
+            DepositDto::class,
+            ['accountId' => $accountId]
         );
         $depositUsecase->execute($dto);
         return ResponseFactory::success(null, "Deposit successful");

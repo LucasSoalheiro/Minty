@@ -25,6 +25,7 @@ use Src\Infra\Http\Schema\UpdateEmailSchema;
 use Src\Infra\Http\Schema\UpdateNameSchema;
 use Src\Infra\Http\Schema\UpdatePasswordSchema;
 use Src\Infra\Http\Security\RequiresAuth;
+use Src\Infra\Http\Util\RequestValidator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -88,32 +89,13 @@ class UserController extends AbstractController
     public function create(
         Request $request,
         CreateUserUsecase $createUserUsecase,
-        ValidatorInterface $validator
+        RequestValidator $requestValidator
     ): Response {
-        $data = json_decode($request->getContent(), true);
-
-        if ($data === null) {
-            throw new InvalidJsonBody();
-        }
-
-        $parsedData = new CreateUserSchema(
-            name: $data['name'] ?? '',
-            email: $data['email'] ?? '',
-            password: $data['password'] ?? ''
+        $dto = $requestValidator->validate(
+            $request,
+            CreateUserSchema::class,
+            CreateUserDto::class
         );
-
-        $errors = $validator->validate($parsedData);
-
-        if (\count($errors) > 0) {
-            throw new ValidatorException((string) $errors);
-        }
-
-        $dto = new CreateUserDto(
-            name: $parsedData->name,
-            email: $parsedData->email,
-            password: $parsedData->password
-        );
-
         $createUserUsecase->execute($dto);
         return ResponseFactory::created(null, 'User Created');
     }
@@ -325,23 +307,15 @@ class UserController extends AbstractController
     public function updateEmail(
         Request $request,
         ChangeEmailUsecase $changeEmailUsecase,
-        ValidatorInterface $validator
+        RequestValidator $requestValidator
     ): Response {
         $id = $request->attributes->get('user_id');
-        $data = json_decode($request->getContent(), true);
-        if ($data === null) {
-            throw new InvalidJsonBody();
-        }
-        $parsedData = new UpdateEmailSchema(
-            id: $id,
-            email: $data['email'] ?? '',
-            password: $data['password'] ?? ''
+        $dto = $requestValidator->validate(
+            $request,
+            UpdateEmailSchema::class,
+            ChangeEmailDto::class,
+            ['id' => $id]
         );
-        $errors = $validator->validate($parsedData);
-        if (\count($errors) > 0) {
-            throw new ValidatorException((string) $errors);
-        }
-        $dto = new ChangeEmailDto($parsedData->id, $parsedData->email, $parsedData->password);
         $changeEmailUsecase->execute($dto);
 
         return ResponseFactory::success(null, "Email Updated");
@@ -396,28 +370,14 @@ class UserController extends AbstractController
     public function updatePassword(
         Request $request,
         ChangePasswordUsecase $changePasswordUsecase,
-        ValidatorInterface $validator
+        RequestValidator $requestValidator
     ): Response {
         $email = $request->query->get('email');
-        $data = json_decode($request->getContent(), true);
-        if ($data === null) {
-            throw new InvalidJsonBody();
-        }
-        $parsedData = new UpdatePasswordSchema(
-            $email,
-            $data['newPassword'] ?? '',
-            $data['oldPassword'] ?? ''
-        );
-
-        $errors = $validator->validate($parsedData);
-        if (\count($errors) > 0) {
-            throw new ValidatorException((string) $errors);
-        }
-
-        $dto = new ChangePasswordDto(
-            $parsedData->email,
-            $parsedData->oldPassword,
-            $parsedData->newPassword
+        $dto = $requestValidator->validate(
+            $request,
+            UpdatePasswordSchema::class,
+            ChangePasswordDto::class,
+            ['email' => $email]
         );
 
         $changePasswordUsecase->execute($dto);
@@ -461,23 +421,15 @@ class UserController extends AbstractController
     public function updateName(
         Request $request,
         ChangeUserNameUsecase $changeUserNameUsecase,
-        ValidatorInterface $validator
+        RequestValidator $requestValidator
     ): Response {
         $email = $request->query->get('email');
-        $data = json_decode($request->getContent(), true);
-        if ($data === null) {
-            throw new InvalidJsonBody();
-        }
-        $parsedData = new UpdateNameSchema(
-            $email,
-            $data['name'] ?? ''
+        $dto = $requestValidator->validate(
+            $request,
+            UpdateNameSchema::class,
+            ChangeUserNameDto::class,
+            ['email' => $email]
         );
-
-        $errors = $validator->validate($parsedData);
-        if (\count($errors) > 0) {
-            throw new ValidatorException((string) $errors);
-        }
-        $dto = new ChangeUserNameDto($parsedData->name, $parsedData->email);
         $changeUserNameUsecase->execute($dto);
         return ResponseFactory::success(null, "Name updated");
     }
