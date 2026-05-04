@@ -5,6 +5,7 @@ namespace Src\Infra\Http\Controller;
 use Src\App\DTO\CreateCategoryDto;
 use Src\App\DTO\UpdateCategoryDto;
 use Src\App\Usecases\CreateCategoryUsecase;
+use Src\App\Usecases\DeactiveCategoryUsecase;
 use Src\App\Usecases\ListCategoriesUsecase;
 use Src\App\Usecases\UpdateCategoryUsecase;
 use Src\Infra\Http\Error\InvalidJsonBody;
@@ -59,5 +60,13 @@ class CategoryController extends AbstractController
         $dto = $requestValidator->validate($request, UpdateCategorySchema::class, UpdateCategoryDto::class, ['id' => $categoryId]);
         $updateCategoryUsecase->execute($dto);
         return ResponseFactory::success(null, 'Category updated successfully');
+    }
+
+    #[RequiresAuth]
+    #[Route("/categories/{categoryId}", methods: ["DELETE"])]
+    public function deactiveCategory(string $categoryId, DeactiveCategoryUsecase $deactiveCategoryUsecase): Response
+    {
+        $deactiveCategoryUsecase->execute($categoryId);
+        return ResponseFactory::noContent();
     }
 }

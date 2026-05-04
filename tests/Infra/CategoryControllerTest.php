@@ -129,4 +129,46 @@ class CategoryControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
     }
 
+    public function testDeactiveCategory(): void
+    {
+        $client = static::createClient();
+        $client->disableReboot();
+        $email = $this->createUser($client, "john.doe@example.com");
+        $token = $this->loginAndGetToken($client, $email);
+        $client->request(
+            "POST",
+            "/categories",
+            server: [
+                "CONTENT_TYPE" => "application/json",
+                "HTTP_AUTHORIZATION" => "Bearer $token"
+            ],
+            content: json_encode([
+                "name" => "Test Category",
+                "description" => "This is a test category"
+            ])
+        );
+        $this->assertResponseStatusCodeSame(201);
+        $client->request(
+            "GET",
+            "/categories",
+            server: [
+                "HTTP_AUTHORIZATION" => "Bearer $token"
+            ]
+        );
+
+        $this->assertResponseIsSuccessful();
+        $response = json_decode($client->getResponse()->getContent(), true);
+        $categoryId = $response['data'][0]['id'];
+        $client->request(
+            "DELETE",
+            "/categories/$categoryId",
+            server: [
+                "CONTENT_TYPE" => "application/json",
+                "HTTP_AUTHORIZATION" => "Bearer $token"
+            ]
+        );
+
+        $this->assertResponseIsSuccessful();
+    }
+
 }
