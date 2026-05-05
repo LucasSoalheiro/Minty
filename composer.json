@@ -27,6 +27,8 @@
     "symfony/validator": "^8.0",
     "firebase/php-jwt": "^7.0",
     "paragonie/sodium_compat": "^2.5",
-    "nelmio/api-doc-bundle": "^5.10"
+    "nelmio/api-doc-bundle": "^5.10",
+    "symfony/twig-bundle": "^8.0",
+    "symfony/asset": "^8.0"
   }
 }

@@ -5,17 +5,13 @@ parameters:
 
 framework:
     secret: '%kernel.secret%'
-    router:
-        resource: '%kernel.project_dir%/src/Infra/Http/Controller/'
-        type: attribute
     test: true
 services:
-    Src\Infra\Http\Security\JWT:
-        arguments:
-            $secret: '%jwt_secret%'
     _defaults:
         autowire: true
         autoconfigure: true
+        bind:
+            string $secret: '%env(JWT_SECRET)%'
 
     Src\:
         resource: '../../../*'

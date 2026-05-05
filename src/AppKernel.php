@@ -4,10 +4,13 @@ namespace Src;
 
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
+use Symfony\Bundle\TwigBundle\TwigBundle;
+use Nelmio\ApiDocBundle\NelmioApiDocBundle;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
 class AppKernel extends Kernel
 {
@@ -17,6 +20,8 @@ class AppKernel extends Kernel
     {
         return [
             new FrameworkBundle(),
+            new TwigBundle(),
+            new NelmioApiDocBundle(),
         ];
     }
 
@@ -25,8 +30,15 @@ class AppKernel extends Kernel
         return \dirname(__DIR__);
     }
 
-    private function configureContainer(ContainerConfigurator $container, LoaderInterface $loader, ContainerBuilder $builder): void
+    protected function configureContainer(ContainerConfigurator $container, LoaderInterface $loader, ContainerBuilder $builder): void
     {
-        $loader->load($this->getProjectDir() . '/src/Infra/Http/Config/services.yml');
+        $container->import($this->getProjectDir() . '/src/Infra/Http/Config/services.yml');
+        $container->import($this->getProjectDir() . '/src/Infra/Http/Config/packages/*.yaml');
+    }
+
+    protected function configureRoutes(RoutingConfigurator $routes): void
+    {
+        $routes->import($this->getProjectDir() . '/src/Infra/Http/Config/routes/*.yaml');
+        $routes->import($this->getProjectDir() . '/src/Infra/Http/Controller/', 'attribute');
     }
 }
