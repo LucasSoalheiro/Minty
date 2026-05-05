@@ -4,16 +4,19 @@ namespace Src\Infra\Http\Controller;
 use OpenApi\Attributes as OA;
 use Src\App\DTO\CreateAccountDto;
 use Src\App\DTO\DepositDto;
+use Src\App\DTO\WithdrawDto;
 use Src\App\Usecases\CreateAccountUsecase;
 use Src\App\Usecases\DepositUsecase;
 use Src\App\Usecases\FindAccountByIdUsecase;
 use Src\App\Usecases\ListAccountUsecase;
+use Src\App\Usecases\WithdrawUsecase;
 use Src\Infra\Http\Error\InvalidJsonBody;
 use Src\Infra\Http\Error\ParamsException;
 use Src\Infra\Http\Error\ValidatorException;
 use Src\Infra\Http\Response\ResponseFactory;
 use Src\Infra\Http\Schema\CreateAccountSchema;
 use Src\Infra\Http\Schema\DepositSchema;
+use Src\Infra\Http\Schema\WithdrawSchema;
 use Src\Infra\Http\Security\RequiresAuth;
 use Src\Infra\Http\Util\RequestValidator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -115,7 +118,7 @@ class AccountController extends AbstractController
     }
 
     #[RequiresAuth]
-    #[Route("/accounts/{accountId}/deposit", methods: ["Post"])]
+    #[Route("/accounts/{accountId}/deposit", methods: ["POST"])]
     public function deposit(string $accountId, Request $request, DepositUsecase $depositUsecase, RequestValidator $requestValidator): Response
     {
         if (!$accountId) {
@@ -129,5 +132,22 @@ class AccountController extends AbstractController
         );
         $depositUsecase->execute($dto);
         return ResponseFactory::success(null, "Deposit successful");
+    }
+
+    #[RequiresAuth]
+    #[Route("/accounts/{accountId}/withdraw", methods: ["POST"])]
+    public function withdraw(string $accountId, Request $request, WithdrawUsecase $withdrawUsecase, RequestValidator $requestValidator): Response
+    {
+        if (!$accountId) {
+            throw new ParamsException("Account ID is required");
+        }
+        $dto = $requestValidator->validate(
+            $request,
+            WithdrawSchema::class,
+            WithdrawDto::class,
+            ["accountId" => $accountId]
+        );
+        $withdrawUsecase->execute($dto);
+        return ResponseFactory::success(null, "Withdraw successful");
     }
 }

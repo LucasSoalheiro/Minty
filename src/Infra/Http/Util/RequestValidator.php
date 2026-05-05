@@ -5,7 +5,6 @@ namespace Src\Infra\Http\Util;
 use Src\Infra\Http\Error\InvalidJsonBody;
 use Src\Infra\Http\Error\ValidatorException;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class RequestValidator
