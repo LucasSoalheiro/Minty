@@ -4,11 +4,13 @@ namespace Src\Infra\Http\Controller;
 use OpenApi\Attributes as OA;
 use Src\App\DTO\CreateAccountDto;
 use Src\App\DTO\DepositDto;
+use Src\App\DTO\TransferDto;
 use Src\App\DTO\WithdrawDto;
 use Src\App\Usecases\CreateAccountUsecase;
 use Src\App\Usecases\DepositUsecase;
 use Src\App\Usecases\FindAccountByIdUsecase;
 use Src\App\Usecases\ListAccountUsecase;
+use Src\App\Usecases\TransferUsecase;
 use Src\App\Usecases\WithdrawUsecase;
 use Src\Infra\Http\Error\InvalidJsonBody;
 use Src\Infra\Http\Error\ParamsException;
@@ -16,6 +18,7 @@ use Src\Infra\Http\Error\ValidatorException;
 use Src\Infra\Http\Response\ResponseFactory;
 use Src\Infra\Http\Schema\CreateAccountSchema;
 use Src\Infra\Http\Schema\DepositSchema;
+use Src\Infra\Http\Schema\TransferSchema;
 use Src\Infra\Http\Schema\WithdrawSchema;
 use Src\Infra\Http\Security\RequiresAuth;
 use Src\Infra\Http\Util\RequestValidator;
@@ -149,5 +152,22 @@ class AccountController extends AbstractController
         );
         $withdrawUsecase->execute($dto);
         return ResponseFactory::success(null, "Withdraw successful");
+    }
+
+    #[RequiresAuth]
+    #[Route("/accounts/{accountId}/transfer", methods: ["POST"])]
+    public function transfer(string $accountId, Request $request, TransferUsecase $transferUsecase, RequestValidator $requestValidator): Response
+    {
+        if (!$accountId) {
+            throw new ParamsException("Account ID is required");
+        }
+        $dto = $requestValidator->validate(
+            $request,
+            TransferSchema::class,
+            TransferDto::class,
+            ["fromAccountId" => $accountId]
+        );
+        $transferUsecase->execute($dto);
+        return ResponseFactory::success(null, "Transfer successful");
     }
 }

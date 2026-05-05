@@ -345,4 +345,91 @@ class AccountControllerTest extends WebTestCase
         $this->assertEquals(500, $response['data']['balance']);
 
     }
+
+    public function testTransfer(): void
+    {
+        $client = static::createClient();
+        $client->disableReboot();
+        $email = $this->createUser($client, "john@example.com");
+        $token = $this->loginAndGetToken($client, $email);
+        $client->request(
+            "POST",
+            "/accounts",
+            server: [
+                "CONTENT_TYPE" => "application/json",
+                "HTTP_AUTHORIZATION" => "Bearer $token"
+            ],
+            content: json_encode([
+                "name" => "My Account",
+                "balance" => 1000
+            ])
+        );
+        $client->request(
+            "POST",
+            "/accounts",
+            server: [
+                "CONTENT_TYPE" => "application/json",
+                "HTTP_AUTHORIZATION" => "Bearer $token"
+            ],
+            content: json_encode([
+                "name" => "My second Account",
+                "balance" => 200
+            ])
+        );
+        $this->assertResponseStatusCodeSame(201);
+        $client->request(
+            "GET",
+            "/accounts",
+            server: [
+                "CONTENT_TYPE" => "application/json",
+                "HTTP_AUTHORIZATION" => "Bearer $token"
+            ]
+        );
+        $this->assertResponseIsSuccessful();
+        $response = json_decode($client->getResponse()->getContent(), true);
+        $accountId = $response['data'][0]['id'];
+        $secondAccountId = $response['data'][1]['id'];
+        $client->request(
+            "POST",
+            "/categories",
+            server: [
+                "CONTENT_TYPE" => "application/json",
+                "HTTP_AUTHORIZATION" => "Bearer $token"
+            ],
+            content: json_encode([
+                "name" => "Test Category",
+                "description" => "This is a test category"
+            ])
+        );
+
+        $this->assertResponseStatusCodeSame(201);
+
+        $client->request(
+            "GET",
+            "/categories",
+            server: [
+                "CONTENT_TYPE" => "application/json",
+                "HTTP_AUTHORIZATION" => "Bearer $token"
+            ]
+        );
+        $this->assertResponseIsSuccessful();
+        $response = json_decode($client->getResponse()->getContent(), true);
+        $categoryId = $response['data'][0]['id'];
+
+        $client->request(
+            "POST",
+            "/accounts/$accountId/transfer",
+            server: [
+                "CONTENT_TYPE" => "application/json",
+                "HTTP_AUTHORIZATION" => "Bearer $token"
+            ],
+            content: json_encode([
+                "amount" => 500,
+                "categoryId" => $categoryId,
+                "toAccountId" => $secondAccountId
+            ])
+        );
+        $this->assertResponseIsSuccessful();
+
+    }
 }
