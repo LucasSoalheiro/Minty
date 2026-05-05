@@ -8,8 +8,6 @@ use Src\App\Usecases\LoginUsecase;
 use Src\App\Usecases\LogoutUsecase;
 use Src\App\Usecases\RefreshTokenUsecase;
 use Src\Infra\Http\Error\CookieException;
-use Src\Infra\Http\Error\InvalidJsonBody;
-use Src\Infra\Http\Error\ValidatorException;
 use Src\Infra\Http\Response\ResponseFactory;
 use Src\Infra\Http\Schema\LoginSchema;
 use Src\Infra\Http\Security\RequiresAuth;
@@ -181,6 +179,17 @@ class AuthController extends AbstractController
                     properties: [
                         new OA\Property(property: 'error', type: 'boolean', example: true),
                         new OA\Property(property: 'code', type: 'string', example: 'INVALID_REFRESH_TOKEN'),
+                        new OA\Property(property: 'message', type: 'string')
+                    ]
+                )
+            ),
+            new OA\Response(
+                response: 404,
+                description: 'Session not found',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'error', type: 'boolean', example: true),
+                        new OA\Property(property: 'code', type: 'string', example: 'SESSION_NOT_FOUND'),
                         new OA\Property(property: 'message', type: 'string')
                     ]
                 )

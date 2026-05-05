@@ -13,7 +13,6 @@ use Src\App\Usecases\CreateUserUsecase;
 use Src\App\Usecases\FindByEmailUsecase;
 use Src\App\Usecases\FindUserByIdUsecase;
 use Src\App\Usecases\SearchByEmailUsecase;
-use Src\Infra\Http\Error\InvalidJsonBody;
 use Src\Infra\Http\Error\ParamsException;
 use Src\Infra\Http\Error\QueryException;
 use Src\Infra\Http\Error\ValidatorException;
