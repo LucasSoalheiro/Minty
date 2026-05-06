@@ -2,6 +2,21 @@ parameters:
     kernel.secret: '%env(APP_SECRET)%'
     jwt_secret: '%env(JWT_SECRET)%'
 
+doctrine:
+  dbal:
+    url: '%env(resolve:DATABASE_URL)%'
+
+  orm:
+    auto_generate_proxy_classes: true
+    naming_strategy: doctrine.orm.naming_strategy.underscore
+    auto_mapping: true
+
+    mappings:
+      Infra:
+        is_bundle: false
+        type: attribute
+        dir: '%kernel.project_dir%/src/Infra/Db/Doctrine/Entity'
+        prefix: 'Src\Infra\Db\Doctrine\Entity'
 
 framework:
     secret: '%kernel.secret%'

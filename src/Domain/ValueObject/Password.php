@@ -10,7 +10,7 @@ final class Password
         private string $hashedPassword
     ) {
     }
-    public static function create($password): self
+    public static function create(string $password): self
     {
         if (empty($password)) {
             throw new InvalidPassword();
@@ -25,8 +25,13 @@ final class Password
         return new self(password_hash($password, PASSWORD_DEFAULT));
     }
 
-    public function passwordMatch($password): bool
+    public function passwordMatch(string $password): bool
     {
         return password_verify($password, $this->hashedPassword);
+    }
+
+    public function __toString()
+    {
+        return $this->hashedPassword;
     }
 }

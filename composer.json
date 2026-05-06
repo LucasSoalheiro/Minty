@@ -11,7 +11,8 @@
     },
   "require-dev": {
     "phpunit/phpunit": "^12.5",
-    "symfony/test-pack": "^1.2"
+    "symfony/test-pack": "^1.2",
+    "symfony/maker-bundle": "^1.67"
   },
   "require": {
     "symfony/routing": "^8.0",
@@ -29,6 +30,8 @@
     "paragonie/sodium_compat": "^2.5",
     "nelmio/api-doc-bundle": "^5.10",
     "symfony/twig-bundle": "^8.0",
-    "symfony/asset": "^8.0"
+    "symfony/asset": "^8.0",
+    "doctrine/orm": "^3.6",
+    "symfony/orm-pack": "^2.7"
   }
 }

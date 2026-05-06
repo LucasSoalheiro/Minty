@@ -24,7 +24,7 @@ final class User
             get => $this->name;
         },
         public private(set) Email $email,
-        private private(set) Password $password
+        public private(set) Password $password
     ) {
 
     }
@@ -73,7 +73,7 @@ final class User
         $this->password = Password::create($newPassword);
     }
 
-    public function passwordMatch($password): bool
+    public function passwordMatch(string $password): bool
     {
         return $this->password->passwordMatch($password);
     }
