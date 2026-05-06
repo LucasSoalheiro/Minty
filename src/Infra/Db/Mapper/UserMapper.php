@@ -29,4 +29,11 @@ class UserMapper
         $entity->setPassword($user->password->__toString());
         return $entity;
     }
+
+    public static function updatePersistence(UserEntity $entity, User $user): void
+    {
+        $entity->setName($user->name);
+        $entity->setEmail($user->email->__toString());
+        $entity->setPassword($user->password->__toString());
+    }
 }
