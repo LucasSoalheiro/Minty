@@ -38,10 +38,7 @@ class DoctrineUserRepository implements UserRepository
          * @var UserEntity
          */
         $user = $this->repo->findOneBy(["email" => $email]);
-        if (!$user) {
-            return null;
-        }
-        return UserMapper::toDomain($user->getId(), $user->getName(), $user->getEmail(), $user->getPassword());
+        return UserMapper::toDomain($user->getId(), $user->getName(), $user->getEmail(), $user->getPassword()) ?? null;
     }
 
     #[Override]
@@ -68,7 +65,7 @@ class DoctrineUserRepository implements UserRepository
          * @var UserEntity
          */
         $user = $this->repo->find($id);
-        return UserMapper::toDomain($user->getId(), $user->getName(), $user->getEmail(), $user->getPassword());
+        return UserMapper::toDomain($user->getId(), $user->getName(), $user->getEmail(), $user->getPassword()) ?? null;
     }
 
 }
