@@ -10,8 +10,12 @@ use Src\Infra\Db\Entity\UserEntity;
 
 class UserMapper
 {
-    public static function toDomain(string $id, string $name, string $email, string $password): User
-    {
+    public static function toDomain(
+        string $id,
+        string $name,
+        string $email,
+        string $password
+    ): User {
         return User::restore(
             UUID::fromString($id),
             $name,
@@ -20,20 +24,20 @@ class UserMapper
         );
     }
 
-    public static function toPersistence(User $user)
+    public static function toPersistence(User $domain): UserEntity
     {
         $entity = new UserEntity();
-        $entity->setId($user->id->__toString());
-        $entity->setName($user->name);
-        $entity->setEmail($user->email->__toString());
-        $entity->setPassword($user->password->__toString());
+        $entity->setId($domain->id->__toString());
+        $entity->setName($domain->name);
+        $entity->setEmail($domain->email->__toString());
+        $entity->setPassword($domain->password->__toString());
         return $entity;
     }
 
-    public static function updatePersistence(UserEntity $entity, User $user): void
+    public static function updatePersistence(UserEntity $entity, User $domain): void
     {
-        $entity->setName($user->name);
-        $entity->setEmail($user->email->__toString());
-        $entity->setPassword($user->password->__toString());
+        $entity->setName($domain->name);
+        $entity->setEmail($domain->email->__toString());
+        $entity->setPassword($domain->password->__toString());
     }
 }

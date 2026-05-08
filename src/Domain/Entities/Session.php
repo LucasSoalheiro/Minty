@@ -28,6 +28,22 @@ final class Session
         );
     }
 
+    public static function restore(
+        UUID $id,
+        UUID $userId,
+        string $tokenHash,
+        \DateTimeImmutable $expiresAt,
+        bool $revoked
+    ): Session {
+        return new self(
+            $id,
+            $userId,
+            $tokenHash,
+            $expiresAt,
+            $revoked
+        );
+    }
+
     public function isValid(): bool
     {
         return !$this->revoked && $this->expiresAt > new \DateTimeImmutable();
