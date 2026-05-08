@@ -2,7 +2,7 @@
 
 namespace Src\App\DTO;
 
-class FindAccountByIdResponse
+readonly class FindAccountByIdResponse
 {
     public function __construct(
         public string $id,

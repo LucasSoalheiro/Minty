@@ -20,7 +20,7 @@ class UserMapper
             UUID::fromString($id),
             $name,
             Email::restore($email),
-            Password::create($password)
+            Password::restore($password)
         );
     }
 

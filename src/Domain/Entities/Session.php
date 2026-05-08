@@ -18,12 +18,12 @@ final class Session
 
     public static function create(
         UUID $userId,
-        string $tokenHash,
+        string $token,
     ): self {
         return new self(
             UUID::generate(),
             $userId,
-            password_hash($tokenHash, PASSWORD_DEFAULT),
+            self::hashToken($token),
             new \DateTimeImmutable("+7 days")
         );
     }
@@ -59,7 +59,7 @@ final class Session
     }
     public function matches(string $token): bool
     {
-        return password_verify($token, $this->tokenHash);
+        return hash_equals($this->tokenHash, self::hashToken($token));
     }
 
     public function rotate(string $newToken): void
@@ -67,7 +67,12 @@ final class Session
         if (!$this->isValid()) {
             throw new InvalidSession("Cannot rotate an invalid session");
         }
-        $this->tokenHash = password_hash($newToken, PASSWORD_DEFAULT);
+        $this->tokenHash = self::hashToken($newToken);
         $this->expiresAt = new \DateTimeImmutable("+7 days");
+    }
+
+    private static function hashToken(string $token): string
+    {
+        return hash('sha256', $token);
     }
 }

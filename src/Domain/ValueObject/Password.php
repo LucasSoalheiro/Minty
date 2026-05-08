@@ -25,6 +25,11 @@ final class Password
         return new self(password_hash($password, PASSWORD_DEFAULT));
     }
 
+    public static function restore(string $hashedPassword): self
+    {
+        return new self($hashedPassword);
+    }
+
     public function passwordMatch(string $password): bool
     {
         return password_verify($password, $this->hashedPassword);

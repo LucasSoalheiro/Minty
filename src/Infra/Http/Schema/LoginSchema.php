@@ -7,7 +7,7 @@ use Symfony\Component\Validator\Constraints;
 
 class LoginSchema
 {
-    #[Constraints\NotBlank(message: "Name is required")]
+    #[Constraints\NotBlank(message: "Email is required")]
     #[Constraints\Email(message: "Invalid email format")]
     public string $email;
 

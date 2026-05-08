@@ -20,7 +20,7 @@ class JWT implements TokenService
     public function generateToken(User $user): string
     {
         if (empty($this->secret)) {
-            throw new HttpException(500, "JWT_SECRET where not loaded");
+            throw new HttpException(500, "JWT_SECRET was not loaded");
         }
         $payload = [
             'iss' => "minty",
@@ -38,7 +38,7 @@ class JWT implements TokenService
         try {
             $decoded = FirebaseJWT::decode($token, new Key($this->secret, 'HS256'));
 
-            if ($decoded->iss != "minty") {
+            if ($decoded->iss !== "minty") {
                 throw new RuntimeException("Invalid Issuer");
             }
             return new TokenPayload($decoded->sub, [

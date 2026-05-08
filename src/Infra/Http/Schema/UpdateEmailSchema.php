@@ -17,7 +17,7 @@ class UpdateEmailSchema
 
     #[Constraints\NotBlank(message: "Password is required")]
     #[Constraints\PasswordStrength(minScore: 1)]
-    #[Constraints\Length(min: 6, minMessage: "Password must have at least 6 characters")]
+    #[Constraints\Length(min: 8, minMessage: "Password must have at least 8 characters")]
     public string $password;
     public function __construct(
         ?string $id = "",

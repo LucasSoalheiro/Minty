@@ -22,6 +22,7 @@ class AppKernel extends Kernel
             new FrameworkBundle(),
             new TwigBundle(),
             new NelmioApiDocBundle(),
+            new \Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
         ];
     }
 

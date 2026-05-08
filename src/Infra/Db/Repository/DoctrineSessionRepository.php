@@ -23,8 +23,11 @@ class DoctrineSessionRepository implements SessionRepository
     public function save(Session $data): void
     {
         $entity = $this->repo->find($data->id->__toString());
-        !$entity ?
-            $entity = SessionMapper::toPersistence($data) : SessionMapper::updatePersistence($entity, $data);
+        if (!$entity) {
+            $entity = SessionMapper::toPersistence($data);
+        } else {
+            SessionMapper::updatePersistence($entity, $data);
+        }
         $this->em->persist($entity);
         $this->em->flush();
     }
@@ -32,17 +35,23 @@ class DoctrineSessionRepository implements SessionRepository
     #[Override]
     public function findByToken(string $token): ?Session
     {
+        $tokenHash = hash('sha256', $token);
         /**
-         * @var SessionEntity
+         * @var SessionEntity|null
          */
-        $session = $this->repo->findOneBy(["tokenHash" => $token]);
+        $session = $this->repo->findOneBy(["tokenHash" => $tokenHash]);
+        
+        if (!$session) {
+            return null;
+        }
+
         return SessionMapper::toDomain(
             $session->getId(),
             $session->getUserId(),
             $session->getTokenHash(),
             $session->getExpiresAt(),
             $session->getRevoked()
-        ) ?? null;
+        );
     }
 
     #[Override]

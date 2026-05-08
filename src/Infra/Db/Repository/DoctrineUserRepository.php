@@ -22,8 +22,11 @@ class DoctrineUserRepository implements UserRepository
     public function save(User $user): void
     {
         $entity = $this->repo->find($user->id->__toString());
-        !$entity ?
-            UserMapper::toPersistence($user) : UserMapper::updatePersistence($entity, $user);
+        if (!$entity) {
+            $entity = UserMapper::toPersistence($user);
+        } else {
+            UserMapper::updatePersistence($entity, $user);
+        }
         $this->em->persist($entity);
         $this->em->flush();
     }
@@ -32,15 +35,20 @@ class DoctrineUserRepository implements UserRepository
     public function findByEmail(string $email): ?User
     {
         /**
-         * @var UserEntity
+         * @var UserEntity|null
          */
         $user = $this->repo->findOneBy(["email" => $email]);
+        
+        if (!$user) {
+            return null;
+        }
+
         return UserMapper::toDomain(
             $user->getId(),
             $user->getName(),
             $user->getEmail(),
             $user->getPassword()
-        ) ?? null;
+        );
     }
 
     #[Override]
@@ -69,10 +77,20 @@ class DoctrineUserRepository implements UserRepository
     public function findById(string $id): ?User
     {
         /**
-         * @var UserEntity
+         * @var UserEntity|null
          */
         $user = $this->repo->find($id);
-        return UserMapper::toDomain($user->getId(), $user->getName(), $user->getEmail(), $user->getPassword()) ?? null;
+
+        if (!$user) {
+            return null;
+        }
+
+        return UserMapper::toDomain(
+            $user->getId(),
+            $user->getName(),
+            $user->getEmail(),
+            $user->getPassword()
+        );
     }
 
 }

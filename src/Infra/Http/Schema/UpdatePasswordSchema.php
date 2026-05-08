@@ -10,14 +10,14 @@ class UpdatePasswordSchema
     #[Constraints\Email(message: "Invalid email format")]
     public string $email;
 
-    #[Constraints\NotBlank(message: "Email is required")]
+    #[Constraints\NotBlank(message: "New password is required")]
     #[Constraints\PasswordStrength(minScore: 1)]
-    #[Constraints\Length(min: 6, minMessage: "Password must have at least 6 characters")]
+    #[Constraints\Length(min: 8, minMessage: "Password must have at least 8 characters")]
     public string $newPassword;
 
-    #[Constraints\NotBlank(message: "Email is required")]
+    #[Constraints\NotBlank(message: "Old password is required")]
     #[Constraints\PasswordStrength(minScore: 1)]
-    #[Constraints\Length(min: 6, minMessage: "Password must have at least 6 characters")]
+    #[Constraints\Length(min: 8, minMessage: "Password must have at least 8 characters")]
     public string $oldPassword;
     public function __construct(
         ?string $email = "",

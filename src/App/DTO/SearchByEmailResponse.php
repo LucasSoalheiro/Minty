@@ -2,7 +2,7 @@
 
 namespace Src\App\DTO;
 
-class SearchByEmailResponse
+readonly class SearchByEmailResponse
 {
     /**
      * @param UserResponseDto[] $users
