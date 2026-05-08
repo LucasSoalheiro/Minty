@@ -14,22 +14,22 @@ class FakeCategoryRepository implements CategoryRepository
 
     public function save(Category $category): void
     {
-        $this->categories[] = $category;
+        $this->categories[$category->id->__toString()] = $category;
     }
 
 
     public function findById(string $id): ?Category
     {
-        return array_find($this->categories, fn($c) => $c->id->equals(UUID::fromString($id)));
+        return $this->categories[$id] ?? null;
     }
 
     public function findAllByUserId(string $userId, ?bool $isActive = true): array
     {
-        return array_filter(
+        return array_values(array_filter(
             $this->categories,
             fn($c) =>
             $c->userId->equals(UUID::fromString($userId)) &&
-            $c->isActive === $isActive
-        );
+            ($isActive === null || $c->isActive === $isActive)
+        ));
     }
 }

@@ -431,5 +431,13 @@ class AccountControllerTest extends WebTestCase
         );
         $this->assertResponseIsSuccessful();
 
+        // Verify balances
+        $client->request("GET", "/accounts/$accountId", server: ["HTTP_AUTHORIZATION" => "Bearer $token"]);
+        $res1 = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals(500, $res1['data']['balance']);
+
+        $client->request("GET", "/accounts/$secondAccountId", server: ["HTTP_AUTHORIZATION" => "Bearer $token"]);
+        $res2 = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals(700, $res2['data']['balance']);
     }
 }

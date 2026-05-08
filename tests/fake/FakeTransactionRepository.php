@@ -16,26 +16,26 @@ final class FakeTransactionRepository implements TransactionRepository
 
     public function save(Transaction $transaction): void
     {
-        $this->transactions[] = $transaction;
+        $this->transactions[$transaction->id->__toString()] = $transaction;
     }
 
     public function list(string $accountId, ?TransactionStatusEnum $status = null): array
     {
-        return array_filter(
+        return array_values(array_filter(
             $this->transactions,
             fn($t) =>
             $t->accountId->equals(UUID::fromString($accountId)) &&
-            $t->status === $status
-        );
+            ($status === null || $t->status === $status)
+        ));
     }
 
     public function findById(string $id): ?Transaction
     {
-        return array_find($this->transactions, fn($t) => $t->id->equals(UUID::fromString($id)));
+        return $this->transactions[$id] ?? null;
     }
 
     public function findByAccountId(string $accountId): array
     {
-        return array_filter($this->transactions, fn($t) => $t->accountId->equals(UUID::fromString($accountId)));
+        return array_values(array_filter($this->transactions, fn($t) => $t->accountId->equals(UUID::fromString($accountId))));
     }
 }

@@ -14,7 +14,7 @@ class FakeSessionRepository implements SessionRepository
     private array $sessions = [];
     public function save(Session $data): void
     {
-        $this->sessions[] = $data;
+        $this->sessions[$data->id->__toString()] = $data;
     }
 
     public function findByToken(string $token): ?Session
@@ -28,6 +28,6 @@ class FakeSessionRepository implements SessionRepository
     }
     public function findByUserId(UUID $userId): array
     {
-        throw new \Exception('Not implemented');
+        return array_values(array_filter($this->sessions, fn($s) => $s->userId->equals($userId)));
     }
 }

@@ -42,6 +42,6 @@ class JWTTest extends TestCase
         $tokenPayload = $tokenService->validateToken($response->accessToken);
         $this->assertInstanceOf(LoginResponseDto::class, $response);
         $this->assertNotNull($tokenPayload);
-        $this->assertEquals($user->id, $tokenPayload->userId);
+        $this->assertEquals($user->id->__toString(), $tokenPayload->userId);
     }
 }

@@ -16,12 +16,12 @@ final class FakeUserRepository implements UserRepository
 
     public function save(User $user): void
     {
-        $this->users[] = $user;
+        $this->users[$user->id->__toString()] = $user;
     }
 
     public function searchByEmail(string $email): array
     {
-        return array_filter($this->users, fn($u) => str_contains($u->email->__toString(), $email));
+        return array_values(array_filter($this->users, fn($u) => str_contains($u->email->__toString(), $email)));
     }
 
     public function findByEmail(string $email): ?User
@@ -31,6 +31,6 @@ final class FakeUserRepository implements UserRepository
 
     public function findById(string $id): ?User
     {
-        return array_find($this->users, fn($u) => $u->id->equals(UUID::fromString($id)));
+        return $this->users[$id] ?? null;
     }
 }

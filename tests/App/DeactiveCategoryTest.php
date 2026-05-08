@@ -30,7 +30,8 @@ class DeactiveCategoryTest extends TestCase
         $category = $this->makeCategory();
         $deactiveCategoryUsecase = new DeactiveCategoryUsecase($this->categoryRepository);
         $deactiveCategoryUsecase->execute($category->id->__toString());
-        $this->assertEquals(false, $category->isActive);
+        $updatedCategory = $this->categoryRepository->findById($category->id->__toString());
+        $this->assertEquals(false, $updatedCategory->isActive);
     }
     public function testDeactiveCategoryWithCategoryAlreadyDeactivated(): void
     {

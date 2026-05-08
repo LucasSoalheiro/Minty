@@ -16,16 +16,16 @@ class FakeAccountRepository implements AccountRepository
 
     public function save(Account $account): void
     {
-        $this->accounts[] = $account;
+        $this->accounts[$account->id->__toString()] = $account;
     }
 
     public function findById(string $id): ?Account
     {
-        return array_find($this->accounts, fn($a) => $a->id->equals(UUID::fromString($id)));
+        return $this->accounts[$id] ?? null;
     }
 
     public function list(string $userId): array
     {
-        return array_filter($this->accounts, fn($a) => $a->userId->equals(UUID::fromString($userId)));
+        return array_values(array_filter($this->accounts, fn($a) => $a->userId->equals(UUID::fromString($userId))));
     }
 }

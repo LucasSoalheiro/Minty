@@ -33,6 +33,6 @@ class ChangePasswordTest extends TestCase
         $changePasswordUsecase = new ChangePasswordUsecase($this->userRepository);
         $changePasswordUsecase->execute($dto);
         $updatedUser = $this->userRepository->findByEmail($user->email->__toString());
-        $this->assertTrue($user->passwordMatch('NewP@ssw0rd'));
+        $this->assertTrue($updatedUser->passwordMatch('NewP@ssw0rd'));
     }
 }

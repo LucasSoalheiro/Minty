@@ -32,8 +32,9 @@ class UpdateCategoryTest extends TestCase
         $dto = new UpdateCategoryDto($category->id->__toString(), "Only Test", "A Description");
         $updateCategoryUsecase = new UpdateCategoryUsecase($this->categoryRepository);
         $updateCategoryUsecase->execute($dto);
-        $this->assertEquals("Only Test", $category->name);
-        $this->assertEquals("A Description", $category->description);
+        $updatedCategory = $this->categoryRepository->findById($category->id->__toString());
+        $this->assertEquals("Only Test", $updatedCategory->name);
+        $this->assertEquals("A Description", $updatedCategory->description);
     }
 
     public function testUpdateCategoryWithoutAnyData(): void
