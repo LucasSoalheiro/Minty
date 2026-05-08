@@ -15,8 +15,8 @@ doctrine:
       Infra:
         is_bundle: false
         type: attribute
-        dir: '%kernel.project_dir%/src/Infra/Db/Doctrine/Entity'
-        prefix: 'Src\Infra\Db\Doctrine\Entity'
+        dir: '%kernel.project_dir%/src/Infra/Db/Entity'
+        prefix: 'Src\Infra\Db\Entity'
 
 framework:
     secret: '%kernel.secret%'
