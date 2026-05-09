@@ -3,6 +3,9 @@
     <php>
         <env name="APP_ENV" value="test"/>
         <env name="KERNEL_CLASS" value="Src\AppKernel"/>
+        <env name="DATABASE_URL" value="sqlite:///:memory:"/>
+        <env name="JWT_SECRET" value="test_secret"/>
+        <env name="APP_SECRET" value="test_app_secret"/>
     </php>
 
     <testsuites>

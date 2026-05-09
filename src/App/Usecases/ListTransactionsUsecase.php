@@ -27,7 +27,7 @@ class ListTransactionsUsecase
             throw new AccountNotFound($dto->accountId);
         }
 
-        $status = $dto->status ? TransactionStatusEnum::from(strtoupper($dto->status)) : null;
+        $status = $dto->status ? strtoupper($dto->status) : null;
         $transactions = $this->transactionRepository->list($dto->accountId, $status);
 
         return array_map(function ($transaction) {
