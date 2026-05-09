@@ -5,18 +5,24 @@ use OpenApi\Attributes as OA;
 use Src\App\DTO\CreateAccountDto;
 use Src\App\DTO\DepositDto;
 use Src\App\DTO\TransferDto;
+use Src\App\DTO\UpdateAccountDto;
 use Src\App\DTO\WithdrawDto;
+use Src\App\DTO\ListTransactionsDto;
 use Src\App\Usecases\CreateAccountUsecase;
+use Src\App\Usecases\DeactiveAccountUsecase;
 use Src\App\Usecases\DepositUsecase;
 use Src\App\Usecases\FindAccountByIdUsecase;
 use Src\App\Usecases\ListAccountUsecase;
+use Src\App\Usecases\ListTransactionsUsecase;
 use Src\App\Usecases\TransferUsecase;
+use Src\App\Usecases\UpdateAccountUsecase;
 use Src\App\Usecases\WithdrawUsecase;
 use Src\Infra\Http\Error\ParamsException;
 use Src\Infra\Http\Response\ResponseFactory;
 use Src\Infra\Http\Schema\CreateAccountSchema;
 use Src\Infra\Http\Schema\DepositSchema;
 use Src\Infra\Http\Schema\TransferSchema;
+use Src\Infra\Http\Schema\UpdateAccountSchema;
 use Src\Infra\Http\Schema\WithdrawSchema;
 use Src\Infra\Http\Security\RequiresAuth;
 use Src\Infra\Http\Util\RequestValidator;
@@ -397,5 +403,114 @@ class AccountController extends AbstractController
         );
         $transferUsecase->execute($dto);
         return ResponseFactory::success(null, "Transfer successful");
+    }
+
+    #[RequiresAuth]
+    #[Route("/accounts/{accountId}", methods: ["PATCH"])]
+    #[OA\Patch(
+        path: '/accounts/{accountId}',
+        summary: 'Update account name',
+        security: [['Bearer' => []]],
+        parameters: [
+            new OA\Parameter(name: 'accountId', in: 'path', required: true, schema: new OA\Schema(type: 'string', format: 'uuid'))
+        ],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                type: 'object',
+                required: ['name'],
+                properties: [
+                    new OA\Property(property: 'name', type: 'string', example: 'New Account Name')
+                ]
+            )
+        ),
+        responses: [
+            new OA\Response(response: 200, description: 'Account updated successfully'),
+            new OA\Response(response: 404, description: 'Account not found')
+        ]
+    )]
+    public function updateAccount(string $accountId, Request $request, UpdateAccountUsecase $updateAccountUsecase, RequestValidator $requestValidator): Response
+    {
+        if (!$accountId) {
+            throw new ParamsException("Account ID is required");
+        }
+        $dto = $requestValidator->validate(
+            $request,
+            UpdateAccountSchema::class,
+            UpdateAccountDto::class,
+            ["accountId" => $accountId]
+        );
+        $updateAccountUsecase->execute($dto);
+        return ResponseFactory::success(null, "Account updated successfully");
+    }
+
+    #[RequiresAuth]
+    #[Route("/accounts/{accountId}", methods: ["DELETE"])]
+    #[OA\Delete(
+        path: '/accounts/{accountId}',
+        summary: 'Deactivate an account',
+        security: [['Bearer' => []]],
+        parameters: [
+            new OA\Parameter(name: 'accountId', in: 'path', required: true, schema: new OA\Schema(type: 'string', format: 'uuid'))
+        ],
+        responses: [
+            new OA\Response(response: 200, description: 'Account deactivated successfully'),
+            new OA\Response(response: 404, description: 'Account not found')
+        ]
+    )]
+    public function deactiveAccount(string $accountId, DeactiveAccountUsecase $deactiveAccountUsecase): Response
+    {
+        if (!$accountId) {
+            throw new ParamsException("Account ID is required");
+        }
+        $deactiveAccountUsecase->execute($accountId);
+        return ResponseFactory::success(null, "Account deactivated successfully");
+    }
+
+    #[RequiresAuth]
+    #[Route("/accounts/{accountId}/transactions", methods: ["GET"])]
+    #[OA\Get(
+        path: '/accounts/{accountId}/transactions',
+        summary: 'List transactions (statement) for an account',
+        security: [['Bearer' => []]],
+        parameters: [
+            new OA\Parameter(name: 'accountId', in: 'path', required: true, schema: new OA\Schema(type: 'string', format: 'uuid')),
+            new OA\Parameter(name: 'status', in: 'query', required: false, schema: new OA\Schema(type: 'string', enum: ['DONE', 'PENDING', 'CANCELLED']))
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Transactions retrieved successfully',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'success', type: 'boolean', example: true),
+                        new OA\Property(property: 'data', type: 'array', items: new OA\Items(
+                            properties: [
+                                new OA\Property(property: 'id', type: 'string', format: 'uuid'),
+                                new OA\Property(property: 'accountId', type: 'string', format: 'uuid'),
+                                new OA\Property(property: 'amount', type: 'integer'),
+                                new OA\Property(property: 'createdAt', type: 'string', format: 'date-time'),
+                                new OA\Property(property: 'type', type: 'string'),
+                                new OA\Property(property: 'status', type: 'string'),
+                                new OA\Property(property: 'description', type: 'string', nullable: true),
+                                new OA\Property(property: 'categoryId', type: 'string', format: 'uuid')
+                            ]
+                        )),
+                        new OA\Property(property: 'message', type: 'string', example: 'Transactions retrieved successfully')
+                    ]
+                )
+            ),
+            new OA\Response(response: 404, description: 'Account not found')
+        ]
+    )]
+    public function listTransactions(string $accountId, Request $request, ListTransactionsUsecase $listTransactionsUsecase): Response
+    {
+        if (!$accountId) {
+            throw new ParamsException("Account ID is required");
+        }
+        $status = $request->query->get('status');
+        $dto = new ListTransactionsDto($accountId, $status);
+        $transactions = $listTransactionsUsecase->execute($dto);
+        return ResponseFactory::success($transactions, "Transactions retrieved successfully");
     }
 }

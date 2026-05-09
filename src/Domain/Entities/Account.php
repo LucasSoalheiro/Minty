@@ -14,7 +14,7 @@ final class Account
 {
     private function __construct(
         public readonly UUID $id,
-        public readonly string $name,
+        public private(set) string $name,
         public private(set) Money $balance,
         public readonly UUID $userId,
         public private(set) bool $isActive,
@@ -79,6 +79,15 @@ final class Account
     {
         $this->isActiveAccount();
         $this->isActive = false;
+    }
+
+    public function rename(string $name): void
+    {
+        $this->isActiveAccount();
+        if (empty($name)) {
+            throw new NameCannotBeNull();
+        }
+        $this->name = $name;
     }
 
     private function isActiveAccount(): void
