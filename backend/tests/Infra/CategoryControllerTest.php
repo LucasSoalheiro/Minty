@@ -7,14 +7,14 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class CategoryControllerTest extends WebTestCase
 {
-    private function createUser(KernelBrowser $client, string $email = "lucas@email.com"): string
+    private function createUser(KernelBrowser $client, string $email = "john.doe@example.com"): string
     {
         $client->request(
             "POST",
             "/users",
             server: ["CONTENT_TYPE" => "application/json"],
             content: json_encode([
-                "name" => "Lucas",
+                "name" => "John Doe",
                 "email" => $email,
                 "password" => "P@ssw0t789"
             ])

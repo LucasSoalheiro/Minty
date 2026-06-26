@@ -7,14 +7,14 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class UserControllerTest extends WebTestCase
 {
-    private function createUser(KernelBrowser $client, string $email = "lucas@email.com"): string
+    private function createUser(KernelBrowser $client, string $email = "john.doe@example.com"): string
     {
         $client->request(
             "POST",
             "/users",
             server: ["CONTENT_TYPE" => "application/json"],
             content: json_encode([
-                "name" => "Lucas",
+                "name" => "John Doe",
                 "email" => $email,
                 "password" => "P@ssw0t789"
             ])
@@ -74,7 +74,7 @@ class UserControllerTest extends WebTestCase
             "/users",
             server: ["CONTENT_TYPE" => "application/json"],
             content: json_encode([
-                "email" => "lucas@email.com",
+                "email" => "john.doe@example.com",
                 "password" => "P@ssw0t789"
             ])
         );
@@ -91,8 +91,8 @@ class UserControllerTest extends WebTestCase
             "/users",
             server: ["CONTENT_TYPE" => "application/json"],
             content: json_encode([
-                "name" => "Lucas",
-                "email" => "lucasemail.com",
+                "name" => "John Doe",
+                "email" => "john.doeexample.com",
                 "password" => "P@ssw0t789"
             ])
         );
@@ -124,7 +124,7 @@ class UserControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $client->request("GET", "/users/email/lucas@email.com");
+        $client->request("GET", "/users/email/john.doe@example.com");
 
         $this->assertResponseStatusCodeSame(404);
     }
@@ -140,7 +140,7 @@ class UserControllerTest extends WebTestCase
         $client->disableReboot();
         $this->createUser($client);
 
-        $client->request("GET", "/users/search?email=lucas");
+        $client->request("GET", "/users/search?email=john.doe");
 
         $this->assertResponseIsSuccessful();
     }
@@ -298,7 +298,7 @@ class UserControllerTest extends WebTestCase
             "/users/name?email=$email",
             server: $this->authHeader($token),
             content: json_encode([
-                "name" => "Joao"
+                "name" => "Jane Doe"
             ])
         );
 

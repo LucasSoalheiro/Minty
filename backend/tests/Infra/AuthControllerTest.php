@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class AuthControllerTest extends WebTestCase
 {
-    private function createUser(KernelBrowser $client, string $email = "lucas@email.com"): string
+    private function createUser(KernelBrowser $client, string $email = "john.doe@example.com"): string
     {
 
         $client->request(
@@ -15,13 +15,13 @@ class AuthControllerTest extends WebTestCase
             uri: "/users",
             server: ["CONTENT_TYPE" => "application/json"],
             content: json_encode([
-                "name" => "Lucas",
+                "name" => "John Doe",
                 "email" => $email,
                 "password" => "P@ssw0t789"
             ])
         );
 
-        // valida criação
+        // validate creation
         $this->assertResponseStatusCodeSame(201);
 
         return $email;
