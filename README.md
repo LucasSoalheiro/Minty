@@ -125,9 +125,9 @@ Para guiar a implementação da interface do usuário no Angular, adotam-se as s
 ```mermaid
 graph TD
     %% Estilos de nós
-    classDef public fill:#f9f,stroke:#333,stroke-width:2px;
-    classDef main fill:#bbf,stroke:#333,stroke-width:2px;
-    classDef action fill:#bfb,stroke:#333,stroke-width:2px;
+    classDef public fill:#ECEFF1,stroke:#37474F,stroke-width:2px,color:#1A237E;
+    classDef main fill:#E8EAF6,stroke:#1A237E,stroke-width:2px,color:#1A237E;
+    classDef action fill:#FBE9E7,stroke:#D84315,stroke-width:2px,color:#D84315;
     
     A([Início / Splash Screen]) --> B{Autenticado?}
     B -- Não --> C[Tela de Login]:::public
