@@ -1,13 +1,13 @@
-<div class="p-8 bg-[#01676b] h-[100vh]">
-  <div class="flex items-center relative bg-[#c4fffd] rounded-[50px] h-[100%] p-10 gap-10">
-    <div class="w-1/2">
+<div class="p-8 bg-[#01676b] h-[100vh] flex justify-center items-center">
+  <div class="flex items-center relative bg-[#ffffff] rounded-[50px] h-[95%] w-[95%] p-10 gap-10">
+    <div class="w-1/2 h-[100%]">
       @if (login) {
         <app-login></app-login>
       } @else {
         <app-register></app-register>
       }
     </div>
-    <div class="w-1/2 flex justify-center">
+    <div class="w-1/2 h-[100%] flex justify-center">
       <img src="assets/auth_minty_image.png" class="rounded-[30px]" />
     </div>
   </div>

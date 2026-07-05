@@ -1,7 +1,9 @@
-<div class="bg-pink-900 w-full h-full p-8 rounded-[30px] align-top flex flex-col gap-4">
-  <h2>{{ title }}</h2>
-  @if (subtitle) {
-    <p>{{ subtitle }}</p>
-  }
+<div class="w-full h-full p-8 rounded-[30px] align-top flex flex-col gap-10 justify-top items-center">
+  <div class="flex flex-col gap-10 ">
+    <h2 class="text-[50px] font-bold text-white">{{ title }}</h2>
+    @if (subtitle) {
+    <p class="text-[20px]">{{ subtitle }}</p>
+    }
+  </div>
   <ng-content></ng-content>
 </div>

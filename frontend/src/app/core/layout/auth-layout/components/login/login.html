@@ -1,15 +1,12 @@
-<app-form title="Welcome back" subtitle="Is good to see you again">
-  <form action="" method="post" class="flex flex-col gap-4">
-    <label for="email">Email</label>
-    <input type="text" id="email" name="email" placeholder="Enter your email" required />
-    <label for="password">Password</label>
-    <input
-      type="password"
-      id="password"
-      name="password"
-      placeholder="Enter your password"
-      required
-    />
-    <button type="submit">Login</button>
+<app-form title="Welcome back!" subtitle="Is good to see you again">
+  <form action="" method="post" class="flex flex-col gap-10  h-full w-1/2">
+    <div class="flex flex-col gap-4 justify-start ">
+      <input class="bg-white w-[100%] p-4 rounded-[10px] shadow-md/20" type="text" id="email" name="email" placeholder="Email: " required />
+      <input class="bg-white w-[100%] p-4 rounded-[10px] shadow-md/20" type="password" id="password" name="password" placeholder="Password: "
+        required />
+    </div>
+    <div>
+      <button class="bg-[#c4fffd] text-white p-4 rounded-[10px] shadow-md/20 cursor-pointer w-full hover:bg-[#c4fffd88]" type="submit">Login</button>
+    </div>
   </form>
 </app-form>
