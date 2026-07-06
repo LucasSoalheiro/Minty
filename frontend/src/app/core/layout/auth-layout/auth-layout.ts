@@ -11,4 +11,9 @@ import { Register } from "./components/register/register";
 })
 export class AuthLayout {
   login: boolean = true;
+
+  toggleAuth() {
+    this.login = !this.login;
+  }
 }
+

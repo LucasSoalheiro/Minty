@@ -1,9 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
+import { Form } from "../form/form";
 
 @Component({
   selector: 'app-register',
-  imports: [],
+  imports: [Form],
   templateUrl: './register.html',
   styleUrl: './register.scss',
 })
-export class Register {}
+export class Register {
+  @Output() toggleLogin = new EventEmitter<void>();
+}
+

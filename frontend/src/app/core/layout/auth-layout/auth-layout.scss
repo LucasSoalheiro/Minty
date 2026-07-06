@@ -1,0 +1,18 @@
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+app-login, app-register {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
