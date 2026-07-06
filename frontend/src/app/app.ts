@@ -7,7 +7,6 @@ import { AuthLayout } from "./core/layout/auth-layout/auth-layout";
   imports: [RouterOutlet, AuthLayout],
   templateUrl: './app.html',
   changeDetection: ChangeDetectionStrategy.Eager,
-  styleUrl: './app.scss',
 })
 export class App {
   protected readonly title = signal('frontend');

@@ -5,7 +5,6 @@ import { Form } from "../form/form";
   selector: 'app-login',
   imports: [Form],
   templateUrl: './login.html',
-  styleUrl: './login.scss',
 })
 export class Login {
   @Output() toggleRegister = new EventEmitter<void>();

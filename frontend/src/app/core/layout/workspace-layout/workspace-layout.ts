@@ -5,6 +5,5 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
   imports: [],
   templateUrl: './workspace-layout.html',
   changeDetection: ChangeDetectionStrategy.Eager,
-  styleUrl: './workspace-layout.scss',
 })
 export class WorkspaceLayout {}

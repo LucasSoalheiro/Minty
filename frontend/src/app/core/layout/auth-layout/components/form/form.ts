@@ -4,7 +4,6 @@ import { Component, Input } from '@angular/core';
   selector: 'app-form',
   imports: [],
   templateUrl: './form.html',
-  styleUrl: './form.scss',
 })
 export class Form {
   @Input({ required: true }) title!: string;
