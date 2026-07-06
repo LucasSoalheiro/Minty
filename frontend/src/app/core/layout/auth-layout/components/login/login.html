@@ -1,50 +1,45 @@
-<app-form title="Bem-vindo de volta!" subtitle="Que bom ver você por aqui novamente.">
+<app-form title="Welcome Back!" subtitle="Glad to have you back here.">
   <form action="" method="post" class="flex flex-col gap-6 w-full max-w-md">
     
-    <!-- Input Fields Group -->
+
     <div class="flex flex-col gap-4">
       
-      <!-- Email Field -->
       <div class="relative">
         <span class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-slate-400">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25H4.5a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5H4.5a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
           </svg>
         </span>
-        <input class="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100 outline-none transition-all duration-200 text-slate-800 placeholder-slate-400 font-medium" type="email" id="email" name="email" placeholder="Seu e-mail" required />
+        <input class="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100 outline-none transition-all duration-200 text-slate-800 placeholder-slate-400 font-medium" type="email" id="email" name="email" placeholder="E-mail:" required />
       </div>
 
-      <!-- Password Field -->
       <div class="relative">
         <span class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-slate-400">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
           </svg>
         </span>
-        <input class="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100 outline-none transition-all duration-200 text-slate-800 placeholder-slate-400 font-medium" type="password" id="password" name="password" placeholder="Sua senha" required />
+        <input class="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100 outline-none transition-all duration-200 text-slate-800 placeholder-slate-400 font-medium" type="password" id="password" name="password" placeholder="Password: " required />
       </div>
 
     </div>
 
-    <!-- Remember & Forgot Options -->
     <div class="flex items-center justify-between text-xs sm:text-sm mt-1">
       <label class="flex items-center gap-2 cursor-pointer select-none text-slate-600">
         <input type="checkbox" class="w-4.5 h-4.5 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 focus:ring-offset-0 cursor-pointer" />
-        <span class="font-medium">Lembrar de mim</span>
+        <span class="font-medium">Remember me</span>
       </label>
-      <a href="#" class="text-emerald-600 hover:text-emerald-700 font-bold hover:underline transition-colors">Esqueceu a senha?</a>
+      <a href="#" class="text-emerald-600 hover:text-emerald-700 font-bold hover:underline transition-colors">Forgot your password?</a>
     </div>
 
-    <!-- Login Button -->
     <button class="w-full py-4 px-6 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-bold rounded-xl shadow-lg shadow-emerald-500/20 cursor-pointer transform hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-200" type="submit">
-      Entrar
+      Log in
     </button>
 
-    <!-- Navigation / Footer inside form -->
     <p class="text-center text-sm text-slate-500 mt-2">
-      Novo por aqui? 
+      Doesn't have an account? 
       <button type="button" (click)="toggleRegister.emit()" class="text-emerald-600 hover:text-emerald-700 font-bold hover:underline cursor-pointer focus:outline-none">
-        Criar uma conta
+        Create your account
       </button>
     </p>
 
