@@ -5,6 +5,5 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
   imports: [],
   templateUrl: './public-layout.html',
   changeDetection: ChangeDetectionStrategy.Eager,
-  styleUrl: './public-layout.scss',
 })
 export class PublicLayout {}
