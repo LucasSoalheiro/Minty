@@ -51,12 +51,12 @@ Autentica um usuário e retorna os tokens de acesso e refresh.
 
 #### Request Body
 
-\`\`\`json
+```json
 {
   "email": "user@example.com",
   "password": "senha123"
 }
-\`\`\`
+```
 
 | Campo      | Tipo   | Obrigatório | Descrição                      |
 |------------|--------|:-----------:|-------------------------------|
@@ -66,7 +66,7 @@ Autentica um usuário e retorna os tokens de acesso e refresh.
 #### Respostas
 
 **200 OK — Login realizado com sucesso**
-\`\`\`json
+```json
 {
   "success": true,
   "data": {
@@ -75,36 +75,36 @@ Autentica um usuário e retorna os tokens de acesso e refresh.
   },
   "message": "Login Successful"
 }
-\`\`\`
+```
 
 > ⚠️ Um cookie `HttpOnly` chamado `refresh_token` também é definido automaticamente na resposta (validade de 7 dias).
 
 **400 Bad Request — Erro de validação**
-\`\`\`json
+```json
 {
   "error": true,
   "code": "VALIDATION_ERROR",
   "message": "Email is required"
 }
-\`\`\`
+```
 
 **401 Unauthorized — Senha incorreta**
-\`\`\`json
+```json
 {
   "error": true,
   "code": "WRONG_PASSWORD",
   "message": "Wrong password"
 }
-\`\`\`
+```
 
 **404 Not Found — Usuário não encontrado**
-\`\`\`json
+```json
 {
   "error": true,
   "code": "EMAIL_NOT_FOUND",
   "message": "User not found"
 }
-\`\`\`
+```
 
 ---
 
@@ -123,18 +123,18 @@ _Nenhum corpo de requisição necessário._
 
 **204 No Content — Logout realizado com sucesso**
 
-\`\`\`
+```
 (sem corpo de resposta)
-\`\`\`
+```
 
 **400 Bad Request — Cookie de refresh token ausente**
-\`\`\`json
+```json
 {
   "error": true,
   "code": "COOKIE_ERROR",
   "message": "Refresh token not found in cookies"
 }
-\`\`\`
+```
 
 ---
 
@@ -152,7 +152,7 @@ _Nenhum corpo de requisição necessário._
 #### Respostas
 
 **200 OK — Token renovado com sucesso**
-\`\`\`json
+```json
 {
   "success": true,
   "data": {
@@ -161,27 +161,27 @@ _Nenhum corpo de requisição necessário._
   },
   "message": "Token Refreshed"
 }
-\`\`\`
+```
 
 > ⚠️ Um novo cookie `refresh_token` é redefinido automaticamente.
 
 **400 Bad Request — Refresh token inválido ou ausente**
-\`\`\`json
+```json
 {
   "error": true,
   "code": "INVALID_REFRESH_TOKEN",
   "message": "Invalid refresh token"
 }
-\`\`\`
+```
 
 **404 Not Found — Sessão não encontrada**
-\`\`\`json
+```json
 {
   "error": true,
   "code": "SESSION_NOT_FOUND",
   "message": "Session not found"
 }
-\`\`\`
+```
 
 ---
 
@@ -195,13 +195,13 @@ Cria um novo usuário no sistema.
 
 #### Request Body
 
-\`\`\`json
+```json
 {
   "name": "João Silva",
   "email": "joao@exemplo.com",
   "password": "MinhaSenh@123"
 }
-\`\`\`
+```
 
 | Campo      | Tipo   | Obrigatório | Validações                                          |
 |------------|--------|:-----------:|----------------------------------------------------|
@@ -212,31 +212,31 @@ Cria um novo usuário no sistema.
 #### Respostas
 
 **201 Created — Usuário criado com sucesso**
-\`\`\`json
+```json
 {
   "success": true,
   "data": null,
   "message": "User Created"
 }
-\`\`\`
+```
 
 **400 Bad Request — Erro de validação**
-\`\`\`json
+```json
 {
   "error": true,
   "code": "VALIDATION_ERROR",
   "message": "Name must have at least 3 characters"
 }
-\`\`\`
+```
 
 **409 Conflict — E-mail já em uso**
-\`\`\`json
+```json
 {
   "error": true,
   "code": "EMAIL_ALREADY_IN_USE",
   "message": "Email already in use"
 }
-\`\`\`
+```
 
 ---
 
@@ -249,7 +249,7 @@ Retorna os dados do usuário autenticado.
 #### Respostas
 
 **200 OK — Usuário encontrado**
-\`\`\`json
+```json
 {
   "success": true,
   "data": {
@@ -259,25 +259,25 @@ Retorna os dados do usuário autenticado.
   },
   "message": "User Found"
 }
-\`\`\`
+```
 
 **401 Unauthorized — Token inválido ou ausente**
-\`\`\`json
+```json
 {
   "error": true,
   "code": 401,
   "message": "Token Null"
 }
-\`\`\`
+```
 
 **404 Not Found — Usuário não encontrado**
-\`\`\`json
+```json
 {
   "error": true,
   "code": "USER_NOT_FOUND",
   "message": "User not found"
 }
-\`\`\`
+```
 
 ---
 
@@ -295,14 +295,14 @@ Busca um usuário específico pelo e-mail (busca exata via path param).
 
 #### Exemplo
 
-\`\`\`
+```
 GET /users/email/joao@exemplo.com
-\`\`\`
+```
 
 #### Respostas
 
 **200 OK — Usuário encontrado**
-\`\`\`json
+```json
 {
   "success": true,
   "data": {
@@ -312,16 +312,16 @@ GET /users/email/joao@exemplo.com
   },
   "message": "User Found"
 }
-\`\`\`
+```
 
 **404 Not Found — Usuário não encontrado**
-\`\`\`json
+```json
 {
   "error": true,
   "code": "EMAIL_NOT_FOUND",
   "message": "User not found"
 }
-\`\`\`
+```
 
 ---
 
@@ -339,14 +339,14 @@ Busca usuários por prefixo de e-mail (busca parcial via query param).
 
 #### Exemplo
 
-\`\`\`
+```
 GET /users/search?email=joao
-\`\`\`
+```
 
 #### Respostas
 
 **200 OK — Usuários encontrados**
-\`\`\`json
+```json
 {
   "success": true,
   "data": [
@@ -358,16 +358,16 @@ GET /users/search?email=joao
   ],
   "message": "Users Found"
 }
-\`\`\`
+```
 
 **400 Bad Request — Parâmetro de busca ausente**
-\`\`\`json
+```json
 {
   "error": true,
   "code": "QUERY_ERROR",
   "message": "Search term is required"
 }
-\`\`\`
+```
 
 ---
 
@@ -379,12 +379,12 @@ Atualiza o e-mail do usuário autenticado. Requer confirmação de senha.
 
 #### Request Body
 
-\`\`\`json
+```json
 {
   "email": "novo-email@exemplo.com",
   "password": "MinhaSenh@123"
 }
-\`\`\`
+```
 
 | Campo      | Tipo   | Obrigatório | Descrição                             |
 |------------|--------|:-----------:|---------------------------------------|
@@ -394,31 +394,31 @@ Atualiza o e-mail do usuário autenticado. Requer confirmação de senha.
 #### Respostas
 
 **200 OK — E-mail atualizado**
-\`\`\`json
+```json
 {
   "success": true,
   "data": null,
   "message": "Email Updated"
 }
-\`\`\`
+```
 
 **403 Forbidden — Senha não confere**
-\`\`\`json
+```json
 {
   "error": true,
   "code": "PASSWORD_DOES_NOT_MATCH",
   "message": "Password does not match"
 }
-\`\`\`
+```
 
 **409 Conflict — E-mail já em uso ou igual ao atual**
-\`\`\`json
+```json
 {
   "error": true,
   "code": "EMAIL_ALREADY_IN_USE",
   "message": "Email already in use"
 }
-\`\`\`
+```
 
 ---
 
@@ -436,12 +436,12 @@ Atualiza a senha do usuário.
 
 #### Request Body
 
-\`\`\`json
+```json
 {
   "oldPassword": "SenhaAntiga@123",
   "newPassword": "NovaSenha@456"
 }
-\`\`\`
+```
 
 | Campo         | Tipo   | Obrigatório | Validações                           |
 |---------------|--------|:-----------:|--------------------------------------|
@@ -450,38 +450,38 @@ Atualiza a senha do usuário.
 
 #### Exemplo de Request
 
-\`\`\`
+```
 PATCH /users/password?email=joao@exemplo.com
-\`\`\`
+```
 
 #### Respostas
 
 **200 OK — Senha atualizada**
-\`\`\`json
+```json
 {
   "success": true,
   "data": null,
   "message": "Password Updated"
 }
-\`\`\`
+```
 
 **401 Unauthorized — Senha antiga incorreta**
-\`\`\`json
+```json
 {
   "error": true,
   "code": "WRONG_PASSWORD",
   "message": "Wrong password"
 }
-\`\`\`
+```
 
 **422 Unprocessable Entity — Senha nova muito fraca**
-\`\`\`json
+```json
 {
   "error": true,
   "code": "WEAK_PASSWORD",
   "message": "Password is too weak"
 }
-\`\`\`
+```
 
 ---
 
@@ -499,11 +499,11 @@ Atualiza o nome do usuário.
 
 #### Request Body
 
-\`\`\`json
+```json
 {
   "name": "João da Silva Sauro"
 }
-\`\`\`
+```
 
 | Campo  | Tipo   | Obrigatório | Validações         |
 |--------|--------|:-----------:|--------------------|
@@ -511,29 +511,29 @@ Atualiza o nome do usuário.
 
 #### Exemplo de Request
 
-\`\`\`
+```
 PATCH /users/name?email=joao@exemplo.com
-\`\`\`
+```
 
 #### Respostas
 
 **200 OK — Nome atualizado**
-\`\`\`json
+```json
 {
   "success": true,
   "data": null,
   "message": "Name updated"
 }
-\`\`\`
+```
 
 **400 Bad Request — Erro de validação**
-\`\`\`json
+```json
 {
   "error": true,
   "code": "VALIDATION_ERROR",
   "message": "Name cannot be null"
 }
-\`\`\`
+```
 
 ---
 
@@ -547,12 +547,12 @@ Cria uma nova conta financeira para o usuário autenticado.
 
 #### Request Body
 
-\`\`\`json
+```json
 {
   "name": "Conta Poupança",
   "balance": 5000
 }
-\`\`\`
+```
 
 | Campo     | Tipo    | Obrigatório | Descrição                               |
 |-----------|---------|:-----------:|-----------------------------------------|
@@ -562,31 +562,31 @@ Cria uma nova conta financeira para o usuário autenticado.
 #### Respostas
 
 **201 Created — Conta criada com sucesso**
-\`\`\`json
+```json
 {
   "success": true,
   "data": null,
   "message": "Account created successfully"
 }
-\`\`\`
+```
 
 **400 Bad Request — Erro de validação**
-\`\`\`json
+```json
 {
   "error": true,
   "code": "VALIDATION_ERROR",
   "message": "Name is required"
 }
-\`\`\`
+```
 
 **401 Unauthorized — Token inválido ou ausente**
-\`\`\`json
+```json
 {
   "error": true,
   "code": 401,
   "message": "Token Null"
 }
-\`\`\`
+```
 
 ---
 
@@ -599,7 +599,7 @@ Lista todas as contas do usuário autenticado.
 #### Respostas
 
 **200 OK — Lista de contas retornada**
-\`\`\`json
+```json
 {
   "success": true,
   "data": [
@@ -618,16 +618,16 @@ Lista todas as contas do usuário autenticado.
   ],
   "message": "Accounts retrieved successfully"
 }
-\`\`\`
+```
 
 **401 Unauthorized**
-\`\`\`json
+```json
 {
   "error": true,
   "code": 401,
   "message": "Token Null"
 }
-\`\`\`
+```
 
 ---
 
@@ -645,14 +645,14 @@ Retorna os detalhes de uma conta específica.
 
 #### Exemplo
 
-\`\`\`
+```
 GET /accounts/550e8400-e29b-41d4-a716-446655440001
-\`\`\`
+```
 
 #### Respostas
 
 **200 OK — Conta encontrada**
-\`\`\`json
+```json
 {
   "success": true,
   "data": {
@@ -663,25 +663,25 @@ GET /accounts/550e8400-e29b-41d4-a716-446655440001
   },
   "message": "Account retrieved successfully"
 }
-\`\`\`
+```
 
 **400 Bad Request — ID inválido**
-\`\`\`json
+```json
 {
   "error": true,
   "code": "PARAMS_ERROR",
   "message": "Account ID is required"
 }
-\`\`\`
+```
 
 **404 Not Found — Conta não encontrada**
-\`\`\`json
+```json
 {
   "error": true,
   "code": "ACCOUNT_NOT_FOUND",
   "message": "Account not found"
 }
-\`\`\`
+```
 
 ---
 
@@ -699,11 +699,11 @@ Atualiza o nome de uma conta.
 
 #### Request Body
 
-\`\`\`json
+```json
 {
   "name": "Conta Principal"
 }
-\`\`\`
+```
 
 | Campo  | Tipo   | Obrigatório | Descrição          |
 |--------|--------|:-----------:|--------------------|
@@ -712,22 +712,22 @@ Atualiza o nome de uma conta.
 #### Respostas
 
 **200 OK — Conta atualizada**
-\`\`\`json
+```json
 {
   "success": true,
   "data": null,
   "message": "Account updated successfully"
 }
-\`\`\`
+```
 
 **404 Not Found — Conta não encontrada**
-\`\`\`json
+```json
 {
   "error": true,
   "code": "ACCOUNT_NOT_FOUND",
   "message": "Account not found"
 }
-\`\`\`
+```
 
 ---
 
@@ -746,22 +746,22 @@ Desativa (soft delete) uma conta financeira.
 #### Respostas
 
 **200 OK — Conta desativada**
-\`\`\`json
+```json
 {
   "success": true,
   "data": null,
   "message": "Account deactivated successfully"
 }
-\`\`\`
+```
 
 **404 Not Found — Conta não encontrada**
-\`\`\`json
+```json
 {
   "error": true,
   "code": "ACCOUNT_NOT_FOUND",
   "message": "Account not found"
 }
-\`\`\`
+```
 
 ---
 
@@ -779,13 +779,13 @@ Realiza um depósito em uma conta.
 
 #### Request Body
 
-\`\`\`json
+```json
 {
   "amount": 2500,
   "categoryId": "a3bb189e-8bf9-3888-9912-ace4e6543002",
   "description": "Salário de Julho"
 }
-\`\`\`
+```
 
 | Campo        | Tipo    | Obrigatório | Validações                     |
 |--------------|---------|:-----------:|-------------------------------|
@@ -796,40 +796,40 @@ Realiza um depósito em uma conta.
 #### Respostas
 
 **200 OK — Depósito realizado**
-\`\`\`json
+```json
 {
   "success": true,
   "data": null,
   "message": "Deposit successful"
 }
-\`\`\`
+```
 
 **400 Bad Request — Erro de validação**
-\`\`\`json
+```json
 {
   "error": true,
   "code": "VALIDATION_ERROR",
   "message": "Amount is required"
 }
-\`\`\`
+```
 
 **404 Not Found — Conta ou categoria não encontrada**
-\`\`\`json
+```json
 {
   "error": true,
   "code": "ACCOUNT_NOT_FOUND",
   "message": "Account not found"
 }
-\`\`\`
+```
 
 **409 Conflict — Categoria inativa**
-\`\`\`json
+```json
 {
   "error": true,
   "code": "CATEGORY_INACTIVE",
   "message": "Category is inactive"
 }
-\`\`\`
+```
 
 ---
 
@@ -847,13 +847,13 @@ Realiza um saque de uma conta.
 
 #### Request Body
 
-\`\`\`json
+```json
 {
   "amount": 100,
   "categoryId": "a3bb189e-8bf9-3888-9912-ace4e6543002",
   "description": "Compras no supermercado"
 }
-\`\`\`
+```
 
 | Campo        | Tipo    | Obrigatório | Validações                     |
 |--------------|---------|:-----------:|-------------------------------|
@@ -864,31 +864,31 @@ Realiza um saque de uma conta.
 #### Respostas
 
 **200 OK — Saque realizado**
-\`\`\`json
+```json
 {
   "success": true,
   "data": null,
   "message": "Withdraw successful"
 }
-\`\`\`
+```
 
 **404 Not Found — Conta ou categoria não encontrada**
-\`\`\`json
+```json
 {
   "error": true,
   "code": "ACCOUNT_NOT_FOUND",
   "message": "Account not found"
 }
-\`\`\`
+```
 
 **422 Unprocessable Entity — Saldo insuficiente**
-\`\`\`json
+```json
 {
   "error": true,
   "code": "INSUFFICIENT_FUNDS",
   "message": "Insufficient funds"
 }
-\`\`\`
+```
 
 ---
 
@@ -906,14 +906,14 @@ Realiza uma transferência entre duas contas.
 
 #### Request Body
 
-\`\`\`json
+```json
 {
   "toAccountId": "a3bb189e-8bf9-3888-9912-ace4e6543099",
   "amount": 1500,
   "categoryId": "a3bb189e-8bf9-3888-9912-ace4e6543002",
   "description": "Aluguel"
 }
-\`\`\`
+```
 
 | Campo         | Tipo    | Obrigatório | Validações                      |
 |---------------|---------|:-----------:|---------------------------------|
@@ -925,31 +925,31 @@ Realiza uma transferência entre duas contas.
 #### Respostas
 
 **200 OK — Transferência realizada**
-\`\`\`json
+```json
 {
   "success": true,
   "data": null,
   "message": "Transfer successful"
 }
-\`\`\`
+```
 
 **400 Bad Request — Transferência inválida (ex.: conta origem = destino)**
-\`\`\`json
+```json
 {
   "error": true,
   "code": "INVALID_TRANSFER",
   "message": "Cannot transfer to the same account"
 }
-\`\`\`
+```
 
 **404 Not Found — Conta origem ou destino não encontrada**
-\`\`\`json
+```json
 {
   "error": true,
   "code": "ACCOUNT_NOT_FOUND",
   "message": "Account not found"
 }
-\`\`\`
+```
 
 ---
 
@@ -973,14 +973,14 @@ Lista o extrato de transações de uma conta com filtro opcional por status.
 
 #### Exemplo
 
-\`\`\`
+```
 GET /accounts/550e8400-e29b-41d4-a716-446655440001/transactions?status=DONE
-\`\`\`
+```
 
 #### Respostas
 
 **200 OK — Transações retornadas**
-\`\`\`json
+```json
 {
   "success": true,
   "data": [
@@ -1007,19 +1007,19 @@ GET /accounts/550e8400-e29b-41d4-a716-446655440001/transactions?status=DONE
   ],
   "message": "Transactions retrieved successfully"
 }
-\`\`\`
+```
 
 > **Tipos de transação (`type`):** `DEPOSIT`, `WITHDRAW`, `TRANSFER`
 > **Status possíveis (`status`):** `DONE`, `PENDING`, `CANCELLED`
 
 **404 Not Found — Conta não encontrada**
-\`\`\`json
+```json
 {
   "error": true,
   "code": "ACCOUNT_NOT_FOUND",
   "message": "Account not found"
 }
-\`\`\`
+```
 
 ---
 
@@ -1033,12 +1033,12 @@ Cria uma nova categoria de transação para o usuário autenticado.
 
 #### Request Body
 
-\`\`\`json
+```json
 {
   "name": "Alimentação",
   "description": "Supermercado e restaurantes"
 }
-\`\`\`
+```
 
 | Campo         | Tipo   | Obrigatório | Descrição                      |
 |---------------|--------|:-----------:|-------------------------------|
@@ -1048,31 +1048,31 @@ Cria uma nova categoria de transação para o usuário autenticado.
 #### Respostas
 
 **201 Created — Categoria criada**
-\`\`\`json
+```json
 {
   "success": true,
   "data": null,
   "message": "Category created successfully"
 }
-\`\`\`
+```
 
 **400 Bad Request — Erro de validação**
-\`\`\`json
+```json
 {
   "error": true,
   "code": "VALIDATION_ERROR",
   "message": "Name is required"
 }
-\`\`\`
+```
 
 **404 Not Found — Usuário não encontrado**
-\`\`\`json
+```json
 {
   "error": true,
   "code": "USER_NOT_FOUND",
   "message": "User not found"
 }
-\`\`\`
+```
 
 ---
 
@@ -1090,14 +1090,14 @@ Lista todas as categorias do usuário autenticado com filtro opcional por status
 
 #### Exemplo
 
-\`\`\`
+```
 GET /categories?isActive=true
-\`\`\`
+```
 
 #### Respostas
 
 **200 OK — Categorias retornadas**
-\`\`\`json
+```json
 {
   "success": true,
   "data": [
@@ -1116,16 +1116,16 @@ GET /categories?isActive=true
   ],
   "message": "Categories retrieved successfully"
 }
-\`\`\`
+```
 
 **401 Unauthorized**
-\`\`\`json
+```json
 {
   "error": true,
   "code": 401,
   "message": "Token Null"
 }
-\`\`\`
+```
 
 ---
 
@@ -1143,12 +1143,12 @@ Atualiza o nome e/ou descrição de uma categoria. Ao menos um campo deve ser fo
 
 #### Request Body
 
-\`\`\`json
+```json
 {
   "name": "Alimentação & Bebidas",
   "description": "Supermercado, restaurantes e delivery"
 }
-\`\`\`
+```
 
 | Campo         | Tipo   | Obrigatório | Descrição                              |
 |---------------|--------|:-----------:|---------------------------------------|
@@ -1160,31 +1160,31 @@ Atualiza o nome e/ou descrição de uma categoria. Ao menos um campo deve ser fo
 #### Respostas
 
 **200 OK — Categoria atualizada**
-\`\`\`json
+```json
 {
   "success": true,
   "data": null,
   "message": "Category updated successfully"
 }
-\`\`\`
+```
 
 **400 Bad Request — Nenhum campo enviado para atualização**
-\`\`\`json
+```json
 {
   "error": true,
   "code": "NEED_TO_UPDATE_AT_LEAST_ONE_FIELD",
   "message": "You need to update at least one field"
 }
-\`\`\`
+```
 
 **404 Not Found — Categoria não encontrada**
-\`\`\`json
+```json
 {
   "error": true,
   "code": "CATEGORY_NOT_FOUND",
   "message": "Category not found"
 }
-\`\`\`
+```
 
 ---
 
@@ -1204,27 +1204,27 @@ Desativa (soft delete) uma categoria. Categorias inativas não podem ser usadas 
 
 **204 No Content — Categoria desativada com sucesso**
 
-\`\`\`
+```
 (sem corpo de resposta)
-\`\`\`
+```
 
 **404 Not Found — Categoria não encontrada**
-\`\`\`json
+```json
 {
   "error": true,
   "code": "CATEGORY_NOT_FOUND",
   "message": "Category not found"
 }
-\`\`\`
+```
 
 **409 Conflict — Categoria já está inativa**
-\`\`\`json
+```json
 {
   "error": true,
   "code": "CATEGORY_ALREADY_INACTIVE",
   "message": "Category already inactive"
 }
-\`\`\`
+```
 
 ---
 
@@ -1234,39 +1234,39 @@ Todas as respostas seguem um dos três formatos abaixo:
 
 ### Sucesso (2xx)
 
-\`\`\`json
+```json
 {
   "success": true,
   "data": { ... },
   "message": "Mensagem descritiva"
 }
-\`\`\`
+```
 
 ### Criação (201)
 
-\`\`\`json
+```json
 {
   "success": true,
   "data": null,
   "message": "Recurso criado com sucesso"
 }
-\`\`\`
+```
 
 ### Sem conteúdo (204)
 
-\`\`\`
+```
 (sem corpo de resposta)
-\`\`\`
+```
 
 ### Erro (4xx / 5xx)
 
-\`\`\`json
+```json
 {
   "error": true,
   "code": "CODIGO_DO_ERRO",
   "message": "Descrição do erro"
 }
-\`\`\`
+```
 
 ---
 
@@ -1310,11 +1310,11 @@ Todas as respostas seguem um dos três formatos abaixo:
 
 ## 🔑 Configuração de Ambiente
 
-\`\`\`env
+```env
 APP_SECRET=your_app_secret
 JWT_SECRET=your_jwt_secret
 DATABASE_URL="postgresql://db_user:db_password@127.0.0.1:5432/db_name?serverVersion=16&charset=utf8"
-\`\`\`
+```
 
 ---
 
