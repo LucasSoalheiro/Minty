@@ -1,6 +1,6 @@
 import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { AuthLayout } from "./core/layout/auth-layout/auth-layout";
+import { AuthLayout } from "./layout/auth-layout/auth-layout";
 
 @Component({
   selector: 'app-root',
