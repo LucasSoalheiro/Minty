@@ -1,65 +1,22 @@
-<header class="">
-  <nav class="bg-white ">
-    <div class="flex justify-center items-center mx-auto ">
-    
-      <a href="#" class="flex items-center ">
-        <img src="/img/minty-logo.png" class="h-30 " alt="logo" />
-      </a>
+<header class="flex justify-center items-center  mx-auto w-full ">
+  <!-- Image -->
+  <div class="flex items-center">
+    <img src="/img/minty-logo.png" class="h-35 md:h-30 object-contain" alt="logo" />
+  </div>
 
-      <div
-        class="flex justify-start items-center w-full lg:flex  "
-        id="mobile-menu-2"
-      >
-        <ul class="flex gap-5 text-center mt-2 font-medium  items-center justify-center">
-          <li>
-            <a
-              href="#"
-              class="block  text-white rounded bg-primary-700 lg:bg-transparent lg:text-primary-700 lg:p-0 dark:text-white"
-              aria-current="page"
-              >Home</a
-            >
-          </li>
-          <li>
-            <a
-              href="#"
-              class="block  text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:border-gray-700"
-              >Company</a
-            >
-          </li>
-          <li>
-            <a
-              href="#"
-              class="block  text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:border-gray-700"
-              >Marketplace</a
-            >
-          </li>
-          <li>
-            <a
-              href="#"
-              class="block  text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:border-gray-700"
-              >Features</a
-            >
-          </li>
-          <li>
-            <a
-              href="#"
-              class="block  text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:border-gray-700"
-              >Team</a
-            >
-          </li>
-          <li>
-            <a
-              href="#"
-              class="block  text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:border-gray-700"
-              >Contact</a
-            >
-          </li>
-        </ul>
-      </div>
-
-      
-    </div>
-
-
+  <!-- Desktop Links -->
+  <nav class="hidden md:flex items-center mt-3">
+    <ul class="flex gap-5 text-center font-medium items-center">
+          @for (link of links; track link.href) {
+        <li>
+          <a
+            [href]="link.href"
+            class="text-black font-bold hover:text-white"
+          >
+            {{ link.name }}
+          </a>
+        </li>
+      }
+    </ul>
   </nav>
 </header>
