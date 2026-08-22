@@ -1,0 +1,21 @@
+<header class="flex justify-center items-center mx-auto w-full">
+  <!-- Image -->
+  <div class="flex items-center">
+    <img src="/img/minty-logo.png" class="h-35 md:h-30 object-contain" alt="logo" />
+  </div>
+
+  <!-- Desktop Links -->
+  <nav class="hidden md:flex items-center mt-3">
+    <ul class="flex gap-5 text-center font-medium items-center">
+      @for (link of links; track link.href) {
+        <li>
+          <a [href]="link.href" class=" font-bold ">
+            {{ link.name }}
+          </a>
+        </li>
+      }
+    </ul>
+  </nav>
+</header>
+
+

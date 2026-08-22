@@ -1,34 +1,11 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-
-const LINKS = [
-  {
-    name: 'Inicio',
-    href: '#',
-  },
-   {
-    name: 'Inicio',
-    href: '#',
-  },
-   {
-    name: 'Inicio',
-    href: '#',
-  },
-   {
-    name: 'Inicio',
-    href: '#',
-  },
-   {
-    name: 'Inicio',
-    href: '#',
-  },
-];
-
+import { Header } from './Components/header/header';
 @Component({
   selector: 'app-public-layout',
-  imports: [],
+  imports: [Header],
   templateUrl: './public-layout.html',
   changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class PublicLayout {
-  links = LINKS
+
 }
