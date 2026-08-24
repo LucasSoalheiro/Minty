@@ -27,11 +27,7 @@ const LINKS = [
 @Component({
   template: `
     <div class="flex justify-center">
-      <p-drawer
-        [(visible)]="visibleTop"
-        position="top"
-        styleClass="w-full! md:w-80! h-auto!    "
-      >
+      <p-drawer [(visible)]="visibleTop" position="top" styleClass="w-full! md:w-80! h-auto!    ">
         <ng-template #header>
           <img src="/img/minty-logo.png" alt="Minty" class="h-15 " />
         </ng-template>
@@ -45,7 +41,7 @@ const LINKS = [
                   <a
                     [href]="link.href"
                     (click)="visibleTop = false"
-                    class="flex items-center justify-between w-full px-4 py-3 text-base font-medium text-slate-600! hover:bg-emerald-100 rounded-xl transition-all duration-200 group"
+                    class="flex items-center justify-between w-full px-4 py-3 text-base font-medium text-slate-600! hover:bg-emerald-100 rounded-lg transition-all duration-200 group"
                   >
                     <span>{{ link.name }}</span>
                     <svg data-p-icon="angle-double-right"></svg>
@@ -60,9 +56,9 @@ const LINKS = [
             <a href="/auth-login" class="">
               <button
                 type="button"
-                class="w-full h-12 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold rounded-xl flex items-center justify-center gap-2 shadow-md hover:shadow-emerald-500/20 transition-all duration-200 cursor-pointer active:scale-[0.98]"
+                class="w-full h-12 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold rounded-lg flex items-center justify-center gap-2 shadow-md hover:shadow-emerald-500/20 transition-all duration-200 cursor-pointer active:scale-[0.98]"
               >
-                Login
+                Sign In
               </button>
             </a>
           </div>
@@ -72,12 +68,12 @@ const LINKS = [
       <!-- Action Button -->
       <button
         type="button"
-        class="bg-emerald-500! hover:bg-emerald-600! border-emerald-500!"
+        class="bg-emerald-400! hover:bg-emerald-500! border-1! border-emerald-400! h-10! w-10!"
         pButton
         iconOnly
         (click)="visibleTop = true"
       >
-        <svg data-p-icon="bars"></svg>
+        <svg data-p-icon="bars" !color="#fff" size="30"></svg>
       </button>
     </div>
   `,
