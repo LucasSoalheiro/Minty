@@ -1,21 +1,21 @@
 import { Component } from '@angular/core';
-import { MobileButton } from './button';
+import { MobileButton } from './mobile-button';
 // header links
 const LINKS = [
   {
-    name: 'Beneficios',
+    name: 'Benefits',
     href: '#',
   },
   {
-    name: 'Como Usar',
+    name: 'How To Use',
     href: '#',
   },
   {
-    name: 'Sobre',
+    name: 'About',
     href: '#',
   },
   {
-    name: 'Contato',
+    name: 'Contact',
     href: '#',
   },
 ];

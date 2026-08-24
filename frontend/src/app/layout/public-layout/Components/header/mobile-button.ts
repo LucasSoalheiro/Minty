@@ -3,22 +3,23 @@ import { DrawerModule } from 'primeng/drawer';
 import { ButtonModule } from 'primeng/button';
 import { Bars } from '@primeicons/angular/bars';
 import { AngleDoubleRight } from '@primeicons/angular/angle-double-right';
+
 // header links
 const LINKS = [
   {
-    name: 'Beneficios',
+    name: 'Benefits',
     href: '#',
   },
   {
-    name: 'Como Usar',
+    name: 'How To Use',
     href: '#',
   },
   {
-    name: 'Sobre',
+    name: 'About',
     href: '#',
   },
   {
-    name: 'Contato',
+    name: 'Contact',
     href: '#',
   },
 ];
@@ -28,7 +29,6 @@ const LINKS = [
     <div class="flex justify-center">
       <p-drawer
         [(visible)]="visibleTop"
-        /* header="Minty" */
         position="top"
         styleClass="w-full! md:w-80! h-auto!    "
       >
@@ -62,7 +62,7 @@ const LINKS = [
                 type="button"
                 class="w-full h-12 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold rounded-xl flex items-center justify-center gap-2 shadow-md hover:shadow-emerald-500/20 transition-all duration-200 cursor-pointer active:scale-[0.98]"
               >
-                Entrar
+                Login
               </button>
             </a>
           </div>
