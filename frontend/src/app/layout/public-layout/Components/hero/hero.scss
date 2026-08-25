@@ -1,0 +1,50 @@
+/* From Uiverse.io by vinodjangid07 */ 
+.anm{
+  transition-duration: .2s;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.116);
+  padding-left: 8px;
+  transition-duration: .5s;
+}
+
+.svgIcon {
+  height: 25px;
+  transition-duration: 1.5s;
+}
+
+.bell path {
+  fill: rgb(19, 19, 19);
+}
+
+.anm:hover {
+  background-color: rgb(192, 255, 20);
+  transition-duration: .5s;
+   background-position: right center;
+ background-size: 200% auto;
+ -webkit-animation: pulse 2s infinite;
+ animation: pulse512 1.5s infinite;
+}
+
+.anm:active {
+  transform: scale(0.97);
+  transition-duration: .2s;
+}
+
+.anm:hover .svgIcon {
+  transform: rotate(250deg);
+  transition-duration: 1.5s;
+}
+
+@keyframes pulse512 {
+ 0% {
+  box-shadow: 0 0 0 0 oklch(76.5% 0.177 163.223);
+ }
+
+ 70% {
+  box-shadow: 0 0 0 10px rgb(218 103 68 / 0%);
+ }
+
+ 100% {
+  box-shadow: 0 0 0 0 rgb(218 103 68 / 0%);
+ }
+}
+
