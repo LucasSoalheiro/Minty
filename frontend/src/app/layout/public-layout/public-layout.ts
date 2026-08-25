@@ -1,9 +1,10 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Header } from './Components/header/header';
 import { Hero } from './Components/hero/hero';
+import { Footer } from './footer/footer';
 @Component({
   selector: 'app-public-layout',
-  imports: [Header,Hero],
+  imports: [Header,Footer,Hero],
   templateUrl: './public-layout.html',
   changeDetection: ChangeDetectionStrategy.Eager,
 })

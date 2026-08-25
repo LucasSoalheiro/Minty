@@ -8,19 +8,19 @@ const LINKS = [
   },
   {
     name: 'Benefits',
-    href: '#',
+    href: '#benefits',
   },
   {
     name: 'How To Use',
-    href: '#',
+    href: '#how',
   },
   {
     name: 'About',
-    href: '#',
+    href: '#about',
   },
   {
     name: 'Contact',
-    href: '#',
+    href: '#contact',
   },
 ];
 

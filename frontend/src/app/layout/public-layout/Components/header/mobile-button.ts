@@ -6,32 +6,32 @@ import { AngleDoubleRight } from '@primeicons/angular/angle-double-right';
 
 // header links
 const LINKS = [
-    {
+  {
     name: 'Home',
     href: '#',
   },
   {
     name: 'Benefits',
-    href: '#',
+    href: '#benefits',
   },
   {
     name: 'How To Use',
-    href: '#',
+    href: '#how',
   },
   {
     name: 'About',
-    href: '#',
+    href: '#about',
   },
   {
     name: 'Contact',
-    href: '#',
+    href: '#contact',
   },
 ];
 
 @Component({
   template: `
     <div class="flex justify-center">
-      <p-drawer [(visible)]="visibleTop" position="top" styleClass="w-full! md:w-80! h-auto!    ">
+      <p-drawer [(visible)]="visibleTop" position="top" styleClass="w-full! md:w-80! h-full!    ">
         <ng-template #header>
           <img src="/img/minty-logo.png" alt="Minty" class="h-15 " />
         </ng-template>

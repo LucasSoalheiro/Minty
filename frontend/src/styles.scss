@@ -10,6 +10,10 @@ body{
   font-style: normal;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 :root {
   --background: #ffffff;
   --surface: #357831;
