@@ -6,6 +6,10 @@ import { AngleDoubleRight } from '@primeicons/angular/angle-double-right';
 
 // header links
 const LINKS = [
+    {
+    name: 'Home',
+    href: '#',
+  },
   {
     name: 'Benefits',
     href: '#',

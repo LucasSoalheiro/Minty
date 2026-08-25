@@ -3,6 +3,10 @@ import { MobileButton } from './mobile-button';
 // header links
 const LINKS = [
   {
+    name: 'Home',
+    href: '#',
+  },
+  {
     name: 'Benefits',
     href: '#',
   },
