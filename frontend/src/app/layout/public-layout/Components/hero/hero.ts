@@ -13,6 +13,9 @@ import { Send } from '@primeicons/angular/send';
 import { Bell } from '@primeicons/angular/bell';
 import { BuildingColumns } from '@primeicons/angular/building-columns';
 
+// Testimonial Icons
+import { User } from '@primeicons/angular/user';
+
 const BENEFITS = [
   {
     icon: 'wallet',
@@ -68,8 +71,32 @@ const HOWTO = [
   },
 ];
 
+const TESTMONIALS = [
+  {
+    description: 'I used to have three different apps just to know where my money was going. Minty replaced all of them. I connected my accounts in under a minute and finally have a clear picture of my spending, plus sending money to friends is actually instant now.',
+    userName: 'Gustavo',
+    userRole: 'Full-Stack Developer',
+  },
+  {
+    description: 'What sold me on Minty was how fast transfers actually are. No more waiting a day for a P2P payment to clear. The spending alerts also caught a duplicate charge I would have completely missed otherwise.',
+    userName: 'Lucas',
+    userRole: 'Backend Developer',
+  },
+];
+
 @Component({
-  imports: [Shield, ArrowDownLeftAndArrowUpRightToCenter, Wallet, ChartLine, Lock, Send, ChartPie,Bell,BuildingColumns],
+  imports: [
+    Shield,
+    ArrowDownLeftAndArrowUpRightToCenter,
+    Wallet,
+    ChartLine,
+    Lock,
+    Send,
+    ChartPie,
+    Bell,
+    BuildingColumns,
+    User,
+  ],
   selector: 'app-hero',
   styleUrl: './hero.scss',
   templateUrl: './hero.html',
@@ -77,4 +104,5 @@ const HOWTO = [
 export class Hero {
   benefit = BENEFITS;
   howt = HOWTO;
+  testimonials = TESTMONIALS;
 }

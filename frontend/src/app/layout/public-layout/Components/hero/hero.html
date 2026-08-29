@@ -11,7 +11,7 @@
 
     <a href="/auth-login" class="">
       <button
-        class="anm flex gap-2 text-white! h-10 md:h-12 w-[180px] md:w-[200px] bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-500 my-3 flex items-center justify-center rounded-xl cursor-pointer text-[#fff]"
+        class="anm flex gap-2 text-white! h-11 md:h-12 py-3! w-[180px] md:w-[200px] bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-500 my-3 flex items-center justify-center rounded-full cursor-pointer text-[#fff]"
       >
         <svg class="svgIcon" viewBox="0 0 512 512" height="1em" xmlns="http://www.w3.org/2000/svg">
           <path
@@ -136,77 +136,135 @@
     </div>
   </section>
 
-  <!-- About -->
+  <!-- About & Testimonials -->
   <section id="about" class="bg-slate-100 mx-auto px-5 py-20">
-    <!-- Section Title -->
-    <div class="text-center mb-10 md:mb-20">
-      <h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 mb-4">About Us</h1>
-      <!-- <p class="text-base leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto text-gray-500s">
-        Discover our history, our values, and the people who make the day-to-day happen.
-      </p> -->
-      <div class="flex mt-6 justify-center">
-        <div class="w-16 h-1 rounded-full bg-emerald-500 inline-flex"></div>
-      </div>
-    </div>
+    <div class="max-w-6xl mx-auto space-y-24">
+      <!-- Section Title -->
 
-    <div class="flex flex-col md:flex-row items-center justify-center">
-      <!-- About Context -->
-      <div
-        class="flex md:w-1/2 lg:pr-16 md:pr-10 flex flex-col md:items-start text-left md:mb-16 md:mb-0 items-center"
-      >
+      <div class="text-center mb-10 md:mb-20">
+        <h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 mb-4">About Us</h1>
+
+        <p class="text-base leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto text-gray-500s">
+          Discover our history, our values, and the people who make Minty.
+        </p>
+
+        <div class="flex mt-6 justify-center">
+          <div class="w-16 h-1 rounded-full bg-emerald-500 inline-flex"></div>
+        </div>
+      </div>
+      <!-- About Section -->
+      <div class="flex flex-col md:flex-row items-center justify-center">
+        <!-- About Context -->
         <div
-          class="hidden lg:inline-block bg-emerald-100 text-xs font-medium px-4 py-1 rounded-full mb-4 tracking-wide uppercase font-semibold"
+          class="md:1/2 flexlg:pr-16 md:pr-10 flex-col md:items-start text-left items-center mb-10 md:mb-0"
         >
-          About Us
+          <div
+            class="hidden lg:inline-block bg-emerald-100 text-emerald-800 text-xs px-4 py-1 rounded-full mb-4 tracking-wide uppercase font-semibold"
+          >
+            About Us
+          </div>
+
+          <div>
+            <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900 md:text-left">
+              We started Minty because managing money shouldn't feel like a chore
+            </h1>
+            <p class="mb-4 leading-relaxed text-slate-600">
+              Too many finance apps make you dig through menus just to understand your own money. We
+              built Minty to do the digging for you, one clear screen for spending, saving and
+              sending, without the clutter.
+            </p>
+            <p class="mb-8 leading-relaxed text-slate-600">
+              Today, thousands of people use Minty to stay on top of their finances and move money
+              to the people who matter, in seconds.
+            </p>
+          </div>
+
+          <!-- Numbers Data -->
+          <div class="flex gap-10">
+            <div>
+              <p class="text-2xl font-medium text-emerald-500!">120k+</p>
+              <p class="text-xs text-slate-600! mt-1">active users</p>
+            </div>
+            <div>
+              <p class="text-2xl font-medium text-emerald-500!">$40M+</p>
+              <p class="text-xs text-slate-600! mt-1">transferred monthly</p>
+            </div>
+            <div>
+              <p class="text-2xl font-medium text-emerald-500!">4.8/5</p>
+              <p class="text-xs text-slate-600! mt-1">average rating</p>
+            </div>
+          </div>
         </div>
 
-        <div class="">
-          <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900 md:text-left">
-            We started Minty because managing money shouldn't feel like a chore
-          </h1>
-          <p class="mb-4 leading-relaxed">
-            Too many finance apps make you dig through menus just to understand your own money. We
-            built Minty to do the digging for you, one clear screen for spending, saving and
-            sending, without the clutter.
-          </p>
-          <p class="mb-8 leading-relaxed">
-            Today, thousands of people use Minty to stay on top of their finances and move money to
-            the people who matter, in seconds.
-          </p>
-        </div>
-
-        <!-- Numbers Data -->
-        <div class="flex gap-10">
-          <div>
-            <p class="text-2xl font-medium text-emerald-500!">120k+</p>
-            <p class="text-xs text-slate-600! mt-1">active users</p>
+        <!-- Card -->
+        <!-- <div
+          class="hidden md:flex md:1/2 relative rounded-lg -skew-x-6 -translate-y-2 hover:-translate-y-1 hover:-translate-x-0 hover:skew-x-0 duration-500 w-80 h-80 p-2 bg-white transition-all [box-shadow:12px_12px_0px_0px_rgba(16,185,129,0.2)] hover:[box-shadow:4px_4px_0px_0px_rgba(16,185,129,0.2)]"
+        >
+          <figure class="w-full! h-full">
+            <div alt="change to a img tag" class="bg-emerald-300 min-h-full rounded-lg"></div>
+          </figure>
+          <div class="absolute bottom-6 left-0 px-6">
+            <p class="text-slate-800 font-bold mb-1">Our mission</p>
+            <p class="text-xs text-slate-600 leading-relaxed mb-3">
+              Make personal finance simple, transparent and instant for everyone.
+            </p>
+            <span class="font-bold text-slate-800 text-xs">Founded</span>
+            <p class="text-xs text-slate-600">2023 · São Paulo, Brazil</p>
           </div>
-          <div>
-            <p class="text-2xl font-medium text-emerald-500!">$40M+</p>
-            <p class="text-xs text-slate-600! mt-1">transferred monthly</p>
-          </div>
-          <div>
-            <p class="text-2xl font-medium text-emerald-500!">4.8/5</p>
-            <p class="text-xs text-slate-600! mt-1">average rating</p>
-          </div>
-        </div>
+        </div> -->
       </div>
 
-      <!-- Card -->
+      <!-- Testimonials Section -->
+      <div class="flex flex-col items-center md:items-start">
+        <div
+          class="hidden lg:inline-block bg-emerald-100 text-emerald-800 text-xs px-4 py-1 rounded-full mb-4 tracking-wide uppercase font-semibold"
+        >
+          Testimonials
+        </div>
 
-      <div
-        class="hidden md:flex relative rounded-lg -skew-x-6 -translate-y-2 -translate-y-6 hover:-translate-y-1 hover:-translate-x-0 hover:skew-x-0 duration-500 w-100 h-35 p-2 bg-white card-compact transition-all duration-200 [box-shadow:12px_12px] hover:[box-shadow:4px_4px]"
-      >
-        <figure class="w-full h-full">
-          <div alt="change to a img tag" class="bg-emerald-300 min-h-full rounded-lg"></div>
-        </figure>
-        <div class="absolute bottom-4 left-0 px-4">
-          <p class="text-slate-800! font-bold mb-1">Our mission</p>
-          <p class="text-xs text-slate-600! leading-relaxed">
-            Make personal finance simple, transparent and instant for everyone.
-          </p>
-          <span class="font-bold text-slate-800!">Founded</span>
-          <p class="text-xs 0 text-slate-600!">2023 · São Paulo, Brazil</p>
+        <h2
+          class="title-font sm:text-3xl text-2xl mb-8 font-medium text-gray-900 text-center md:text-left"
+        >
+          What our users say about us
+        </h2>
+
+        <div class="flex flex-wrap -m-4 w-full">
+          <!-- Card -->
+          @for (testimonial of testimonials; track $index) {
+            <div class="p-4 md:w-1/2 w-full">
+              <div class="h-full bg-white p-8 rounded-lg shadow-sm border border-slate-200">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  class="block w-5 h-5 text-emerald-500! mb-4"
+                  viewBox="0 0 975.036 975.036"
+                >
+                  <path
+                    d="M925.036 57.197h-304c-27.6 0-50 22.4-50 50v304c0 27.601 22.4 50 50 50h145.5c-1.9 79.601-20.4 143.3-55.4 191.2-27.6 37.8-69.399 69.1-125.3 93.8-25.7 11.3-36.8 41.7-24.8 67.101l36 76c11.6 24.399 40.3 35.1 65.1 24.399 66.2-28.6 122.101-64.8 167.7-108.8 55.601-53.7 93.7-114.3 114.3-181.9 20.601-67.6 30.9-159.8 30.9-276.8v-239c0-27.599-22.401-50-50-50zM106.036 913.497c65.4-28.5 121-64.699 166.9-108.6 56.1-53.7 94.4-114.1 115-181.2 20.6-67.1 30.899-159.6 30.899-277.5v-239c0-27.6-22.399-50-50-50h-304c-27.6 0-50 22.4-50 50v304c0 27.601 22.4 50 50 50h145.5c-1.9 79.601-20.4 143.3-55.4 191.2-27.6 37.8-69.4 69.1-125.3 93.8-25.7 11.3-36.8 41.7-24.8 67.101l35.9 75.8c11.601 24.399 40.501 35.2 65.301 24.399z"
+                  ></path>
+                </svg>
+                <p class="leading-relaxed mb-6 text-slate-600">
+                  {{ testimonial.description }}
+                </p>
+                <div class="inline-flex items-center">
+                  <div
+                    class="relative z-10 w-12 h-12 inline-flex justify-center items-center rounded-full border-2 border-gray-200 bg-gray-100"
+                  >
+                    <svg data-p-icon="user" size="35"></svg>
+                  </div>
+
+                  <span class="flex-grow flex flex-col pl-4">
+                    <span class="title-font font-medium text-gray-900">{{
+                      testimonial.userName
+                    }}</span>
+                    <span class="text-emerald-500 text-xs tracking-wider uppercase font-medium">{{
+                      testimonial.userRole
+                    }}</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          }
         </div>
       </div>
     </div>
@@ -216,9 +274,7 @@
   <section id="contact" class="text-gray-600 body-font py-20">
     <!-- Title -->
     <div class="text-center mb-10 md:mb-20">
-      <h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 mb-4">
-        Contact Us
-      </h1>
+      <h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 mb-4">Contact Us</h1>
       <p class="text-base leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto text-gray-500s">
         Do you have any questions or want to leave a suggestion? Get in touch with us.
       </p>
@@ -296,20 +352,40 @@
         <!-- mensage -->
         <div class="relative mb-4">
           <label for="message" class="leading-7 text-sm text-gray-600">Message</label>
-           <textarea
+          <textarea
             id="message"
             name="message"
             class="textarea"
             placeholder="Hello I'am..."
           ></textarea>
         </div>
-        
+
         <button
           class="anm flex gap-2 text-white! h-10 md:h-12 w-full bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-500 my-3 flex items-center justify-center rounded-xl cursor-pointer text-[#fff]"
         >
           Send -->
         </button>
-      
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="bg-emerald-500! body-font">
+    <div class=" px-5 py-24 mx-auto">
+      <div class="lg:w-2/3 flex flex-col  sm:flex-row sm:items-center items-start mx-auto">
+        <h1 class="flex-grow sm:pr-16 text-2xl sm:text-3xl font-medium title-font text-white!">
+          Ready to take control of your money?
+          <span class="block text-emerald-100! text-base font-normal mt-2"
+            >Join Minty and manage everything in one place, for free.</span
+          >
+        </h1>
+        <a href="/auth-login">
+          <button
+            class="cursor-pointer flex-shrink-0 text-emerald-600 bg-white border-0 py-3 px-8 focus:outline-none hover:bg-emerald-50 rounded-full text-lg mt-10 sm:mt-0 font-medium"
+          >
+            Get Started ->
+          </button>
+        </a>
       </div>
     </div>
   </section>
