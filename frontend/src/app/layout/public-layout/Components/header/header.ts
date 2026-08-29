@@ -1,28 +1,8 @@
 import { Component } from '@angular/core';
 import { MobileButton } from './mobile-button';
+import HeaderData from './data.json'
 // header links
-const LINKS = [
-  {
-    name: 'Home',
-    href: '#',
-  },
-  {
-    name: 'Benefits',
-    href: '#benefits',
-  },
-  {
-    name: 'How To Use',
-    href: '#how',
-  },
-  {
-    name: 'About',
-    href: '#about',
-  },
-  {
-    name: 'Contact',
-    href: '#contact',
-  },
-];
+const LINKS = HeaderData;
 
 @Component({
   imports: [MobileButton],
