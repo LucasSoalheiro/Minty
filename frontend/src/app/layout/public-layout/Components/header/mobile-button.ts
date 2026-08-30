@@ -11,7 +11,7 @@ const LINKS = HeaderData;
 @Component({
   template: `
     <div class="flex justify-center">
-      <p-drawer [(visible)]="visibleTop" position="top" styleClass="w-full! md:w-80! h-full!    ">
+      <p-drawer [(visible)]="visibleTop" position="top" styleClass="w-full! md:w-80! h-auto!    ">
         <ng-template #header>
           <img src="/img/minty-logo.png" alt="Minty" class="h-15 " />
         </ng-template>

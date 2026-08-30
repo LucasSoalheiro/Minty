@@ -26,11 +26,11 @@
   <!-- Benefits -->
   <section id="benefits" class="bg-slate-100! px-5 py-20 mx-auto">
     <div class="text-center mb-20">
-      <h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 mb-4">
+      <h2 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 mb-4">
         Your money, working for you
-      </h1>
-      <p class="text-base leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto text-gray-500s">
-        Risk comes from not knowing what you're doing. That’s why we’re here to help you take
+      </h2>
+      <p class="text-base leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto text-gray-500">
+        Risk comes from not knowing what you're doing. That's why we're here to help you take
         control of your money. Take advantage of our benefits.
       </p>
       <div class="flex mt-6 justify-center">
@@ -38,42 +38,41 @@
       </div>
     </div>
 
-    <!-- Cards Container -->
     <div
-      class="flex flex-wrap justify-center items-center sm:-m-4 -mx-4 -mb-10 -mt-4 md:space-y-0 space-y-6"
+      class="flex flex-wrap justify-center items-center sm:-m-4 -mx-4 -mb-10 -mt-4 md:space-y-0 space-y-6 gap-5"
     >
-      <!-- Card -->
       @for (bene of benefit; track bene.title) {
         <div
-          class="p-4 w-full md:w-110 md:h-60 flex flex-col text-center items-center m-2 rounded-3xl bg-white shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
+          class="p-4 w-full md:w-110 md:h-60 flex flex-col text-center items-center rounded-3xl bg-white shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
         >
           <div
             class="w-20 h-20 inline-flex items-center justify-center rounded-full bg-gradient-to-r from-emerald-500 to-emerald-400 text-emerald-500 mb-5 flex-shrink-0"
           >
             @switch (bene.icon) {
               @case ('wallet') {
-                <svg data-p-icon="wallet" size="35" color="white"></svg>
+                <svg data-p-icon="wallet" size="35" color="white" aria-hidden="true"></svg>
               }
               @case ('p2p') {
                 <svg
                   data-p-icon="arrow-down-left-and-arrow-up-right-to-center"
                   size="35"
                   color="white"
+                  aria-hidden="true"
                 ></svg>
               }
               @case ('shield') {
-                <svg data-p-icon="shield" size="35" color="white"></svg>
+                <svg data-p-icon="shield" size="35" color="white" aria-hidden="true"></svg>
               }
               @case ('chart-line') {
-                <svg data-p-icon="chart-line" size="35" color="white"></svg>
+                <svg data-p-icon="chart-line" size="35" color="white" aria-hidden="true"></svg>
               }
               @case ('lock') {
-                <svg data-p-icon="lock" size="35" color="white"></svg>
+                <svg data-p-icon="lock" size="35" color="white" aria-hidden="true"></svg>
               }
             }
           </div>
           <div class="flex-grow">
-            <h2 class="text-gray-900 text-lg title-font font-medium mb-3">{{ bene.title }}</h2>
+            <h3 class="text-gray-900 text-lg title-font font-medium mb-3">{{ bene.title }}</h3>
             <p class="leading-relaxed text-base">{{ bene.description }}</p>
           </div>
         </div>
@@ -139,12 +138,10 @@
   <!-- About & Testimonials -->
   <section id="about" class="bg-slate-100 mx-auto px-5 py-20">
     <div class="max-w-6xl mx-auto space-y-24">
-      <!-- Section Title -->
-
       <div class="text-center mb-10 md:mb-20">
-        <h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 mb-4">About Us</h1>
+        <h2 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 mb-4">About Us</h2>
 
-        <p class="text-base leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto text-gray-500s">
+        <p class="text-base leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto text-gray-500">
           Discover our history, our values, and the people who make Minty.
         </p>
 
@@ -152,12 +149,11 @@
           <div class="w-16 h-1 rounded-full bg-emerald-500 inline-flex"></div>
         </div>
       </div>
+
       <!-- About Section -->
-      <div class="flex flex-col md:flex-row items-center justify-center">
-        <!-- About Context -->
-        <div
-          class="md:1/2 flexlg:pr-16 md:pr-10 flex-col md:items-start text-left items-center mb-10 md:mb-0"
-        >
+
+      <div class="flex flex-col items-centermax-w-3xl mx-auto text-center md:text-left">
+        <div class="md:1/2 flex flex-col md:items-start items-center mb-10 md:mb-0">
           <div
             class="hidden lg:inline-block bg-emerald-100 text-emerald-800 text-xs px-4 py-1 rounded-full mb-4 tracking-wide uppercase font-semibold"
           >
@@ -165,9 +161,9 @@
           </div>
 
           <div>
-            <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900 md:text-left">
+            <h3 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900 md:text-left">
               We started Minty because managing money shouldn't feel like a chore
-            </h1>
+            </h3>
             <p class="mb-4 leading-relaxed text-slate-600">
               Too many finance apps make you dig through menus just to understand your own money. We
               built Minty to do the digging for you, one clear screen for spending, saving and
@@ -179,7 +175,6 @@
             </p>
           </div>
 
-          <!-- Numbers Data -->
           <div class="flex gap-10">
             <div>
               <p class="text-2xl font-medium text-emerald-500!">120k+</p>
@@ -195,23 +190,6 @@
             </div>
           </div>
         </div>
-
-        <!-- Card -->
-        <!-- <div
-          class="hidden md:flex md:1/2 relative rounded-lg -skew-x-6 -translate-y-2 hover:-translate-y-1 hover:-translate-x-0 hover:skew-x-0 duration-500 w-80 h-80 p-2 bg-white transition-all [box-shadow:12px_12px_0px_0px_rgba(16,185,129,0.2)] hover:[box-shadow:4px_4px_0px_0px_rgba(16,185,129,0.2)]"
-        >
-          <figure class="w-full! h-full">
-            <div alt="change to a img tag" class="bg-emerald-300 min-h-full rounded-lg"></div>
-          </figure>
-          <div class="absolute bottom-6 left-0 px-6">
-            <p class="text-slate-800 font-bold mb-1">Our mission</p>
-            <p class="text-xs text-slate-600 leading-relaxed mb-3">
-              Make personal finance simple, transparent and instant for everyone.
-            </p>
-            <span class="font-bold text-slate-800 text-xs">Founded</span>
-            <p class="text-xs text-slate-600">2023 · São Paulo, Brazil</p>
-          </div>
-        </div> -->
       </div>
 
       <!-- Testimonials Section -->
@@ -222,14 +200,13 @@
           Testimonials
         </div>
 
-        <h2
+        <h3
           class="title-font sm:text-3xl text-2xl mb-8 font-medium text-gray-900 text-center md:text-left"
         >
           What our users say about us
-        </h2>
+        </h3>
 
         <div class="flex flex-wrap -m-4 w-full">
-          <!-- Card -->
           @for (testimonial of testimonials; track $index) {
             <div class="p-4 md:w-1/2 w-full">
               <div class="h-full bg-white p-8 rounded-lg shadow-sm border border-slate-200">
@@ -238,6 +215,7 @@
                   fill="currentColor"
                   class="block w-5 h-5 text-emerald-500! mb-4"
                   viewBox="0 0 975.036 975.036"
+                  aria-hidden="true"
                 >
                   <path
                     d="M925.036 57.197h-304c-27.6 0-50 22.4-50 50v304c0 27.601 22.4 50 50 50h145.5c-1.9 79.601-20.4 143.3-55.4 191.2-27.6 37.8-69.399 69.1-125.3 93.8-25.7 11.3-36.8 41.7-24.8 67.101l36 76c11.6 24.399 40.3 35.1 65.1 24.399 66.2-28.6 122.101-64.8 167.7-108.8 55.601-53.7 93.7-114.3 114.3-181.9 20.601-67.6 30.9-159.8 30.9-276.8v-239c0-27.599-22.401-50-50-50zM106.036 913.497c65.4-28.5 121-64.699 166.9-108.6 56.1-53.7 94.4-114.1 115-181.2 20.6-67.1 30.899-159.6 30.899-277.5v-239c0-27.6-22.399-50-50-50h-304c-27.6 0-50 22.4-50 50v304c0 27.601 22.4 50 50 50h145.5c-1.9 79.601-20.4 143.3-55.4 191.2-27.6 37.8-69.4 69.1-125.3 93.8-25.7 11.3-36.8 41.7-24.8 67.101l35.9 75.8c11.601 24.399 40.501 35.2 65.301 24.399z"
@@ -250,7 +228,7 @@
                   <div
                     class="relative z-10 w-12 h-12 inline-flex justify-center items-center rounded-full border-2 border-gray-200 bg-gray-100"
                   >
-                    <svg data-p-icon="user" size="35"></svg>
+                    <svg data-p-icon="user" size="35" aria-hidden="true"></svg>
                   </div>
 
                   <span class="flex-grow flex flex-col pl-4">
@@ -272,10 +250,9 @@
 
   <!-- Contact -->
   <section id="contact" class="text-gray-600 body-font py-20">
-    <!-- Title -->
     <div class="text-center mb-10 md:mb-20">
-      <h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 mb-4">Contact Us</h1>
-      <p class="text-base leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto text-gray-500s">
+      <h2 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 mb-4">Contact Us</h2>
+      <p class="text-base leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto text-gray-500">
         Do you have any questions or want to leave a suggestion? Get in touch with us.
       </p>
       <div class="flex mt-6 justify-center">
@@ -301,43 +278,41 @@
           style="filter: grayscale(1) contrast(1.2) opacity(0.4)"
         ></iframe>
 
-        <!-- Details -->
-        <div
-          class="group bg-slate-100 relative flex flex-wrap py-6 rounded shadow-md transition duration-300 cursor-pointer hover:translate-y-[3px] hover:shadow-[0_-8px_0px_0px_#10b981]"
-        >
+        <div class="bg-slate-100 relative flex flex-wrap py-6 rounded shadow-md">
           <div class="lg:w-1/2 px-6">
-            <h2 class="title-font font-semibold text-emerald-500! tracking-widest text-xs">
+            <h3 class="title-font font-semibold text-emerald-500! tracking-widest text-xs">
               ADDRESS
-            </h2>
+            </h3>
             <p class="mt-1">São Caetano do Sul, SP, Brasil</p>
           </div>
           <div class="lg:w-1/2 px-6 mt-4 lg:mt-0">
-            <h2 class="title-font font-semibold text-emerald-500! tracking-widest text-xs">
+            <h3 class="title-font font-semibold text-emerald-500! tracking-widest text-xs">
               EMAIL
-            </h2>
-            <a class="text-indigo-500 leading-relaxed">minty@email.com</a>
-            <h2 class="title-font font-semibold text-emerald-500! tracking-widest text-xs mt-4">
+            </h3>
+
+            <a href="mailto:minty@email.com" class="text-emerald-500! leading-relaxed"
+              >minty@email.com</a
+            >
+            <h3 class="title-font font-semibold text-emerald-500! tracking-widest text-xs mt-4">
               PHONE
-            </h2>
-            <p class="leading-relaxed">123-456-7890</p>
+            </h3>
+            <a href="tel:1234567890" class="leading-relaxed">123-456-7890</a>
           </div>
         </div>
       </div>
 
       <!-- Form -->
-      <div class="lg:w-1/3 md:w-1/2 bg-white flex flex-col md:ml-auto w-full md:py-8 mt-8 md:mt-0">
-        <h2 class="text-gray-900 text-lg mb-1 font-medium title-font">Feedback</h2>
+      <form class="lg:w-1/3 md:w-1/2 bg-white flex flex-col md:ml-auto w-full md:py-8 mt-8 md:mt-0">
+        <h3 class="text-gray-900 text-lg mb-1 font-medium title-font">Feedback</h3>
         <p class="leading-relaxed mb-5 text-gray-600">
-          Post-ironic portland shabby chic echo park, banjo fashion axe
+          We want to hear from you to create an even better experience.
         </p>
 
-        <!-- Input name -->
         <div class="relative mb-4">
           <label for="name" class="leading-7 text-sm text-gray-600">Name</label>
           <input type="text" id="name" name="name" class="input w-full!" placeholder="Full Name" />
         </div>
 
-        <!-- input email -->
         <div class="relative mb-4">
           <label for="email" class="leading-7 text-sm text-gray-600">Email</label>
           <input
@@ -349,7 +324,6 @@
           />
         </div>
 
-        <!-- mensage -->
         <div class="relative mb-4">
           <label for="message" class="leading-7 text-sm text-gray-600">Message</label>
           <textarea
@@ -361,24 +335,25 @@
         </div>
 
         <button
+          type="submit"
           class="anm flex gap-2 text-white! h-10 md:h-12 w-full bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-500 my-3 flex items-center justify-center rounded-xl cursor-pointer text-[#fff]"
         >
-          Send -->
+          Send
         </button>
-      </div>
+      </form>
     </div>
   </section>
 
   <!-- Final CTA -->
   <section class="bg-emerald-500! body-font">
-    <div class=" px-5 py-24 mx-auto">
-      <div class="lg:w-2/3 flex flex-col  sm:flex-row sm:items-center items-start mx-auto">
-        <h1 class="flex-grow sm:pr-16 text-2xl sm:text-3xl font-medium title-font text-white!">
+    <div class="px-5 py-24 mx-auto">
+      <div class="lg:w-2/3 flex flex-col sm:flex-row sm:items-center items-start mx-auto">
+        <h2 class="flex-grow sm:pr-16 text-2xl sm:text-3xl font-medium title-font text-white!">
           Ready to take control of your money?
           <span class="block text-emerald-100! text-base font-normal mt-2"
             >Join Minty and manage everything in one place, for free.</span
           >
-        </h1>
+        </h2>
         <a href="/auth-login">
           <button
             class="cursor-pointer flex-shrink-0 text-emerald-600 bg-white border-0 py-3 px-8 focus:outline-none hover:bg-emerald-50 rounded-full text-lg mt-10 sm:mt-0 font-medium"
