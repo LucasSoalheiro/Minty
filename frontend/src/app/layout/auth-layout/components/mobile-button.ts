@@ -25,7 +25,7 @@ const LINKS = HeaderData;
                   <a
                     [href]="link.href"
                     (click)="handleLinkClick($event, link.href)"
-                    class="flex items-center justify-between w-full px-4 py-3 text-base font-medium text-slate-600! border-l-3  border-emerald-500 hover:bg-emerald-100  transition-all duration-200 group"
+                    class="flex items-center justify-between w-full px-4 py-3 text-base font-medium text-slate-600! border-l-3  border-emerald-500 hover:bg-emerald-100   transition-all duration-200 group"
                   >
                     <span>{{ link.name }}</span>
                     <svg data-p-icon="angle-double-right"></svg>
@@ -35,17 +35,8 @@ const LINKS = HeaderData;
             </ul>
           </nav>
 
-          <!-- Login button -->
-          <div class="pt-2 border-t border-black">
-            <a href="/auth-login" class="">
-              <button
-                type="button"
-                class="w-full h-12 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold rounded-lg flex items-center justify-center gap-2 shadow-md hover:shadow-emerald-500/20 transition-all duration-200 cursor-pointer active:scale-[0.98]"
-              >
-                Sign In
-              </button>
-            </a>
-          </div>
+          <span class="flex flex-col items-center justify-center pt-2 border-t border-black text-sm text-body sm:text-center">   ©2026 Minty™ All Rights Reserved.</span>
+
         </div>
       </p-drawer>
 

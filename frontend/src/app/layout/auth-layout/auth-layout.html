@@ -1,24 +1,91 @@
-<div class="p-6 bg-gradient-to-tr from-[#52b146] via-[#a3e498] to-[#367931] h-screen flex justify-center items-center font-sans">
-  <div class="flex items-center bg-white rounded-[40px] h-[95%] w-[95%] p-6 gap-6 shadow-2xl border border-white/10">
-    
-    <div class="w-1/2 h-full flex items-center justify-center">
-      @if (login) {
-        <app-login (toggleRegister)="toggleAuth()"></app-login>
-      } @else {
-        <app-register (toggleLogin)="toggleAuth()"></app-register>
-      }
-    </div>
-    
+<div class="p-0 md:p-6 bg-slate-100 h-screen flex justify-center items-center font-sans">
+  <div
+    class="flex flex-col md:flex-row  items-center justify-center bg-white rounded-none md:rounded-[40px] h-full md:h-[95%] w-full md:w-[95%] p-0 md:p-6 gap-0 md:gap-6 shadow-2xl border border-white/10"
+  >
+   <!-- Header  Mobile-->
+      <header
+        class="flex md:hidden bg-white justify-between md:justify-start items-center mx-auto w-full md:py-0 py-5 px-8 md:px-10 md:gap-2"
+      >
+        <!-- Image -->
+        <a href="/">
+          <img src="/img/minty-logo.png" class="h-15 object-contain" alt="logo" />
+        </a>
 
-    <div class="w-1/2 h-full relative flex flex-col justify-between items-center overflow-hidden bg-gradient-to-br from-[#1b3b18] via-[#2d5a27] to-[#4c7c47] rounded-[30px] p-12 text-white shadow-inner">
-      <div class="absolute -top-10 -right-10 w-48 h-48 bg-emerald-400/20 rounded-full blur-3xl pointer-events-none"></div>
-      <div class="absolute -bottom-20 -left-10 w-72 h-72 bg-teal-400/10 rounded-full blur-3xl pointer-events-none"></div>
+        <!-- Mobile Menu -->
+        <div class="md:hidden">
+          <mobile-menu />
+        </div>
 
+        <!-- Desktop Links -->
+        <nav class="hidden md:flex items-center mt-3 px-2">
+          <ul class="flex gap-5 text-center font-medium items-center">
+            @for (link of links; track link.href) {
+              <li>
+                <a [href]="link.href" class="text-slate-600! hover:text-emerald-500!">
+                  {{ link.name }}
+                </a>
+              </li>
+            }
+          </ul>
+        </nav>
+      </header>
 
-      <div class="relative z-10 flex justify-center items-center flex-1 my-6 max-h-[90%]">
-        <img src="assets/biggerSprig.png" class="object-contain max-h-[520px] animate-float" alt="Minty Illustration" />
+    <div class="w-full md:w-1/2 h-full flex bg-slate-100 md:bg-white flex-col items-center justify-center px-4 sm:px-0">
+      <!-- Header Desktop -->
+      <header
+        class="hidden md:flex bg-white justify-between md:justify-start items-center mx-auto w-full md:py-0 py-5 px-4 md:px-10 md:gap-2"
+      >
+        <!-- Image -->
+        <a href="/">
+          <img src="/img/minty-logo.png" class="h-15 object-contain" alt="logo" />
+        </a>
+
+        <!-- Mobile Menu -->
+        <div class="md:hidden">
+          <mobile-menu />
+        </div>
+
+        <!-- Desktop Links -->
+        <nav class="hidden md:flex items-center mt-3 px-2">
+          <ul class="flex gap-5 text-center font-medium items-center">
+            @for (link of links; track link.href) {
+              <li>
+                <a [href]="link.href" class="text-slate-600! hover:text-emerald-500!">
+                  {{ link.name }}
+                </a>
+              </li>
+            }
+          </ul>
+        </nav>
+      </header>
+
+      <div class="w-full flex-1 flex flex-col justify-center px-4 sm:px-0 overflow-y-auto">
+        @if (login) {
+          <app-login (toggleRegister)="toggleAuth()"></app-login>
+        } @else {
+          <app-register (toggleLogin)="toggleAuth()"></app-register>
+        }
       </div>
     </div>
 
+    <!-- Image -->
+    <div
+      class="hidden md:flex w-1/2 h-full relative flex flex-col justify-between items-center overflow-hidden bg-emerald-500 rounded-xl p-12 text-white shadow-inner"
+    >
+      <div
+        class="absolute -top-10 -right-10 w-48 h-48 bg-emerald-900/20 rounded-full blur-3xl pointer-events-none"
+      ></div>
+      <div
+        class="absolute -bottom-20 -left-10 w-72 h-72 bg-teal-900/10 rounded-full blur-3xl pointer-events-none"
+      ></div>
+
+      <div class="relative z-10 flex justify-center items-center flex-1 my-6 max-h-[90%]">
+        <img
+          src="/img/minty-icon.png"
+          class="object-contain max-h-[520px] animate-float"
+          alt="Minty Illustration"
+        />
+      </div>
+    </div>
   </div>
 </div>

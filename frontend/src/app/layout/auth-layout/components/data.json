@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Home",
+    "href": "/"
+  },
+  {
+    "name": "Benefits",
+    "href": "/#benefits"
+  },
+  {
+    "name": "How It Works",
+    "href": "/#how"
+  },
+  {
+    "name": "About",
+    "href": "/#about"
+  },
+  {
+    "name": "Contact",
+    "href": "/#contact"
+  }
+]
