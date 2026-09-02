@@ -1,9 +1,9 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
-  selector: 'app-workspace-layout',
+  selector: 'app-dashboard-layout',
   imports: [],
-  templateUrl: './workspace-layout.html',
+  templateUrl: './dashboard-layout.html',
   changeDetection: ChangeDetectionStrategy.Eager,
 })
-export class WorkspaceLayout {}
+export class DashboardLayout {}
