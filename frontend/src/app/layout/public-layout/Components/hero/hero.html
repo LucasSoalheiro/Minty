@@ -11,7 +11,7 @@
 
     <a href="/auth-login" class="">
       <button
-        class="anm flex gap-2 text-white h-12 py-3! w-[180px] md:w-[200px] bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-500 my-3 flex items-center justify-center rounded-full cursor-pointer font-medium"
+        class="anm flex gap-2 text-white h-12 py-3! w-45 md:w-50 bg-linear-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-500 my-3  items-center justify-center rounded-full cursor-pointer font-medium"
       >
         <svg class="svgIcon" viewBox="0 0 512 512" height="1em" xmlns="http://www.w3.org/2000/svg">
           <path
@@ -26,7 +26,7 @@
   <!-- Benefits -->
   <section id="benefits" class="bg-surface-100 px-5 py-20 mx-auto">
     <div class="text-center mb-20">
-      <h2 class="sm:text-3xl text-2xl font-manrope text-center font-bold text-gray-900 leading-[3.25rem] mb-4">
+      <h2 class="sm:text-3xl text-2xl font-manrope text-center font-bold text-gray-900 leading-13 mb-4">
         Your money, working for you
       </h2>
       <p class="text-base leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto text-gray-500">
@@ -45,7 +45,7 @@
           class="p-4 w-4/5 md:w-110 md:h-60 flex flex-col text-center items-center rounded-3xl bg-white shadow-md transition-all duration-300 hover:-transurface-y-2 hover:shadow-xl"
         >
           <div
-            class="w-20 h-20 inline-flex items-center justify-center rounded-full bg-gradient-to-r from-primary-500 to-primary-400 text-primary-500 mb-5 flex-shrink-0"
+            class="w-20 h-20 inline-flex items-center justify-center rounded-full bg-linear-to-r from-primary-500 to-primary-400 text-primary-500 mb-5 shrink-0"
           >
             @switch (bene.icon) {
               @case ('wallet') {
@@ -70,7 +70,7 @@
               }
             }
           </div>
-          <div class="flex-grow">
+          <div class="grow">
             <h3 class="text-gray-900 text-lg title-font font-medium mb-3">{{ bene.title }}</h3>
             <p class="leading-relaxed text-base">{{ bene.description }}</p>
           </div>
@@ -83,7 +83,7 @@
   <section id="how" class="text-gray-600 body-font px-5 py-20 mx-auto">
     <!-- Section Title -->
     <div class="text-center mb-20">
-      <h1 class="sm:text-3xl text-2xl font-manrope text-center font-bold text-gray-900 leading-[3.25rem] mb-4">How it works</h1>
+      <h1 class="sm:text-3xl text-2xl font-manrope text-center font-bold text-gray-900 leading-13 mb-4">How it works</h1>
       <p class="text-base leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto text-gray-500s">
         From connecting your bank to sending your first transfer, in minutes.
       </p>
@@ -139,7 +139,7 @@
     <div class="max-w-6xl mx-auto space-y-5 md:space-y-20">
       <div class="text-center mb-10 ">
         <h2
-          class="sm:text-3xl text-2xl font-manrope text-center font-bold text-gray-900 leading-[3.25rem] mb-4"
+          class="sm:text-3xl text-2xl font-manrope text-center font-bold text-gray-900 leading-13 mb-4"
         >
           About Minty
         </h2>
@@ -234,7 +234,7 @@
                     <svg data-p-icon="user" size="30" aria-hidden="true"></svg>
                   </div>
 
-                  <span class="flex-grow flex flex-col pl-4">
+                  <span class="grow flex flex-col pl-4">
                     <span class="title-font font-medium text-gray-900">{{
                       testimonial.userName
                     }}</span>
@@ -257,7 +257,7 @@
   <!-- Contact -->
   <section id="contact" class="text-gray-600 body-font py-20">
     <div class="text-center mb-10 md:mb-20">
-      <h2 class="sm:text-3xl text-2xl font-manrope text-center font-bold text-gray-900 leading-[3.25rem] mb-4">Contact Us</h2>
+      <h2 class="sm:text-3xl text-2xl font-manrope text-center font-bold text-gray-900 leading-13 mb-4">Contact Us</h2>
       <p class="text-base leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto text-gray-500">
         Do you have any questions or suggestions?
       </p>
@@ -340,7 +340,7 @@
 
         <button
           type="submit"
-          class="anm flex gap-2 text-white h-10 md:h-12 w-full bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-500 my-3 flex items-center justify-center rounded-xl cursor-pointer"
+          class="anm flex gap-2 text-white h-10 md:h-12 w-full bg-linear-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-500 my-3  items-center justify-center rounded-xl cursor-pointer"
         >
           Send
         </button>
@@ -352,7 +352,7 @@
   <section class="bg-primary-500 body-font">
     <div class="px-5 py-24 mx-auto">
       <div class="lg:w-2/3 flex flex-col sm:flex-row sm:items-center items-start mx-auto">
-        <h2 class="flex-grow sm:pr-16 text-2xl sm:text-3xl font-medium title-font text-white">
+        <h2 class="grow sm:pr-16 text-2xl sm:text-3xl font-medium title-font text-white">
           Ready to take control of your money?
           <span class="block text-primary-100 text-base font-normal mt-2"
             >Join Minty and manage everything in one place, for free.</span
@@ -360,7 +360,7 @@
         </h2>
         <a href="/auth-login">
           <button
-            class="cursor-pointer flex-shrink-0 text-primary-600 bg-white border-0 py-3 px-8 focus:outline-none hover:bg-primary-50 rounded-full text-lg mt-10 sm:mt-0 font-medium"
+            class="cursor-pointer shrink-0 text-primary-600 bg-white border-0 py-3 px-8 focus:outline-none hover:bg-primary-50 rounded-full text-lg mt-10 sm:mt-0 font-medium"
           >
             Get Started ->
           </button>
