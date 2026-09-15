@@ -25,7 +25,7 @@ const LINKS = HeaderData;
                   <a
                     [href]="link.href"
                     (click)="handleLinkClick($event, link.href)"
-                    class="flex items-center justify-between w-full px-4 py-3 text-base font-medium text-slate-600! border-l-3  border-emerald-500 hover:bg-emerald-100   transition-all duration-200 group"
+                    class="flex items-center justify-between w-full px-4 py-3 text-base font-medium text-surface-600 border-l-3  border-primary-500 hover:bg-primary-100   transition-all duration-200 group"
                   >
                     <span>{{ link.name }}</span>
                     <svg data-p-icon="angle-double-right"></svg>
@@ -43,12 +43,12 @@ const LINKS = HeaderData;
       <!-- Action Button -->
       <button
         type="button"
-        class="bg-emerald-500! hover:bg-emerald-400! border-1! border-emerald-400! h-10! w-10!"
+        class="bg-primary-500 hover:bg-primary-400 border-1 border-primary-400 h-10! w-10!"
         pButton
         iconOnly
         (click)="visibleTop = true"
       >
-        <svg data-p-icon="bars" !color="#fff" size="30"></svg>
+        <svg data-p-icon="bars" color="var(--p-primary-contrast-color)" size="30"></svg>
       </button>
     </div>
   `,

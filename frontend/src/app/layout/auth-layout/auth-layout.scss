@@ -25,7 +25,7 @@ app-login, app-register {
 }
 
 .anm:hover {
-  background-color: rgb(192, 255, 20);
+  background-color: var(--p-primary-hover-color);
   transition-duration: 0.5s;
   background-position: right center;
   background-size: 200% auto;
@@ -45,14 +45,14 @@ app-login, app-register {
 
 @keyframes pulse512 {
   0% {
-    box-shadow: 0 0 0 0 oklch(76.5% 0.177 163.223);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--p-primary-color) 55%, transparent);
   }
 
   70% {
-    box-shadow: 0 0 0 10px rgb(218 103 68 / 0%);
+    box-shadow: 0 0 0 10px transparent;
   }
 
   100% {
-    box-shadow: 0 0 0 0 rgb(218 103 68 / 0%);
+    box-shadow: 0 0 0 0 transparent;
   }
 }

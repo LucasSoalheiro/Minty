@@ -1,40 +1,18 @@
-@use 'tailwindcss';
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import './theme.css';
 
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
 
-body{
-  font-family: "Inter", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 100px;;
-  font-style: normal;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-:root {
-  --background: #ffffff;
-  --surface: #357831;
-  --text: #181818;
-  --primary: #59c953;
-  --bg-otherGreen: #c4fffd;
-}
-
-.dark {
-  --background: #121212;
-  --surface: #1e1e1e;
-  --text: #f5f5f5;
-  --primary: #59c953;
-}
-body {
-  height: 100vh;
-}
-.Content {
-  background-color: var(--background);
-}
-
-* {
-  color: var(--text);
+  body {
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    background-color: var(--p-content-background);
+    color: var(--p-text-color);
+  }
 }

@@ -1,0 +1,4 @@
+/* Keep Tailwind imports in CSS so Sass does not resolve their nested imports. */
+@layer theme, base, primeng, components, utilities;
+@import 'tailwindcss';
+@import 'tailwindcss-primeui';

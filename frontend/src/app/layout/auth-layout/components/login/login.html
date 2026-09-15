@@ -5,21 +5,21 @@
     <div class="flex flex-col gap-4">
       
       <div class="relative">
-        <span class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-slate-400">
+        <span class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-surface-400">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25H4.5a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5H4.5a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
           </svg>
         </span>
-        <input class="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100 outline-none transition-all duration-200 text-slate-800 placeholder-slate-400 font-medium" type="email" id="email" name="email" placeholder="E-mail:" required />
+        <input class="w-full pl-11 pr-4 py-3.5 bg-surface-50 border border-surface-200 rounded-xl focus:bg-white focus:border-primary-500 focus:ring-4 focus:ring-primary-100 outline-none transition-all duration-200 text-surface-800 placeholder-surface-400 font-medium" type="email" id="email" name="email" placeholder="E-mail:" required />
       </div>
 
       <div class="relative">
-        <span class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-slate-400">
+        <span class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-surface-400">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
           </svg>
         </span>
-        <input class="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-emerald-500 focus:ring-4 focus:ring-emerald-400 outline-none transition-all duration-200 text-slate-800 placeholder-slate-400 font-medium" type="password" id="password" name="password" placeholder="Password: " required />
+        <input class="w-full pl-11 pr-4 py-3.5 bg-surface-50 border border-surface-200 rounded-xl focus:bg-white focus:border-primary-500 focus:ring-4 focus:ring-primary-400 outline-none transition-all duration-200 text-surface-800 placeholder-surface-400 font-medium" type="password" id="password" name="password" placeholder="Password: " required />
       </div>
 
     </div>
@@ -27,20 +27,20 @@
   
 
     <div class="flex items-center justify-between text-xs sm:text-sm mt-1">
-      <label class="flex items-center gap-2 cursor-pointer select-none text-slate-600">
-        <input type="checkbox" class="w-4.5 h-4.5 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 focus:ring-offset-0 cursor-pointer" />
+      <label class="flex items-center gap-2 cursor-pointer select-none text-surface-600">
+        <input type="checkbox" class="w-4.5 h-4.5 rounded border-surface-300 text-primary-600 focus:ring-primary-500 focus:ring-offset-0 cursor-pointer" />
         <span class="font-medium">Remember me</span>
       </label>
-      <a href="#" class="text-emerald-600 hover:text-emerald-700 font-bold hover:underline transition-colors">Forgot your password?</a>
+      <a href="#" class="text-primary-600 hover:text-primary-700 font-bold hover:underline transition-colors">Forgot your password?</a>
     </div>
 
-    <button class="anm flex gap-2 text-white! h-10 md:h-12 w-full bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-500 my-3 flex items-center justify-center rounded-xl cursor-pointer text-[#fff]" type="submit">
+    <button class="anm flex gap-2 text-white h-10 md:h-12 w-full bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-500 my-3 flex items-center justify-center rounded-xl cursor-pointer" type="submit">
       Log In
     </button>
 
-    <p class="text-center text-sm text-slate-500 mt-2">
+    <p class="text-center text-sm text-surface-500 mt-2">
       Doesn't have an account? 
-      <button type="button" (click)="toggleRegister.emit()" class="text-emerald-600 hover:text-emerald-700 font-bold hover:underline cursor-pointer focus:outline-none">
+      <button type="button" (click)="toggleRegister.emit()" class="text-primary-600 hover:text-primary-700 font-bold hover:underline cursor-pointer focus:outline-none">
         Create your account
       </button>
     </p>
