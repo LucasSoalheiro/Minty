@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Reveal } from '../../components-reveal';
 
 // Benfits Icons
 import { ChartLine } from '@primeicons/angular/chart-line';
@@ -86,6 +87,7 @@ const TESTMONIALS = [
 
 @Component({
   imports: [
+    Reveal,
     Shield,
     ArrowDownLeftAndArrowUpRightToCenter,
     Wallet,

@@ -1,4 +1,18 @@
 /* From Uiverse.io by vinodjangid07 */
+[appReveal] {
+  transition: opacity 700ms ease-out, translate 700ms ease-out;
+}
+.reveal-pending { opacity: 0; translate: 0 24px; }
+.reveal-visible { opacity: 1; translate: 0 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  :host *, :host *::before, :host *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .reveal-pending { opacity: 1; translate: none; }
+}
+
 .anm {
   transition-duration: 0.2s;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.116);
