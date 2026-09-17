@@ -182,6 +182,7 @@ graph TD
 *   **Composer** (Gerenciador de dependências PHP)
 *   **Node.js** >= 18 e **npm** >= 9
 *   **Angular CLI** (opcional, pois roda local via scripts do package.json)
+*   **Docker CLI** >= 29.8.1
 
 ### 1. Inicializando o Backend (API)
 1.  Navegue até a pasta:
@@ -196,12 +197,16 @@ graph TD
     ```bash
     cp .env.example .env
     ```
-    *Edite o arquivo `.env` para definir chaves de criptografia e a `DATABASE_URL` (pode ser configurada com SQLite ou MySQL).*
-4.  Crie as tabelas do banco de dados utilizando os schemas do Doctrine ORM:
+     *Edite o arquivo `.env` para definir chaves de criptografia e a `DATABASE_URL` (pode ser configurada com SQLite ou MySQL).*
+4.  Inicialize o container docker:
+    ```bash
+    docker compose up -d
+    ```
+5.  Crie as tabelas do banco de dados utilizando os schemas do Doctrine ORM:
     ```bash
     php bin/console doctrine:schema:update --force
     ```
-5.  Inicie o servidor local de desenvolvimento do PHP:
+6.  Inicie o servidor local de desenvolvimento do PHP:
     ```bash
     php -S localhost:8000 index.php
     ```
