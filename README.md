@@ -21,7 +21,10 @@ Minty/
 │   │   ├── App/        # Camada de Aplicação: Casos de Uso (Usecases), DTOs e Segurança
 │   │   ├── Domain/     # Camada de Domínio: Entidades, Value Objects e Contratos (Repository)
 │   │   └── Infra/      # Camada de Infraestrutura: Controladores, Entidades/Mapeadores de Banco e Configurações
-│   └── tests/          # Testes automatizados com PHPUnit
+│   ├── migrations/     # Migrações versionadas do banco de dados (Doctrine Migrations)
+│   ├── tests/          # Testes automatizados com PHPUnit
+│   ├── DEVELOPER_GUIDE.md   # Guia técnico do desenvolvedor e comandos de migrations
+│   └── API_DOCUMENTATION.md # Documentação completa de contratos de API
 ├── frontend/           # Aplicação SPA construída em Angular
 │   ├── src/
 │   │   ├── app/        # Estrutura Angular: Componentes de Layout (Header, Footer, Sidebar), Páginas
@@ -202,10 +205,11 @@ graph TD
     ```bash
     docker compose up -d
     ```
-5.  Crie as tabelas do banco de dados utilizando os schemas do Doctrine ORM:
+5.  Execute as migrations para criar e atualizar as tabelas do banco de dados:
     ```bash
-    php bin/console doctrine:schema:update --force
+    php bin/console doctrine:migrations:migrate --no-interaction
     ```
+    > 💡 *Para um guia completo sobre migrations, comandos avançados e arquitetura do backend, consulte o [DEVELOPER_GUIDE.md](file:///home/lucas/Documents/Projects/Minty/backend/DEVELOPER_GUIDE.md).*
 6.  Inicie o servidor local de desenvolvimento do PHP:
     ```bash
     php -S localhost:8000 index.php

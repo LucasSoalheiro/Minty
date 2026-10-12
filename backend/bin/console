@@ -1,0 +1,21 @@
+#!/usr/bin/env php
+<?php
+
+use Src\AppKernel;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Component\Dotenv\Dotenv;
+
+if (!is_file(dirname(__DIR__) . '/vendor/autoload.php')) {
+    throw new LogicException('Composer autoload not found.');
+}
+
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+(new Dotenv())->loadEnv(dirname(__DIR__) . '/.env');
+
+$env = $_ENV['APP_ENV'] ?? 'dev';
+$debug = (bool) ($_ENV['APP_DEBUG'] ?? ($env !== 'prod'));
+
+$kernel = new AppKernel($env, $debug);
+$application = new Application($kernel);
+$application->run();
