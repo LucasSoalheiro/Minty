@@ -143,10 +143,10 @@ A API estará acessível em `http://localhost:8000` e a documentação interativ
 O controle do banco de dados relacional é gerenciado pelo **Doctrine Migrations Bundle**.
 
 ### Conceito e Estrutura
-* O arquivo de configuração está em [`src/Infra/Http/Config/packages/doctrine_migrations.yaml`](file:///home/lucas/Documents/Projects/Minty/backend/src/Infra/Http/Config/packages/doctrine_migrations.yaml).
-* As classes de migração ficam em [`migrations/`](file:///home/lucas/Documents/Projects/Minty/backend/migrations/) sob o namespace `DoctrineMigrations`.
+* O arquivo de configuração está em [`src/Infra/Http/Config/packages/doctrine_migrations.yaml`](src/Infra/Http/Config/packages/doctrine_migrations.yaml).
+* As classes de migração ficam em [`migrations/`](migrations/) sob o namespace `DoctrineMigrations`.
 * O Doctrine mantém uma tabela chamada `doctrine_migration_versions` no banco de dados para rastrear exatamente quais migrações já foram executadas.
-* O console da aplicação está disponível em [`bin/console`](file:///home/lucas/Documents/Projects/Minty/backend/bin/console).
+* O console da aplicação está disponível em [`bin/console`](bin/console).
 
 ### Comandos Essenciais
 
@@ -177,7 +177,7 @@ php bin/console doctrine:migrations:migrate --no-interaction
 ```
 
 #### 4. Gerar Nova Migração via Diff (Automático)
-Compara os metadados das entidades Doctrine em [`src/Infra/Db/Entity/`](file:///home/lucas/Documents/Projects/Minty/backend/src/Infra/Db/Entity/) com o estado atual do banco PostgreSQL e gera um arquivo com o SQL correspondente:
+Compara os metadados das entidades Doctrine em [`src/Infra/Db/Entity/`](src/Infra/Db/Entity/) com o estado atual do banco PostgreSQL e gera um arquivo com o SQL correspondente:
 ```bash
 php bin/console doctrine:migrations:diff
 ```
@@ -290,11 +290,11 @@ A aplicação segue rigorosamente os princípios da **Clean Architecture** (Arqu
 A camada de domínio é isolada e não possui nenhuma dependência do Symfony, Doctrine ou bibliotecas externas. Ela contém:
 
 * **Entidades de Negócio (`Domain/Entities`)**:
-  * [`User`](file:///home/lucas/Documents/Projects/Minty/backend/src/Domain/Entities/User.php): Gerencia dados do usuário, comparação e alteração segura de senhas com hashing, validação de regras de nome e e-mail.
-  * [`Account`](file:///home/lucas/Documents/Projects/Minty/backend/src/Domain/Entities/Account.php): Gerencia saldo financeiro, status de ativação, operações de depósito (`deposit`), saque (`withdraw`) e transferência atômica com compensação imediata (`transfer`).
-  * [`Category`](file:///home/lucas/Documents/Projects/Minty/backend/src/Domain/Entities/Category.php): Categorização de transações financeiras.
-  * [`Transaction`](file:///home/lucas/Documents/Projects/Minty/backend/src/Domain/Entities/Transaction.php): Representa um fluxo financeiro (`TransactionEnum::INFLOW` ou `TransactionEnum::OUTFLOW`) com status (`PENDING`, `DONE`, `CANCELLED`).
-  * [`Session`](file:///home/lucas/Documents/Projects/Minty/backend/src/Domain/Entities/Session.php): Representa a sessão ativa do usuário com hash de refresh token (`tokenHash`), validade de 7 dias, rotação atômica (`rotate`) e proteção contra timing-attacks com `hash_equals`.
+  * [`User`](src/Domain/Entities/User.php): Gerencia dados do usuário, comparação e alteração segura de senhas com hashing, validação de regras de nome e e-mail.
+  * [`Account`](src/Domain/Entities/Account.php): Gerencia saldo financeiro, status de ativação, operações de depósito (`deposit`), saque (`withdraw`) e transferência atômica com compensação imediata (`transfer`).
+  * [`Category`](src/Domain/Entities/Category.php): Categorização de transações financeiras.
+  * [`Transaction`](src/Domain/Entities/Transaction.php): Representa um fluxo financeiro (`TransactionEnum::INFLOW` ou `TransactionEnum::OUTFLOW`) com status (`PENDING`, `DONE`, `CANCELLED`).
+  * [`Session`](src/Domain/Entities/Session.php): Representa a sessão ativa do usuário com hash de refresh token (`tokenHash`), validade de 7 dias, rotação atômica (`rotate`) e proteção contra timing-attacks com `hash_equals`.
 
 > [!NOTE]
 > **Padrão Factory (`create` vs `restore`)**:
@@ -303,10 +303,10 @@ A camada de domínio é isolada e não possui nenhuma dependência do Symfony, D
 > * `restore(...)`: Usado pelos Mappers para **reconstituir** uma entidade existente do banco de dados mantendo os dados preservados.
 
 * **Value Objects (`Domain/ValueObject`)**:
-  * [`Money`](file:///home/lucas/Documents/Projects/Minty/backend/src/Domain/ValueObject/Money.php): Garante precisão financeira armazenando o valor em **centavos** (`int`). Evita imprecisões clássicas de ponto flutuante. Métodos: `add()`, `subtract()`, `greaterOrEqual()`.
-  * [`Password`](file:///home/lucas/Documents/Projects/Minty/backend/src/Domain/ValueObject/Password.php): Validação estrita de complexidade (mínimo de 8 caracteres, letra maiúscula, minúscula, número e caractere especial). Armazena o hash Bcrypt.
-  * [`Email`](file:///home/lucas/Documents/Projects/Minty/backend/src/Domain/ValueObject/Email.php): Validação de conformidade RFC de e-mails.
-  * [`UUID`](file:///home/lucas/Documents/Projects/Minty/backend/src/Domain/ValueObject/UUID.php): Identificador único universal imutável v4.
+  * [`Money`](src/Domain/ValueObject/Money.php): Garante precisão financeira armazenando o valor em **centavos** (`int`). Evita imprecisões clássicas de ponto flutuante. Métodos: `add()`, `subtract()`, `greaterOrEqual()`.
+  * [`Password`](src/Domain/ValueObject/Password.php): Validação estrita de complexidade (mínimo de 8 caracteres, letra maiúscula, minúscula, número e caractere especial). Armazena o hash Bcrypt.
+  * [`Email`](src/Domain/ValueObject/Email.php): Validação de conformidade RFC de e-mails.
+  * [`UUID`](src/Domain/ValueObject/UUID.php): Identificador único universal imutável v4.
 
 * **Interfaces de Repositório (`Domain/Repository`)**:
   * Declaram os contratos que o domínio e os casos de uso exigem:
@@ -322,14 +322,14 @@ A camada de aplicação orquestra a lógica de negócio necessária para executa
 
 * **Casos de Uso (`App/Usecases`)**:
   * Cada caso de uso é uma classe focada em um único fluxo, contendo o método `execute()`:
-    * **Finanças**: [`DepositUsecase`](file:///home/lucas/Documents/Projects/Minty/backend/src/App/Usecases/DepositUsecase.php), [`WithdrawUsecase`](file:///home/lucas/Documents/Projects/Minty/backend/src/App/Usecases/WithdrawUsecase.php), [`TransferUsecase`](file:///home/lucas/Documents/Projects/Minty/backend/src/App/Usecases/TransferUsecase.php), [`ListTransactionsUsecase`](file:///home/lucas/Documents/Projects/Minty/backend/src/App/Usecases/ListTransactionsUsecase.php).
+    * **Finanças**: [`DepositUsecase`](src/App/Usecases/DepositUsecase.php), [`WithdrawUsecase`](src/App/Usecases/WithdrawUsecase.php), [`TransferUsecase`](src/App/Usecases/TransferUsecase.php), [`ListTransactionsUsecase`](src/App/Usecases/ListTransactionsUsecase.php).
     * **Contas & Categorias**: `CreateAccountUsecase`, `UpdateAccountUsecase`, `DeactiveAccountUsecase`, `CreateCategoryUsecase`, `UpdateCategoryUsecase`, `DeactiveCategoryUsecase`.
     * **Autenticação & Usuários**: `LoginUsecase`, `LogoutUsecase`, `RefreshTokenUsecase`, `CreateUserUsecase`, `ChangePasswordUsecase`, `ChangeEmailUsecase`.
 * **DTOs (`App/DTO`)**:
   * Objetos simples e fortemente tipados para transferir parâmetros de entrada e resultados de saída dos Use Cases.
 * **Segurança (`App/Security`)**:
-  * [`TokenService`](file:///home/lucas/Documents/Projects/Minty/backend/src/App/Security/TokenService.php): Contrato de geração e validação de tokens JWT.
-  * [`TokenPayload`](file:///home/lucas/Documents/Projects/Minty/backend/src/App/Security/TokenPayload.php): Estrutura de dados com `userId`, `exp`, etc.
+  * [`TokenService`](src/App/Security/TokenService.php): Contrato de geração e validação de tokens JWT.
+  * [`TokenPayload`](src/App/Security/TokenPayload.php): Estrutura de dados com `userId`, `exp`, etc.
 
 ---
 
@@ -351,10 +351,10 @@ Responsável por conectar a aplicação ao mundo externo (Banco de Dados, HTTP, 
 * **Kernel (`AppKernel.php`)**:
   * Configuração do MicroKernel que registra bundles, carrega o container de injeção de dependências (`services.yml`) e descobre rotas por atributos.
 * **Controladores (`Infra/Http/Controller`)**:
-  * [`AuthController`](file:///home/lucas/Documents/Projects/Minty/backend/src/Infra/Http/Controller/AuthController.php): `/login`, `/logout`, `/refresh`
-  * [`UserController`](file:///home/lucas/Documents/Projects/Minty/backend/src/Infra/Http/Controller/UserController.php): `/users`, `/users/me`, `/users/search`, `/users/password`, etc.
-  * [`AccountController`](file:///home/lucas/Documents/Projects/Minty/backend/src/Infra/Http/Controller/AccountController.php): `/accounts`, `/accounts/{id}/deposit`, `/accounts/{id}/transfer`, etc.
-  * [`CategoryController`](file:///home/lucas/Documents/Projects/Minty/backend/src/Infra/Http/Controller/CategoryController.php): `/categories`, etc.
+  * [`AuthController`](src/Infra/Http/Controller/AuthController.php): `/login`, `/logout`, `/refresh`
+  * [`UserController`](src/Infra/Http/Controller/UserController.php): `/users`, `/users/me`, `/users/search`, `/users/password`, etc.
+  * [`AccountController`](src/Infra/Http/Controller/AccountController.php): `/accounts`, `/accounts/{id}/deposit`, `/accounts/{id}/transfer`, etc.
+  * [`CategoryController`](src/Infra/Http/Controller/CategoryController.php): `/categories`, etc.
 
 ---
 
@@ -383,7 +383,7 @@ public function create(Request $request, CreateAccountUsecase $usecase): JsonRes
 }
 ```
 
-O [`AuthListener`](file:///home/lucas/Documents/Projects/Minty/backend/src/Infra/Http/EventListener/AuthListener.php) é executado no evento `kernel.controller`. Ele:
+O [`AuthListener`](src/Infra/Http/EventListener/AuthListener.php) é executado no evento `kernel.controller`. Ele:
 1. Detecta a presença do atributo `#[RequiresAuth]`.
 2. Lê o cabeçalho `Authorization: Bearer ...`.
 3. Valida a assinatura do token com o `TokenService`.
@@ -394,7 +394,7 @@ O [`AuthListener`](file:///home/lucas/Documents/Projects/Minty/backend/src/Infra
 
 ### Validação de Entrada (`RequestValidator` & Schemas)
 
-Ao receber requisições HTTP, o payload JSON é validado antes de chegar aos Casos de Uso pelo [`RequestValidator`](file:///home/lucas/Documents/Projects/Minty/backend/src/Infra/Http/Util/RequestValidator.php) usando os **Schemas** em `src/Infra/Http/Schema/`:
+Ao receber requisições HTTP, o payload JSON é validado antes de chegar aos Casos de Uso pelo [`RequestValidator`](src/Infra/Http/Util/RequestValidator.php) usando os **Schemas** em `src/Infra/Http/Schema/`:
 
 ```php
 $dto = $requestValidator->validate(
@@ -417,7 +417,7 @@ Se a validação falhar, uma `ValidatorException` é disparada automaticamente.
 
 ### Tratamento Global de Erros (`ExceptionListener`)
 
-A aplicação conta com um filtro centralizado de erros em [`src/Infra/Http/EventListener/ExceptionListener.php`](file:///home/lucas/Documents/Projects/Minty/backend/src/Infra/Http/EventListener/ExceptionListener.php). Qualquer exceção lançada na aplicação ou no domínio é interceptada e convertida em uma resposta JSON padronizada:
+A aplicação conta com um filtro centralizado de erros em [`src/Infra/Http/EventListener/ExceptionListener.php`](src/Infra/Http/EventListener/ExceptionListener.php). Qualquer exceção lançada na aplicação ou no domínio é interceptada e convertida em uma resposta JSON padronizada:
 
 ```json
 {
@@ -445,7 +445,7 @@ A aplicação conta com um filtro centralizado de erros em [`src/Infra/Http/Even
 
 ### Padronização de Respostas HTTP (`ResponseFactory`)
 
-O [`ResponseFactory`](file:///home/lucas/Documents/Projects/Minty/backend/src/Infra/Http/Response/ResponseFactory.php) padroniza o retorno dos controllers:
+O [`ResponseFactory`](src/Infra/Http/Response/ResponseFactory.php) padroniza o retorno dos controllers:
 * `ResponseFactory::success($data, 'Mensagem')` ➔ **200 OK**
 * `ResponseFactory::created($data, 'Mensagem')` ➔ **201 Created**
 * `ResponseFactory::noContent()` ➔ **204 No Content**
@@ -465,7 +465,7 @@ Estrutura JSON:
 
 ### Configuração de Ambientes (`services.yml`)
 
-O arquivo [`src/Infra/Http/Config/services.yml`](file:///home/lucas/Documents/Projects/Minty/backend/src/Infra/Http/Config/services.yml) configura o container do Symfony com `autowire: true` e `autoconfigure: true`.
+O arquivo [`src/Infra/Http/Config/services.yml`](src/Infra/Http/Config/services.yml) configura o container do Symfony com `autowire: true` e `autoconfigure: true`.
 
 #### O Segredo dos Testes Ultrarrápidos: `when@test`
 Em ambiente de produção e desenvolvimento, as interfaces de repositório apontam para as classes Doctrine. Porém, sob o ambiente de testes (`APP_ENV=test`), o Symfony substitui as dependências por **Fakes em Memória**:
@@ -531,7 +531,7 @@ O Minty utiliza o **NelmioApiDocBundle** integrado com anotações e atributos n
   php bin/console nelmio:apidoc:dump --format=json
   ```
 * **Documentação Estática Consolidada**:
-  Consulte [`API_DOCUMENTATION.md`](file:///home/lucas/Documents/Projects/Minty/backend/API_DOCUMENTATION.md) para a lista completa de payloads, rotas e códigos de retorno de toda a aplicação.
+  Consulte [`API_DOCUMENTATION.md`](API_DOCUMENTATION.md) para a lista completa de payloads, rotas e códigos de retorno de toda a aplicação.
 
 ---
 
@@ -614,4 +614,4 @@ Também certifique-se de que não existe um arquivo `.env.local.php` sobrescreve
 ---
 
 > [!TIP]
-> Em caso de dúvidas sobre contratos de rotas existentes, consulte a documentação detalhada de endpoints em [`API_DOCUMENTATION.md`](file:///home/lucas/Documents/Projects/Minty/backend/API_DOCUMENTATION.md).
+> Em caso de dúvidas sobre contratos de rotas existentes, consulte a documentação detalhada de endpoints em [`API_DOCUMENTATION.md`](API_DOCUMENTATION.md).

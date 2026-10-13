@@ -8,14 +8,14 @@ Este documento apresenta o mapeamento completo das regras de negócio, entidades
 
 Com base no código do backend, o sistema é estruturado em torno das seguintes entidades:
 
-### Usuário ([User](file:///home/lucas/projects/PHP/Minty/backend/src/Domain/Entities/User.php))
+### Usuário ([User](backend/src/Domain/Entities/User.php))
 Representa a conta do usuário no sistema.
 - **Atributos**: ID (UUID), Nome, E-mail, Senha (criptografada).
 - **Regras**:
   - O e-mail e nome devem ser únicos (validados na criação/edição).
   - É possível atualizar o nome, e-mail e senha de forma independente.
 
-### Conta Financeira ([Account](file:///home/lucas/projects/PHP/Minty/backend/src/Domain/Entities/Account.php))
+### Conta Financeira ([Account](backend/src/Domain/Entities/Account.php))
 Contas bancárias ou carteiras criadas pelo usuário.
 - **Atributos**: ID (UUID), Nome (ex: "Carteira", "Poupança"), Saldo (inteiro representando centavos/Money), Dono (userId), Ativa (isActive).
 - **Regras**:
@@ -23,13 +23,13 @@ Contas bancárias ou carteiras criadas pelo usuário.
   - Apenas contas ativas podem receber transações (depósito, saque, transferência).
   - A desativação é uma **inativação lógica** (`isActive = false`). A conta e suas transações permanecem salvas para fins de histórico e persistência de dados, mas novas movimentações são totalmente bloqueadas.
 
-### Categoria ([Category](file:///home/lucas/projects/PHP/Minty/backend/src/Domain/Entities/Category.php))
+### Categoria ([Category](backend/src/Domain/Entities/Category.php))
 Categorias para classificação das transações.
 - **Atributos**: ID (UUID), Nome (ex: "Alimentação", "Lazer"), Descrição (opcional), Dono (userId), Ativa (isActive).
 - **Regras**:
   - Podem ser ativadas e desativadas a qualquer momento (inativação lógica).
 
-### Transação ([Transaction](file:///home/lucas/projects/PHP/Minty/backend/src/Domain/Entities/Transaction.php))
+### Transação ([Transaction](backend/src/Domain/Entities/Transaction.php))
 Movimentações financeiras associadas a uma conta.
 - **Atributos**: ID (UUID), Conta Origem (accountId), Valor (Money), Tipo (`INFLOW` / Entrada ou `OUTFLOW` / Saída), Status (`PENDING`, `DONE`, `CANCELLED`), Descrição (opcional), Categoria (categoryId), Data de Criação (createdAt).
 - **Regras**:
@@ -40,7 +40,7 @@ Movimentações financeiras associadas a uma conta.
 
 ## 2. Mapa de Rotas e Funcionalidades do Backend
 
-Estas são as rotas expostas em nossos controladores ([AuthController](file:///home/lucas/projects/PHP/Minty/backend/src/Infra/Http/Controller/AuthController.php), [UserController](file:///home/lucas/projects/PHP/Minty/backend/src/Infra/Http/Controller/UserController.php), [AccountController](file:///home/lucas/projects/PHP/Minty/backend/src/Infra/Http/Controller/AccountController.php), [CategoryController](file:///home/lucas/projects/PHP/Minty/backend/src/Infra/Http/Controller/CategoryController.php)):
+Estas são as rotas expostas em nossos controladores ([AuthController](backend/src/Infra/Http/Controller/AuthController.php), [UserController](backend/src/Infra/Http/Controller/UserController.php), [AccountController](backend/src/Infra/Http/Controller/AccountController.php), [CategoryController](backend/src/Infra/Http/Controller/CategoryController.php)):
 
 | Módulo | Método | Endpoint | Ação / Usecase Relacionado |
 | :--- | :--- | :--- | :--- |

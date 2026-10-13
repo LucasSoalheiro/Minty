@@ -5,7 +5,7 @@
 
 O **Minty** é uma aplicação de controle financeiro pessoal e transferências ponto a ponto (P2P). O projeto está estruturado em duas partes principais: um **backend** desenvolvido em PHP (Symfony) que segue princípios de Clean Architecture/DDD, e um **frontend** desenvolvido em Angular (v21) com Tailwind CSS v4.
 
-Este documento fornece uma análise detalhada da arquitetura do projeto, mapeia a API do backend, descreve as regras de domínio com base no arquivo de experiência do usuário ([USER_EXPERIENCE.md](file:///home/lucas/projects/PHP/Minty/USER_EXPERIENCE.md)) e apresenta instruções para execução e desenvolvimento local.
+Este documento fornece uma análise detalhada da arquitetura do projeto, mapeia a API do backend, descreve as regras de domínio com base no arquivo de experiência do usuário ([USER_EXPERIENCE.md](USER_EXPERIENCE.md)) e apresenta instruções para execução e desenvolvimento local.
 
 
 ---
@@ -41,9 +41,9 @@ Minty/
 
 ### ⚙️ Backend (Symfony + Doctrine)
 O backend é projetado em torno de práticas de Clean Architecture e Domain-Driven Design (DDD). Isso se reflete na separação clara de responsabilidades:
-*   **Domínio Independente**: A pasta [Domain](file:///home/lucas/projects/PHP/Minty/backend/src/Domain/) abriga as entidades puras (como `User`, `Account`, `Category` e `Transaction`) e as interfaces dos repositórios. Elas não possuem acoplamento com o banco de dados.
-*   **Casos de Uso (Use Cases)**: Localizados em [App/Usecases](file:///home/lucas/projects/PHP/Minty/backend/src/App/Usecases/), eles representam as intenções e ações de negócio (ex: realizar saques, transferências, depósitos, logins), isolando a lógica de negócio dos controladores HTTP.
-*   **Mapeamento de Banco de Dados**: A infraestrutura de banco utiliza o **Doctrine ORM 3.x**. Para manter as entidades de domínio puras, o projeto utiliza entidades separadas para persistência em [Infra/Db/Entity](file:///home/lucas/projects/PHP/Minty/backend/src/Infra/Db/Entity/) (ex: `UserEntity`, `AccountEntity`) que são mapeadas a partir das entidades de domínio via mappers específicos.
+*   **Domínio Independente**: A pasta [Domain](backend/src/Domain/) abriga as entidades puras (como `User`, `Account`, `Category` e `Transaction`) e as interfaces dos repositórios. Elas não possuem acoplamento com o banco de dados.
+*   **Casos de Uso (Use Cases)**: Localizados em [App/Usecases](backend/src/App/Usecases/), eles representam as intenções e ações de negócio (ex: realizar saques, transferências, depósitos, logins), isolando a lógica de negócio dos controladores HTTP.
+*   **Mapeamento de Banco de Dados**: A infraestrutura de banco utiliza o **Doctrine ORM 3.x**. Para manter as entidades de domínio puras, o projeto utiliza entidades separadas para persistência em [Infra/Db/Entity](backend/src/Infra/Db/Entity/) (ex: `UserEntity`, `AccountEntity`) que são mapeadas a partir das entidades de domínio via mappers específicos.
 *   **Segurança e Autenticação**: Protegida com **Tokens JWT** (Firebase JWT) injetados e validados por meio de um atributo customizado de rota `#[RequiresAuth]` configurado no nível do Symfony.
 *   **Documentação**: Integração com OpenAPI (Swagger) via `NelmioApiDocBundle` para documentação viva e interativa da API REST.
 
@@ -52,7 +52,7 @@ O backend é projetado em torno de práticas de Clean Architecture e Domain-Driv
 > **Em Desenvolvimento**: O frontend está em fase inicial de estruturação (esqueleto da aplicação). Os componentes, roteamentos e integrações com o backend estão sob desenvolvimento ativo e sujeitos a refatorações.
 *   **Modernidade com Angular**: Configurado para utilizar a versão **21.x** do Angular, aproveitando componentes standalones e recursos reativos modernos como Signals para controle de estado.
 *   **Estilização Premium**: Emprega o **Tailwind CSS v4.0** integrado diretamente com PostCSS no pipeline de compilação, proporcionando um ambiente de estilização rápido, moderno e livre de configurações pesadas.
-*   **Layout Modular**: A interface possui um esqueleto de navegação constituído por componentes em `components/` ([Header](file:///home/lucas/projects/PHP/Minty/frontend/src/app/components/header/), [Footer](file:///home/lucas/projects/PHP/Minty/frontend/src/app/components/footer/) e [Sidebar](file:///home/lucas/projects/PHP/Minty/frontend/src/app/components/sidebar/)) e uma tela inicial de [Login](file:///home/lucas/projects/PHP/Minty/frontend/src/app/login/).
+*   **Layout Modular**: A interface possui um esqueleto de navegação constituído por componentes em `components/` ([Header](frontend/src/app/components/header/), [Footer](frontend/src/app/components/footer/) e [Sidebar](frontend/src/app/components/sidebar/)) e uma tela inicial de [Login](frontend/src/app/login/).
 *   **Testes Ágeis**: Substituição do Karma tradicional pelo **Vitest**, fornecendo testes unitários mais rápidos para a aplicação.
 
 ---
@@ -209,7 +209,7 @@ graph TD
     ```bash
     php bin/console doctrine:migrations:migrate --no-interaction
     ```
-    > 💡 *Para um guia completo sobre migrations, comandos avançados e arquitetura do backend, consulte o [DEVELOPER_GUIDE.md](file:///home/lucas/Documents/Projects/Minty/backend/DEVELOPER_GUIDE.md).*
+    > 💡 *Para um guia completo sobre migrations, comandos avançados e arquitetura do backend, consulte o [DEVELOPER_GUIDE.md](backend/DEVELOPER_GUIDE.md).*
 6.  Inicie o servidor local de desenvolvimento do PHP:
     ```bash
     php -S localhost:8000 index.php

@@ -12,7 +12,8 @@
 *.log
 logs/
 
-# Cache
+# Cache & Symfony runtime
+/var/
 cache/
 tmp/
 temp/
